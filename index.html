@@ -23,6 +23,13 @@
     @keyframes fadein  { from{opacity:0} to{opacity:1} }
     @keyframes float   { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-7px)} }
     @keyframes twinkle { 0%,100%{opacity:0.3;transform:scale(0.8)} 50%{opacity:1;transform:scale(1.1)} }
+    @keyframes slideup { from{transform:translateY(18px);opacity:0} to{transform:translateY(0);opacity:1} }
+    @keyframes splashin { 0%{opacity:0;transform:scale(0.85)} 60%{opacity:1;transform:scale(1.04)} 100%{transform:scale(1)} }
+    @keyframes splashout{ from{opacity:1} to{opacity:0;pointer-events:none} }
+    @keyframes sparkle  { 0%{transform:scale(0) rotate(0deg);opacity:1} 100%{transform:scale(1.4) rotate(180deg);opacity:0} }
+    @keyframes pulse-border { 0%,100%{box-shadow:0 0 0 0 rgba(255,209,102,0)} 50%{box-shadow:0 0 0 4px rgba(255,209,102,0.15)} }
+    @keyframes shimmer { 0%{background-position:200% center} 100%{background-position:-200% center} }
+    @keyframes dots-move { 0%{background-position:0 0} 100%{background-position:40px 40px} }
 
     #app { display:flex; height:100vh; }
 
@@ -166,6 +173,87 @@
     #rhandle { width:5px; flex-shrink:0; cursor:col-resize; border-right:3px dashed var(--bdr); transition:background .15s; }
     #rhandle:hover { background:rgba(255,209,102,.07); }
 
+    /* ── splash screen ── */
+    #splash {
+      position:fixed; inset:0; z-index:999;
+      background:var(--bg); display:flex; flex-direction:column;
+      align-items:center; justify-content:center; gap:16px;
+      animation:splashout .4s ease .9s forwards;
+      pointer-events:none;
+    }
+    #splash-img {
+      width:90px; animation:splashin .6s ease forwards;
+      filter:drop-shadow(0 0 20px rgba(255,209,102,.4));
+    }
+    #splash-title {
+      font-size:22px; color:var(--acc);
+      animation:slideup .5s ease .2s both;
+    }
+    #splash-sub {
+      font-size:11px; color:var(--dim);
+      animation:slideup .5s ease .35s both;
+    }
+    #splash-bar-wrap {
+      width:160px; height:3px; background:var(--bdr); border-radius:99px; overflow:hidden;
+      animation:slideup .5s ease .4s both;
+    }
+    #splash-bar {
+      height:100%; width:0%; background:var(--acc); border-radius:99px;
+      transition:width .6s ease;
+    }
+
+    /* ── cursor sparkles ── */
+    .sparkle {
+      position:fixed; pointer-events:none; z-index:9999;
+      width:8px; height:8px; border-radius:50%;
+      animation:sparkle .5s ease forwards;
+    }
+
+    /* ── animated dot bg on display area ── */
+    #display-area::before {
+      content:''; position:absolute; inset:0; z-index:0;
+      background-image: radial-gradient(circle, rgba(255,209,102,.04) 1px, transparent 1px);
+      background-size:28px 28px;
+      animation:dots-move 8s linear infinite;
+      pointer-events:none;
+    }
+
+    /* ── shimmer title ── */
+    #sb-hdr h1 {
+      font-size:17px; line-height:1.35;
+      background: linear-gradient(90deg, var(--acc), var(--pink), var(--blue), var(--acc));
+      background-size:300% auto;
+      -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+      background-clip:text;
+      animation:shimmer 4s linear infinite;
+    }
+
+    /* ── glowing active item ── */
+    .mbtn.active {
+      background:var(--card); border-color:var(--acc);
+      animation:pulse-border 2s ease-in-out infinite;
+    }
+
+    /* ── staggered list items ── */
+    .mbtn { animation:slideup .25s ease both; }
+
+    /* ── topbar title shimmer on load ── */
+    #cur-name { transition:color .3s; }
+
+    /* ── media border glow on load ── */
+    #display-area img.media, #display-area video {
+      max-width:100%; max-height:100%; object-fit:contain;
+      border-radius:14px; border:3px solid var(--bdr);
+      display:block; animation:pop .25s ease; position:relative; z-index:1;
+      transition:border-color .4s, box-shadow .4s;
+    }
+    #display-area img.media:hover  { border-color:rgba(255,209,102,.4); box-shadow:0 0 24px rgba(255,209,102,.07); }
+    #display-area video:hover { border-color:rgba(116,185,255,.4); box-shadow:0 0 24px rgba(116,185,255,.07); }
+
+    /* ── page load slide-in for sidebar ── */
+    #sidebar { animation:slideup .45s ease both; }
+    #main    { animation:slideup .45s ease .1s both; }
+
     /* info button at bottom of sidebar */
     #info-btn {
       margin:8px 10px 10px;
@@ -212,6 +300,13 @@
   </style>
 </head>
 <body>
+<div id="splash">
+  <img id="splash-img" src="furina.png" alt="" onerror="this.style.display='none'" />
+  <div id="splash-title">sairy's media:3</div>
+  <div id="splash-sub">loading the bag...</div>
+  <div id="splash-bar-wrap"><div id="splash-bar"></div></div>
+</div>
+
 <div id="app">
 
   <div id="sidebar">
@@ -606,34 +701,25 @@
     btn.classList.toggle("active", !isOpen);
 
     if (!isOpen) {
-      // always update file count from local array
       document.getElementById("stat-files").textContent = mediaFiles.length;
 
-      // fetch GoatCounter stats (needs stats to be set public in GoatCounter settings)
+      // GoatCounter API needs auth token which we can't expose client-side
+      // so just make both stat boxes clickable links to the dashboard
       const viewsEl    = document.getElementById("gc-views");
       const visitorsEl = document.getElementById("gc-visitors");
 
-      const today = new Date().toISOString().split("T")[0];
-      fetch(`https://tuffnesssairy.goatcounter.com/api/v0/stats/hits?start=2024-01-01&end=${today}`, {
-        headers: { "Accept": "application/json" }
-      })
-      .then(r => r.json())
-      .then(data => {
-        const total = data.hits?.reduce((sum, h) => sum + (h.count || 0), 0) ?? "?";
-        viewsEl.textContent = total.toLocaleString();
-        // GoatCounter free tier doesn't expose unique visitors via API
-        // so link to dashboard for that
-        visitorsEl.textContent = "↗";
-        visitorsEl.style.fontSize = "14px";
-        visitorsEl.closest(".stat-box").style.cursor = "pointer";
-        visitorsEl.closest(".stat-box").title = "click to see full stats";
-        visitorsEl.closest(".stat-box").onclick = () => window.open("https://tuffnesssairy.goatcounter.com", "_blank");
-      })
-      .catch(() => {
-        viewsEl.textContent = "?";
-        visitorsEl.textContent = "?";
-        viewsEl.closest(".stat-box").title = "make stats public in GoatCounter settings to show here";
-        visitorsEl.closest(".stat-box").title = "make stats public in GoatCounter settings to show here";
+      viewsEl.textContent    = "↗";
+      visitorsEl.textContent = "↗";
+
+      [viewsEl, visitorsEl].forEach(el => {
+        el.style.fontSize = "16px";
+        const box = el.closest(".stat-box");
+        box.style.cursor = "pointer";
+        box.style.transition = "border-color .15s";
+        box.onmouseenter = () => box.style.borderColor = "var(--purple)";
+        box.onmouseleave = () => box.style.borderColor = "";
+        box.onclick = () => window.open("https://tuffnesssairy.goatcounter.com", "_blank");
+        box.title = "open GoatCounter dashboard";
       });
     }
   }
@@ -649,6 +735,26 @@
   } else {
     showEmpty(); setStatus("", "no files defined");
   }
+
+  // ── splash bar fill ──
+  requestAnimationFrame(() => {
+    const bar = document.getElementById("splash-bar");
+    if (bar) setTimeout(() => { bar.style.width = "100%"; }, 50);
+  });
+
+  // ── cursor sparkles ──
+  const sparkleColors = ["#ffd166","#ff6b9d","#74b9ff","#c77dff","#06d6a0"];
+  let lastSparkle = 0;
+  document.addEventListener("mousemove", e => {
+    const now = Date.now();
+    if (now - lastSparkle < 55) return;
+    lastSparkle = now;
+    const s = document.createElement("div");
+    s.className = "sparkle";
+    s.style.cssText = `left:${e.clientX-4}px;top:${e.clientY-4}px;background:${sparkleColors[Math.floor(Math.random()*sparkleColors.length)]};transform:scale(${0.4+Math.random()*0.7})`;
+    document.body.appendChild(s);
+    setTimeout(() => s.remove(), 500);
+  });
 </script>
 </body>
 </html>
