@@ -4,89 +4,35 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Roblox Orion UI Builder</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-    <style>
-        body {
-            background-color: #121212;
-            color: #ffffff;
-            font-family: Arial, sans-serif;
-        }
-        .container {
-            display: grid;
-            grid-template-columns: 1fr 3fr 2fr 1fr;
-            height: 100vh;
-        }
-        .panel {
-            padding: 20px;
-            border-right: 1px solid #333;
-            overflow-y: auto;
-        }
-        .preview {
-            background-color: #1e1e1e;
-            border: 1px solid #444;
-            position: relative;
-        }
-        .toast {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background-color: #007c92;
-            padding: 10px 20px;
-            border-radius: 5px;
-            color: #fff;
-            display: none;
-        }
-    </style>
+    <link rel="stylesheet" href="styles.css">
+    <script src="script.js" defer></script>
 </head>
 <body>
-    <div class="container">
-        <div class="panel" id="components-panel">
-            <h2>Components Library</h2>
-            <button onclick="addComponent('Window')">Window</button>
-            <button onclick="addComponent('Tab')">Tab</button>
-            <button onclick="addComponent('Section')">Section</button>
-            <button onclick="addComponent('Button')">Button</button>
-            <button onclick="addComponent('Toggle')">Toggle</button>
-            <button onclick="addComponent('Slider')">Slider</button>
-            <button onclick="addComponent('Label')">Label</button>
-            <button onclick="addComponent('Textbox')">Textbox</button>
-            <button onclick="addComponent('Dropdown')">Dropdown</button>
-            <button onclick="addComponent('ColorPicker')">ColorPicker</button>
-            <button onclick="addComponent('Keybind')">Keybind</button>
-        </div>
-        <div class="preview" id="live-preview">
+    <header>
+        <h1>Roblox Orion UI Builder</h1>
+    </header>
+    <main>
+        <section>
             <h2>Live Preview</h2>
-            <!-- Dynamic content will be added here -->
-        </div>
-        <div class="panel" id="hierarchy-panel">
-            <h2>Hierarchy Tree</h2>
-            <ul id="hierarchy-list">
-                <!-- Hierarchy will be displayed here -->
-            </ul>
-        </div>
-        <div class="panel" id="properties-panel">
-            <h2>Properties Editor</h2>
-            <div id="property-editor">
-                <!-- Dynamic properties will be edited here -->
+            <div id="live-preview">
+                <!-- Live component preview goes here -->
             </div>
-        </div>
-    </div>
-    <div class="toast" id="toast-notification">Copied to clipboard!</div>
-    <script src="https://cdn.jsdelivr.net/npm/vue@3"></script>
-    <script>
-        function addComponent(component) {
-            const preview = document.getElementById('live-preview');
-            const componentElement = document.createElement('div');
-            componentElement.innerText = component;
-            preview.appendChild(componentElement);
-            showToast();
-        }
-
-        function showToast() {
-            const toast = document.getElementById('toast-notification');
-            toast.style.display = 'block';
-            setTimeout(() => toast.style.display = 'none', 3000);
-        }
-    </script>
+        </section>
+        <section>
+            <h2>Hierarchy Tree</h2>
+            <ul id="hierarchy-tree">
+                <!-- Hierarchy tree structure will be populated here -->
+            </ul>
+        </section>
+        <section>
+            <h2>Properties Editor</h2>
+            <div id="properties-editor">
+                <!-- Properties editor for components -->
+            </div>
+        </section>
+    </main>
+    <footer>
+        <p>&copy; 2026 SairyTheKing. All rights reserved.</p>
+    </footer>
 </body>
 </html>
