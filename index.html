@@ -3,20 +3,16 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Roblox UI Builder - Orion Library</title>
-  <!-- Vue 3 CDN -->
+  <title>Orion UI Builder · Roblox Script Generator</title>
+  <!-- Vue 3 -->
   <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
-  <!-- Font Awesome for icons -->
+  <!-- Font Awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    }
+    * { box-sizing: border-box; margin: 0; font-family: 'Segoe UI', system-ui, sans-serif; }
     body {
-      background: #1e1e2e;
-      color: #cdd6f4;
+      background: #0f0f14;
+      color: #e3e3e8;
       height: 100vh;
       display: flex;
       flex-direction: column;
@@ -29,170 +25,307 @@
     }
     /* Header */
     .header {
-      background: #181825;
-      padding: 12px 20px;
-      border-bottom: 1px solid #313244;
+      background: #1a1a24;
+      padding: 10px 20px;
+      border-bottom: 1px solid #2a2a38;
       display: flex;
       align-items: center;
       justify-content: space-between;
     }
-    .header h1 {
-      font-size: 1.5rem;
-      font-weight: 500;
+    .logo {
       display: flex;
       align-items: center;
       gap: 8px;
-    }
-    .header h1 i {
-      color: #89b4fa;
+      font-size: 1.4rem;
+      font-weight: 600;
+      color: #a6c8ff;
     }
     .actions button {
-      background: #313244;
-      color: #cdd6f4;
+      background: #2a2a38;
+      color: #e3e3e8;
       border: none;
       padding: 8px 16px;
       border-radius: 6px;
       cursor: pointer;
       font-weight: 500;
-      margin-left: 10px;
-      transition: background 0.2s;
-      border: 1px solid #45475a;
+      margin-left: 8px;
+      border: 1px solid #3f3f50;
+      transition: all 0.15s;
     }
-    .actions button:hover {
-      background: #45475a;
-    }
+    .actions button:hover { background: #3f3f50; }
     .actions button.primary {
-      background: #89b4fa;
-      color: #1e1e2e;
-      border-color: #89b4fa;
+      background: #5a8cff;
+      color: white;
+      border-color: #5a8cff;
     }
-    .actions button.primary:hover {
-      background: #b4befe;
-    }
-    /* Main layout */
+    .actions button.primary:hover { background: #7aa2ff; }
+
+    /* Main layout: 3 columns */
     .main {
       display: flex;
       flex: 1;
       overflow: hidden;
     }
-    /* Left panel - Component Library */
-    .library-panel {
-      width: 240px;
-      background: #181825;
-      border-right: 1px solid #313244;
-      padding: 16px 10px;
+
+    /* Left Panel – Components Library */
+    .library {
+      width: 260px;
+      background: #14141c;
+      border-right: 1px solid #2a2a38;
+      padding: 16px 12px;
       overflow-y: auto;
     }
-    .library-panel h3 {
-      font-size: 1rem;
+    .library h3 {
+      font-size: 0.9rem;
       text-transform: uppercase;
       letter-spacing: 1px;
-      margin-bottom: 16px;
-      color: #a6adc8;
+      margin: 16px 0 10px;
+      color: #8a8fa0;
     }
-    .component-list {
-      display: flex;
-      flex-direction: column;
+    .component-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
       gap: 8px;
     }
-    .component-item {
-      background: #313244;
-      padding: 10px 12px;
-      border-radius: 6px;
-      cursor: grab;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      border: 1px solid #45475a;
+    .comp-card {
+      background: #1e1e2a;
+      border: 1px solid #2e2e3e;
+      border-radius: 8px;
+      padding: 10px 6px;
+      text-align: center;
+      cursor: pointer;
       transition: all 0.1s;
       user-select: none;
     }
-    .component-item:hover {
-      background: #45475a;
-      border-color: #89b4fa;
+    .comp-card:hover {
+      background: #2a2a3c;
+      border-color: #5a8cff;
     }
-    .component-item i {
-      width: 20px;
-      color: #89b4fa;
+    .comp-card i {
+      font-size: 1.8rem;
+      margin-bottom: 6px;
+      color: #5a8cff;
     }
-    /* Center panel - Canvas / Tree */
-    .canvas-panel {
+    .comp-card .name {
+      font-size: 0.8rem;
+      font-weight: 500;
+    }
+    .comp-card .desc {
+      font-size: 0.65rem;
+      color: #8a8fa0;
+      margin-top: 4px;
+    }
+
+    /* Center – Preview & Tree */
+    .center {
       flex: 1;
-      background: #1e1e2e;
-      padding: 20px;
-      overflow-y: auto;
       display: flex;
       flex-direction: column;
-    }
-    .canvas-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 16px;
-    }
-    .canvas-header h3 {
-      font-weight: 400;
-      color: #a6adc8;
-    }
-    .tree-container {
-      background: #181825;
-      border-radius: 8px;
+      background: #181820;
       padding: 16px;
-      border: 1px solid #313244;
-      flex: 1;
-      overflow-y: auto;
+      overflow: hidden;
     }
-    .tree-item {
-      padding: 6px 10px;
-      margin: 4px 0;
-      background: #313244;
+    .preview-area {
+      background: #0f0f14;
+      border-radius: 12px;
+      border: 1px solid #2e2e3e;
+      padding: 16px;
+      margin-bottom: 16px;
+      box-shadow: inset 0 2px 8px rgba(0,0,0,0.3);
+    }
+    .preview-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+    .preview-header h4 {
+      font-weight: 400;
+      color: #a6c8ff;
+    }
+    .preview-header button {
+      background: transparent;
+      border: 1px solid #3f3f50;
+      color: #ccc;
+      padding: 4px 10px;
       border-radius: 4px;
+      font-size: 0.8rem;
+      cursor: pointer;
+    }
+    /* The actual Orion‑style preview */
+    .orion-preview {
+      min-height: 200px;
+      background: #1a1a26;
+      border-radius: 10px;
+      padding: 12px;
+      border: 1px solid #3a3a4c;
+    }
+    .preview-window {
+      background: #20202e;
+      border-radius: 10px;
+      overflow: hidden;
+      border: 1px solid #4a4a60;
+    }
+    .preview-titlebar {
+      background: #2a2a3c;
+      padding: 10px 14px;
+      font-weight: 600;
+      border-bottom: 1px solid #3f3f50;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .preview-tabs {
+      display: flex;
+      background: #1a1a26;
+      padding: 0 8px;
+      border-bottom: 1px solid #3a3a4c;
+    }
+    .preview-tab {
+      padding: 8px 16px;
+      font-size: 0.9rem;
+      border-bottom: 2px solid transparent;
+      cursor: default;
+    }
+    .preview-tab.active {
+      border-bottom-color: #5a8cff;
+      color: white;
+    }
+    .preview-section {
+      padding: 14px 16px 8px;
+    }
+    .preview-section-title {
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #9aa0b0;
+      margin-bottom: 12px;
+    }
+    .preview-element {
+      margin-bottom: 12px;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      border-left: 3px solid #89b4fa;
-      cursor: pointer;
-      transition: background 0.1s;
     }
-    .tree-item.selected {
-      background: #45475a;
-      border-left-color: #f9e2af;
+    .preview-button {
+      background: #5a8cff;
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 6px;
+      font-weight: 500;
+      width: 100%;
+      text-align: center;
     }
-    .tree-item-content {
+    .preview-toggle {
       display: flex;
       align-items: center;
       gap: 10px;
     }
-    .tree-item i {
-      width: 18px;
-      color: #89b4fa;
+    .toggle-switch {
+      width: 40px;
+      height: 20px;
+      background: #3a3a4c;
+      border-radius: 20px;
+      position: relative;
     }
-    .tree-item-actions i {
-      margin: 0 5px;
-      color: #a6adc8;
-      cursor: pointer;
+    .toggle-switch.active { background: #5a8cff; }
+    .toggle-knob {
+      width: 16px;
+      height: 16px;
+      background: white;
+      border-radius: 50%;
+      position: absolute;
+      top: 2px;
+      left: 2px;
+      transition: 0.1s;
     }
-    .tree-item-actions i:hover {
-      color: #f38ba8;
+    .toggle-switch.active .toggle-knob { left: 22px; }
+    .preview-slider {
+      display: flex;
+      align-items: center;
+      gap: 10px;
     }
-    .empty-canvas {
-      text-align: center;
-      color: #6c7086;
-      padding: 40px;
-      font-style: italic;
+    .slider-bar {
+      flex: 1;
+      height: 6px;
+      background: #3a3a4c;
+      border-radius: 3px;
+      position: relative;
     }
-    /* Right panel - Properties */
-    .properties-panel {
-      width: 280px;
-      background: #181825;
-      border-left: 1px solid #313244;
-      padding: 16px 14px;
+    .slider-fill {
+      width: 60%;
+      height: 6px;
+      background: #5a8cff;
+      border-radius: 3px;
+    }
+    .preview-label {
+      color: #b0b8cc;
+    }
+    .preview-textbox {
+      background: #2a2a3c;
+      border: 1px solid #4a4a60;
+      padding: 6px 10px;
+      border-radius: 6px;
+      width: 100%;
+      color: white;
+    }
+    .preview-dropdown {
+      background: #2a2a3c;
+      border: 1px solid #4a4a60;
+      padding: 6px 10px;
+      border-radius: 6px;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .tree-panel {
+      background: #14141c;
+      border-radius: 10px;
+      border: 1px solid #2e2e3e;
+      padding: 12px;
+      flex: 1;
       overflow-y: auto;
     }
-    .properties-panel h3 {
-      font-size: 1rem;
-      margin-bottom: 20px;
-      color: #a6adc8;
+    .tree-header {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 10px;
+    }
+    .tree-item {
+      padding: 8px 10px;
+      margin: 4px 0;
+      background: #1e1e2a;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-left: 3px solid #5a8cff;
+      cursor: pointer;
+    }
+    .tree-item.selected { background: #2a2a3c; border-left-color: #ffb86b; }
+    .tree-item-content { display: flex; align-items: center; gap: 8px; }
+    .tree-badge {
+      background: #3a3a4c;
+      padding: 2px 6px;
+      border-radius: 12px;
+      font-size: 0.7rem;
+      color: #aaa;
+    }
+    .tree-actions i {
+      margin: 0 5px;
+      color: #8a8fa0;
+      cursor: pointer;
+    }
+    .tree-actions i:hover { color: #ff6b6b; }
+
+    /* Right Panel – Properties */
+    .properties {
+      width: 300px;
+      background: #14141c;
+      border-left: 1px solid #2a2a38;
+      padding: 16px 14px;
+      overflow-y: auto;
     }
     .prop-group {
       margin-bottom: 18px;
@@ -201,87 +334,40 @@
       display: block;
       font-size: 0.8rem;
       margin-bottom: 5px;
-      color: #bac2de;
+      color: #b0b8cc;
     }
     .prop-group input, .prop-group textarea, .prop-group select {
       width: 100%;
       padding: 8px 10px;
-      background: #313244;
-      border: 1px solid #45475a;
-      border-radius: 4px;
-      color: #cdd6f4;
+      background: #1e1e2a;
+      border: 1px solid #3a3a4c;
+      border-radius: 6px;
+      color: white;
       font-size: 0.9rem;
     }
-    .prop-group textarea {
-      min-height: 80px;
-      resize: vertical;
+    .prop-group textarea { min-height: 70px; resize: vertical; }
+    .help-tip {
+      font-size: 0.75rem;
+      color: #8a8fa0;
+      margin-top: 4px;
     }
-    .prop-group input:focus, .prop-group textarea:focus, .prop-group select:focus {
-      outline: none;
-      border-color: #89b4fa;
-    }
-    /* Bottom panel - Code Output */
     .code-panel {
-      background: #181825;
-      border-top: 1px solid #313244;
+      background: #0f0f14;
+      border-top: 1px solid #2a2a38;
       padding: 12px 20px;
-      display: flex;
-      flex-direction: column;
-      max-height: 200px;
-    }
-    .code-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 8px;
-    }
-    .code-header h4 {
-      font-weight: 400;
-      color: #a6adc8;
-    }
-    .code-header button {
-      background: #313244;
-      border: none;
-      color: #cdd6f4;
-      padding: 6px 12px;
-      border-radius: 4px;
-      cursor: pointer;
-      border: 1px solid #45475a;
-    }
-    .code-header button:hover {
-      background: #45475a;
+      max-height: 180px;
     }
     #codeOutput {
-      background: #11111b;
-      color: #cdd6f4;
+      background: #1a1a24;
+      color: #e3e3e8;
       padding: 12px;
-      border-radius: 6px;
-      font-family: 'Consolas', 'Monaco', monospace;
-      font-size: 0.85rem;
-      overflow-x: auto;
-      white-space: pre-wrap;
-      word-break: break-all;
-      border: 1px solid #313244;
-      max-height: 120px;
-      overflow-y: auto;
-    }
-    /* Preview simple representation */
-    .preview-box {
-      background: #11111b;
-      border: 1px solid #313244;
-      border-radius: 6px;
-      padding: 10px;
-      margin-top: 20px;
-    }
-    .preview-box h4 {
-      font-size: 0.9rem;
-      color: #a6adc8;
-      margin-bottom: 8px;
-    }
-    .preview-structure {
-      font-family: monospace;
+      border-radius: 8px;
+      font-family: 'JetBrains Mono', 'Cascadia Code', monospace;
       font-size: 0.8rem;
-      color: #89b4fa;
+      overflow: auto;
+      white-space: pre-wrap;
+      border: 1px solid #3a3a4c;
+      max-height: 120px;
     }
   </style>
 </head>
@@ -289,256 +375,397 @@
   <div id="app">
     <!-- Header -->
     <div class="header">
-      <h1><i class="fas fa-cubes"></i> Roblox UI Builder (Orion)</h1>
+      <div class="logo">
+        <i class="fas fa-cube" style="color: #5a8cff;"></i> Orion UI Builder
+        <span style="font-size:0.8rem; background:#2a2a3c; padding:2px 8px; border-radius:20px; margin-left:10px;">v2.0</span>
+      </div>
       <div class="actions">
-        <button @click="clearAll"><i class="fas fa-trash"></i> Clear All</button>
+        <button @click="clearAll"><i class="fas fa-trash-alt"></i> Clear</button>
         <button class="primary" @click="generateCode"><i class="fas fa-code"></i> Generate Script</button>
       </div>
     </div>
 
-    <!-- Main area -->
+    <!-- Main workspace -->
     <div class="main">
-      <!-- Left: Component Library -->
-      <div class="library-panel">
-        <h3><i class="fas fa-puzzle-piece"></i> Components</h3>
-        <div class="component-list">
-          <div class="component-item" draggable="true" @dragstart="dragStart($event, 'Window')">
-            <i class="fas fa-window-maximize"></i> Window
+      <!-- LEFT: Component Library -->
+      <div class="library">
+        <h3><i class="fas fa-shapes"></i> Containers</h3>
+        <div class="component-grid">
+          <div class="comp-card" @click="addComponent('Window')">
+            <i class="fas fa-window-maximize"></i>
+            <div class="name">Window</div>
+            <div class="desc">Main GUI window</div>
           </div>
-          <div class="component-item" draggable="true" @dragstart="dragStart($event, 'Tab')">
-            <i class="fas fa-folder"></i> Tab
+          <div class="comp-card" @click="addComponent('Tab')">
+            <i class="fas fa-folder"></i>
+            <div class="name">Tab</div>
+            <div class="desc">Navigation tabs</div>
           </div>
-          <div class="component-item" draggable="true" @dragstart="dragStart($event, 'Section')">
-            <i class="fas fa-layer-group"></i> Section
-          </div>
-          <div class="component-item" draggable="true" @dragstart="dragStart($event, 'Button')">
-            <i class="fas fa-mouse-pointer"></i> Button
-          </div>
-          <div class="component-item" draggable="true" @dragstart="dragStart($event, 'Toggle')">
-            <i class="fas fa-toggle-on"></i> Toggle
-          </div>
-          <div class="component-item" draggable="true" @dragstart="dragStart($event, 'Slider')">
-            <i class="fas fa-sliders-h"></i> Slider
+          <div class="comp-card" @click="addComponent('Section')">
+            <i class="fas fa-layer-group"></i>
+            <div class="name">Section</div>
+            <div class="desc">Group elements</div>
           </div>
         </div>
-        <div style="margin-top: 20px; font-size:0.8rem; color:#6c7086;">
-          <i class="fas fa-info-circle"></i> Drag components onto canvas or click to add (click not implemented, use drag)
+        <h3><i class="fas fa-puzzle-piece"></i> Elements</h3>
+        <div class="component-grid">
+          <div class="comp-card" @click="addComponent('Button')">
+            <i class="fas fa-mouse-pointer"></i>
+            <div class="name">Button</div>
+            <div class="desc">Click to run code</div>
+          </div>
+          <div class="comp-card" @click="addComponent('Toggle')">
+            <i class="fas fa-toggle-on"></i>
+            <div class="name">Toggle</div>
+            <div class="desc">On/Off switch</div>
+          </div>
+          <div class="comp-card" @click="addComponent('Slider')">
+            <i class="fas fa-sliders-h"></i>
+            <div class="name">Slider</div>
+            <div class="desc">Numeric value</div>
+          </div>
+          <div class="comp-card" @click="addComponent('Label')">
+            <i class="fas fa-font"></i>
+            <div class="name">Label</div>
+            <div class="desc">Display text</div>
+          </div>
+          <div class="comp-card" @click="addComponent('Textbox')">
+            <i class="fas fa-i-cursor"></i>
+            <div class="name">Textbox</div>
+            <div class="desc">User input</div>
+          </div>
+          <div class="comp-card" @click="addComponent('Dropdown')">
+            <i class="fas fa-chevron-down"></i>
+            <div class="name">Dropdown</div>
+            <div class="desc">Select option</div>
+          </div>
+        </div>
+        <h3><i class="fas fa-star"></i> Advanced</h3>
+        <div class="component-grid">
+          <div class="comp-card" @click="addComponent('ColorPicker')">
+            <i class="fas fa-palette"></i>
+            <div class="name">Color Picker</div>
+            <div class="desc">Choose color</div>
+          </div>
+          <div class="comp-card" @click="addComponent('Keybind')">
+            <i class="fas fa-keyboard"></i>
+            <div class="name">Keybind</div>
+            <div class="desc">Hotkey trigger</div>
+          </div>
+        </div>
+        <div style="margin-top:20px; font-size:0.75rem; color:#6a6f80;">
+          <i class="fas fa-info-circle"></i> Click to add. Drag to reorder in tree.
         </div>
       </div>
 
-      <!-- Center: Canvas / Tree View -->
-      <div class="canvas-panel"
-           @drop.prevent="handleDrop"
-           @dragover.prevent>
-        <div class="canvas-header">
-          <h3><i class="fas fa-sitemap"></i> UI Hierarchy</h3>
-          <span style="font-size:0.8rem; color:#6c7086;">Click item to edit</span>
-        </div>
-        <div class="tree-container">
-          <div v-if="components.length === 0" class="empty-canvas">
-            <i class="fas fa-arrow-left"></i> Drag components here to start building
+      <!-- CENTER: Preview + Hierarchy Tree -->
+      <div class="center">
+        <div class="preview-area">
+          <div class="preview-header">
+            <h4><i class="fas fa-eye"></i> Live Preview (Orion style)</h4>
+            <button @click="refreshPreview"><i class="fas fa-sync-alt"></i> Refresh</button>
           </div>
-          <div v-for="(comp, index) in components" :key="comp.id">
-            <div class="tree-item" :class="{ selected: selectedId === comp.id }" @click="selectComponent(comp.id)">
-              <div class="tree-item-content">
-                <i :class="getIcon(comp.type)"></i>
-                <span>{{ comp.name || comp.type }} {{ comp.text ? `"${comp.text}"` : '' }}</span>
-                <span style="color:#6c7086; font-size:0.75rem;">({{ comp.type }})</span>
+          <div class="orion-preview" id="previewContainer">
+            <!-- Dynamically rendered preview via Vue -->
+            <div v-if="previewWindow">
+              <div class="preview-window">
+                <div class="preview-titlebar">
+                  <i class="fas fa-cube"></i> {{ previewWindow.title || 'My Window' }}
+                </div>
+                <div class="preview-tabs">
+                  <div v-for="(tab, idx) in previewTabs" :key="tab.id" class="preview-tab" :class="{ active: idx === activeTabIndex }">
+                    {{ tab.tabName || 'Tab' }}
+                  </div>
+                </div>
+                <div style="padding: 8px;">
+                  <template v-for="section in previewSections" :key="section.id">
+                    <div class="preview-section">
+                      <div class="preview-section-title">{{ section.sectionName || 'Section' }}</div>
+                      <div v-for="el in getElementsForSection(section.id)" :key="el.id">
+                        <!-- Render based on type -->
+                        <div v-if="el.type === 'Button'" class="preview-element">
+                          <div class="preview-button">{{ el.text || 'Button' }}</div>
+                        </div>
+                        <div v-else-if="el.type === 'Toggle'" class="preview-element preview-toggle">
+                          <span>{{ el.text || 'Toggle' }}</span>
+                          <div class="toggle-switch" :class="{ active: el.default }">
+                            <div class="toggle-knob"></div>
+                          </div>
+                        </div>
+                        <div v-else-if="el.type === 'Slider'" class="preview-element preview-slider">
+                          <span>{{ el.text || 'Slider' }}</span>
+                          <div style="flex:1; margin-left:10px;">
+                            <div class="slider-bar">
+                              <div class="slider-fill" :style="{ width: ((el.default - el.min)/(el.max - el.min)*100) + '%' }"></div>
+                            </div>
+                          </div>
+                          <span style="min-width:35px;">{{ el.default }}</span>
+                        </div>
+                        <div v-else-if="el.type === 'Label'" class="preview-element">
+                          <span class="preview-label">{{ el.text || 'Label' }}</span>
+                        </div>
+                        <div v-else-if="el.type === 'Textbox'" class="preview-element">
+                          <input class="preview-textbox" :placeholder="el.placeholder || 'Enter text...'" disabled>
+                        </div>
+                        <div v-else-if="el.type === 'Dropdown'" class="preview-element">
+                          <div class="preview-dropdown">
+                            <span>{{ el.options ? el.options.split(',')[0] : 'Option 1' }}</span>
+                            <i class="fas fa-chevron-down"></i>
+                          </div>
+                        </div>
+                        <div v-else-if="el.type === 'ColorPicker'" class="preview-element">
+                          <span>{{ el.text || 'Color' }}</span>
+                          <div :style="{ width:'30px', height:'20px', background: el.default || '#5a8cff', borderRadius:'4px' }"></div>
+                        </div>
+                        <div v-else-if="el.type === 'Keybind'" class="preview-element">
+                          <span>{{ el.text || 'Keybind' }}</span>
+                          <span style="background:#2a2a3c; padding:4px 10px; border-radius:4px;">{{ el.default || 'E' }}</span>
+                        </div>
+                      </div>
+                    </div>
+                  </template>
+                  <!-- Elements directly under tab (no section) -->
+                  <div v-if="orphanElements.length" class="preview-section">
+                    <div class="preview-section-title">Other</div>
+                    <div v-for="el in orphantElements" :key="el.id">
+                      <!-- similar rendering -->
+                    </div>
+                  </div>
+                </div>
               </div>
-              <div class="tree-item-actions">
-                <i class="fas fa-chevron-up" v-if="index > 0" @click.stop="moveUp(index)" title="Move Up"></i>
-                <i class="fas fa-chevron-down" v-if="index < components.length-1" @click.stop="moveDown(index)" title="Move Down"></i>
-                <i class="fas fa-trash-alt" @click.stop="deleteComponent(comp.id)" title="Delete"></i>
-              </div>
+            </div>
+            <div v-else style="color:#6a6f80; text-align:center; padding:30px;">
+              <i class="fas fa-arrow-left"></i> Add a Window to start preview
             </div>
           </div>
         </div>
-        <!-- Simple Preview -->
-        <div class="preview-box">
-          <h4><i class="fas fa-eye"></i> Structure Preview</h4>
-          <div class="preview-structure">
-            <pre>{{ previewText }}</pre>
+
+        <div class="tree-panel">
+          <div class="tree-header">
+            <h4><i class="fas fa-sitemap"></i> Hierarchy</h4>
+            <span style="font-size:0.8rem;">Click to edit · Drag to reorder</span>
           </div>
+          <div v-if="components.length === 0" style="color:#6a6f80; text-align:center; padding:20px;">
+            Add components from the left panel
+          </div>
+          <draggable v-model="components" item-key="id" handle=".drag-handle" @end="onDragEnd" style="min-height:100px;">
+            <template #item="{element, index}">
+              <div class="tree-item" :class="{ selected: selectedId === element.id }" @click="selectComponent(element.id)">
+                <div class="tree-item-content">
+                  <i class="fas fa-grip-vertical drag-handle" style="cursor:grab; color:#6a6f80; margin-right:4px;"></i>
+                  <i :class="getIcon(element.type)"></i>
+                  <span>{{ element.name || element.type }}</span>
+                  <span class="tree-badge">{{ element.type }}</span>
+                  <span v-if="element.parentId" style="font-size:0.7rem; color:#8a8fa0;">
+                    ↳ {{ getParentName(element.parentId) }}
+                  </span>
+                </div>
+                <div class="tree-actions">
+                  <i class="fas fa-copy" @click.stop="duplicateComponent(element)" title="Duplicate"></i>
+                  <i class="fas fa-trash-alt" @click.stop="deleteComponent(element.id)" title="Delete"></i>
+                </div>
+              </div>
+            </template>
+          </draggable>
         </div>
       </div>
 
-      <!-- Right: Properties Panel -->
-      <div class="properties-panel">
-        <h3><i class="fas fa-sliders-h"></i> Properties</h3>
+      <!-- RIGHT: Properties & Help -->
+      <div class="properties">
+        <h3 style="margin-bottom:16px;"><i class="fas fa-sliders-h"></i> Properties</h3>
         <div v-if="selectedComponent">
           <div class="prop-group">
             <label>Type: {{ selectedComponent.type }}</label>
           </div>
-          <!-- Common: Name / ID -->
           <div class="prop-group">
-            <label>Name (Identifier)</label>
-            <input v-model="selectedComponent.name" placeholder="e.g., MainWindow">
+            <label>Name (identifier)</label>
+            <input v-model="selectedComponent.name" placeholder="uniqueName">
+            <div class="help-tip">Used in generated code variable.</div>
           </div>
-          <!-- Window Props -->
+          <!-- Parent Selection (except Window) -->
+          <div class="prop-group" v-if="selectedComponent.type !== 'Window'">
+            <label>Parent</label>
+            <select v-model="selectedComponent.parentId">
+              <option :value="null">None (will attach to Window/Tab automatically)</option>
+              <optgroup v-if="parentOptions.tabs.length" label="Tabs">
+                <option v-for="opt in parentOptions.tabs" :value="opt.id">{{ opt.name }} (Tab)</option>
+              </optgroup>
+              <optgroup v-if="parentOptions.sections.length" label="Sections">
+                <option v-for="opt in parentOptions.sections" :value="opt.id">{{ opt.name }} (Section)</option>
+              </optgroup>
+            </select>
+            <div class="help-tip">Where this element belongs.</div>
+          </div>
+
+          <!-- Type-specific props -->
           <template v-if="selectedComponent.type === 'Window'">
             <div class="prop-group">
               <label>Title</label>
-              <input v-model="selectedComponent.title" placeholder="Window Title">
+              <input v-model="selectedComponent.title" placeholder="My Script">
             </div>
             <div class="prop-group">
-              <label>Save Config (true/false)</label>
+              <label>Save Config</label>
               <select v-model="selectedComponent.saveConfig">
                 <option :value="true">true</option>
                 <option :value="false">false</option>
               </select>
             </div>
           </template>
-          <!-- Tab Props -->
           <template v-if="selectedComponent.type === 'Tab'">
             <div class="prop-group">
               <label>Tab Name</label>
-              <input v-model="selectedComponent.tabName" placeholder="Tab Name">
+              <input v-model="selectedComponent.tabName" placeholder="Main">
+            </div>
+            <div class="prop-group">
+              <label>Icon (Asset ID)</label>
+              <input v-model="selectedComponent.icon" placeholder="rbxassetid://...">
             </div>
           </template>
-          <!-- Section Props -->
           <template v-if="selectedComponent.type === 'Section'">
             <div class="prop-group">
               <label>Section Name</label>
-              <input v-model="selectedComponent.sectionName" placeholder="Section Name">
+              <input v-model="selectedComponent.sectionName" placeholder="General">
             </div>
           </template>
-          <!-- Button Props -->
+          <template v-if="['Button','Toggle','Slider','Label','Textbox','Dropdown','ColorPicker','Keybind'].includes(selectedComponent.type)">
+            <div class="prop-group">
+              <label>Text / Name</label>
+              <input v-model="selectedComponent.text" placeholder="Display text">
+            </div>
+          </template>
           <template v-if="selectedComponent.type === 'Button'">
             <div class="prop-group">
-              <label>Button Text</label>
-              <input v-model="selectedComponent.text" placeholder="Click Me">
-            </div>
-            <div class="prop-group">
-              <label>Callback (Lua code)</label>
-              <textarea v-model="selectedComponent.callback" placeholder="print('Button clicked!')"></textarea>
+              <label>Callback (Lua)</label>
+              <textarea v-model="selectedComponent.callback" placeholder="print('Clicked!')"></textarea>
+              <div class="help-tip">Code that runs when clicked.</div>
             </div>
           </template>
-          <!-- Toggle Props -->
           <template v-if="selectedComponent.type === 'Toggle'">
             <div class="prop-group">
-              <label>Toggle Text</label>
-              <input v-model="selectedComponent.text" placeholder="Enable Feature">
-            </div>
-            <div class="prop-group">
-              <label>Default (true/false)</label>
+              <label>Default</label>
               <select v-model="selectedComponent.default">
-                <option :value="true">true</option>
-                <option :value="false">false</option>
+                <option :value="true">true (On)</option>
+                <option :value="false">false (Off)</option>
               </select>
             </div>
             <div class="prop-group">
-              <label>Callback (Lua code)</label>
+              <label>Callback (Lua)</label>
               <textarea v-model="selectedComponent.callback" placeholder="function(val) print(val) end"></textarea>
             </div>
           </template>
-          <!-- Slider Props -->
           <template v-if="selectedComponent.type === 'Slider'">
             <div class="prop-group">
-              <label>Slider Text</label>
-              <input v-model="selectedComponent.text" placeholder="Speed">
+              <label>Min / Max / Default</label>
+              <div style="display:flex; gap:5px;">
+                <input v-model.number="selectedComponent.min" type="number" placeholder="0" style="width:30%">
+                <input v-model.number="selectedComponent.max" type="number" placeholder="100" style="width:30%">
+                <input v-model.number="selectedComponent.default" type="number" placeholder="50" style="width:30%">
+              </div>
             </div>
             <div class="prop-group">
-              <label>Min</label>
-              <input v-model.number="selectedComponent.min" type="number" placeholder="0">
+              <label>Callback (Lua)</label>
+              <textarea v-model="selectedComponent.callback" placeholder="function(val) print(val) end"></textarea>
             </div>
+          </template>
+          <template v-if="selectedComponent.type === 'Textbox'">
             <div class="prop-group">
-              <label>Max</label>
-              <input v-model.number="selectedComponent.max" type="number" placeholder="100">
+              <label>Placeholder</label>
+              <input v-model="selectedComponent.placeholder" placeholder="Enter text...">
+            </div>
+          </template>
+          <template v-if="selectedComponent.type === 'Dropdown'">
+            <div class="prop-group">
+              <label>Options (comma separated)</label>
+              <input v-model="selectedComponent.options" placeholder="Option1, Option2, Option3">
             </div>
             <div class="prop-group">
               <label>Default</label>
-              <input v-model.number="selectedComponent.default" type="number" placeholder="50">
-            </div>
-            <div class="prop-group">
-              <label>Callback (Lua code)</label>
-              <textarea v-model="selectedComponent.callback" placeholder="function(val) print(val) end"></textarea>
+              <input v-model="selectedComponent.defaultOption" placeholder="Option1">
             </div>
           </template>
-          <!-- Common Callback hint -->
-          <div v-if="['Button','Toggle','Slider'].includes(selectedComponent.type)" style="font-size:0.75rem; color:#a6adc8; margin-top:5px;">
-            <i class="fas fa-info-circle"></i> Callback must be valid Lua function or code.
+          <template v-if="selectedComponent.type === 'ColorPicker'">
+            <div class="prop-group">
+              <label>Default Color (RGB)</label>
+              <input v-model="selectedComponent.defaultColor" placeholder="255,255,255">
+            </div>
+          </template>
+          <template v-if="selectedComponent.type === 'Keybind'">
+            <div class="prop-group">
+              <label>Default Key</label>
+              <input v-model="selectedComponent.default" placeholder="E">
+            </div>
+          </template>
+          <!-- What this does -->
+          <div style="background:#1e1e2a; border-radius:8px; padding:12px; margin-top:20px;">
+            <i class="fas fa-info-circle" style="color:#5a8cff;"></i>
+            <strong style="margin-left:5px;">What this does:</strong>
+            <p style="font-size:0.8rem; margin-top:5px;">{{ getComponentDescription(selectedComponent.type) }}</p>
           </div>
         </div>
-        <div v-else style="color:#6c7086; text-align:center; padding:20px;">
-          <i class="fas fa-hand-pointer"></i> Select an element to edit properties
+        <div v-else style="color:#6a6f80; text-align:center; padding:30px;">
+          <i class="fas fa-hand-pointer"></i> Select an element
         </div>
       </div>
     </div>
 
-    <!-- Bottom: Code Output -->
+    <!-- Bottom Code Output -->
     <div class="code-panel">
-      <div class="code-header">
-        <h4><i class="fas fa-file-code"></i> Generated Lua Script (Orion)</h4>
-        <button @click="copyCode"><i class="fas fa-copy"></i> Copy to Clipboard</button>
+      <div style="display:flex; justify-content:space-between; margin-bottom:8px;">
+        <h4><i class="fas fa-file-code"></i> Generated Lua (Orion Library)</h4>
+        <button @click="copyCode" style="background:#2a2a3c; border:none; color:white; padding:4px 12px; border-radius:4px;"><i class="fas fa-copy"></i> Copy</button>
       </div>
       <div id="codeOutput">{{ generatedCode }}</div>
     </div>
   </div>
 
+  <!-- Draggable library for reordering -->
+  <script src="https://cdn.jsdelivr.net/npm/vuedraggable@4.1.0/dist/vuedraggable.umd.min.js"></script>
   <script>
-    const { createApp, ref, computed } = Vue;
+    const { createApp, ref, computed, watch } = Vue;
 
-    createApp({
+    const app = createApp({
+      components: { draggable: vuedraggable },
       setup() {
-        // Reactive state
+        // State
         const components = ref([]);
         const selectedId = ref(null);
-        const generatedCode = ref('-- Drag components and click "Generate Script" to see code.');
+        const generatedCode = ref('-- Click "Generate Script" to see your Orion UI code.');
+        const activeTabIndex = ref(0);
 
-        // Helper to generate unique id
         let idCounter = 0;
-        function generateId() {
-          return 'comp_' + Date.now() + '_' + (idCounter++);
-        }
+        function genId() { return 'c_' + Date.now() + '_' + (idCounter++); }
 
-        // Default properties for each type
-        function getDefaultProps(type) {
-          const base = {
-            id: generateId(),
-            type: type,
-            name: type + '_' + (idCounter),
-          };
+        // Defaults
+        function defaultProps(type) {
+          const base = { id: genId(), type, name: type + '_' + idCounter, parentId: null };
           switch(type) {
-            case 'Window':
-              return { ...base, title: 'My Window', saveConfig: true };
-            case 'Tab':
-              return { ...base, tabName: 'Main Tab' };
-            case 'Section':
-              return { ...base, sectionName: 'General' };
-            case 'Button':
-              return { ...base, text: 'Click Me', callback: 'print("Button clicked!")' };
-            case 'Toggle':
-              return { ...base, text: 'Enable', default: false, callback: 'function(Value) print("Toggle:", Value) end' };
-            case 'Slider':
-              return { ...base, text: 'Value', min: 0, max: 100, default: 50, callback: 'function(Value) print("Slider:", Value) end' };
-            default:
-              return base;
+            case 'Window': return { ...base, title: 'My Script', saveConfig: true };
+            case 'Tab': return { ...base, tabName: 'Main', icon: 'rbxassetid://4483345998' };
+            case 'Section': return { ...base, sectionName: 'General' };
+            case 'Button': return { ...base, text: 'Click Me', callback: 'print("Clicked!")' };
+            case 'Toggle': return { ...base, text: 'Enable', default: false, callback: 'function(v) print("Toggle:", v) end' };
+            case 'Slider': return { ...base, text: 'Value', min: 0, max: 100, default: 50, callback: 'function(v) print("Slider:", v) end' };
+            case 'Label': return { ...base, text: 'Hello World' };
+            case 'Textbox': return { ...base, text: 'Input', placeholder: 'Type here...' };
+            case 'Dropdown': return { ...base, text: 'Select', options: 'Option1,Option2,Option3', defaultOption: 'Option1' };
+            case 'ColorPicker': return { ...base, text: 'Color', defaultColor: '255,255,255' };
+            case 'Keybind': return { ...base, text: 'Keybind', default: 'E' };
+            default: return base;
           }
         }
 
-        // Drag & Drop
-        function dragStart(event, type) {
-          event.dataTransfer.setData('text/plain', type);
-          event.dataTransfer.effectAllowed = 'copy';
+        function addComponent(type) {
+          const newComp = defaultProps(type);
+          components.value.push(newComp);
+          selectedId.value = newComp.id;
         }
 
-        function handleDrop(event) {
-          const type = event.dataTransfer.getData('text/plain');
-          if (type && ['Window','Tab','Section','Button','Toggle','Slider'].includes(type)) {
-            const newComp = getDefaultProps(type);
-            components.value.push(newComp);
-            // Auto-select the new component
-            selectedId.value = newComp.id;
-          }
-        }
-
-        // Selection
-        const selectedComponent = computed(() => {
-          return components.value.find(c => c.id === selectedId.value);
-        });
-
-        function selectComponent(id) {
-          selectedId.value = id;
+        function duplicateComponent(comp) {
+          const clone = JSON.parse(JSON.stringify(comp));
+          clone.id = genId();
+          clone.name = clone.name + '_copy';
+          components.value.push(clone);
+          selectedId.value = clone.id;
         }
 
         function deleteComponent(id) {
@@ -546,201 +773,153 @@
           if (selectedId.value === id) selectedId.value = null;
         }
 
-        function moveUp(index) {
-          if (index > 0) {
-            const temp = components.value[index];
-            components.value[index] = components.value[index - 1];
-            components.value[index - 1] = temp;
-          }
+        function selectComponent(id) { selectedId.value = id; }
+        function clearAll() { components.value = []; selectedId.value = null; generatedCode.value = '-- Add components to begin.'; }
+
+        const selectedComponent = computed(() => components.value.find(c => c.id === selectedId.value));
+
+        // Parent options for dropdown
+        const parentOptions = computed(() => {
+          const tabs = components.value.filter(c => c.type === 'Tab').map(t => ({ id: t.id, name: t.tabName || t.name }));
+          const sections = components.value.filter(c => c.type === 'Section').map(s => ({ id: s.id, name: s.sectionName || s.name }));
+          return { tabs, sections };
+        });
+
+        function getParentName(parentId) {
+          const p = components.value.find(c => c.id === parentId);
+          return p ? (p.tabName || p.sectionName || p.name || p.type) : '?';
         }
 
-        function moveDown(index) {
-          if (index < components.value.length - 1) {
-            const temp = components.value[index];
-            components.value[index] = components.value[index + 1];
-            components.value[index + 1] = temp;
-          }
-        }
-
-        function clearAll() {
-          components.value = [];
-          selectedId.value = null;
-          generatedCode.value = '-- Drag components and click "Generate Script" to see code.';
-        }
-
-        // Icon mapping
         function getIcon(type) {
-          const map = {
-            'Window': 'fas fa-window-maximize',
-            'Tab': 'fas fa-folder',
-            'Section': 'fas fa-layer-group',
-            'Button': 'fas fa-mouse-pointer',
-            'Toggle': 'fas fa-toggle-on',
-            'Slider': 'fas fa-sliders-h'
-          };
-          return map[type] || 'fas fa-cube';
+          const map = { Window:'fa-window-maximize', Tab:'fa-folder', Section:'fa-layer-group', Button:'fa-mouse-pointer', Toggle:'fa-toggle-on', Slider:'fa-sliders-h', Label:'fa-font', Textbox:'fa-i-cursor', Dropdown:'fa-chevron-down', ColorPicker:'fa-palette', Keybind:'fa-keyboard' };
+          return 'fas ' + (map[type] || 'fa-cube');
         }
 
-        // Generate Lua Code (Orion library)
+        function getComponentDescription(type) {
+          const desc = {
+            Window: 'Creates the main GUI window. Required.',
+            Tab: 'Adds a tab to the window for organizing sections.',
+            Section: 'Groups related elements under a title.',
+            Button: 'A clickable button that runs Lua code.',
+            Toggle: 'An on/off switch with a callback.',
+            Slider: 'Lets user pick a number within a range.',
+            Label: 'Displays static text.',
+            Textbox: 'Allows user to type text.',
+            Dropdown: 'A dropdown menu with options.',
+            ColorPicker: 'Opens a color selection dialog.',
+            Keybind: 'Binds a key to a callback function.'
+          };
+          return desc[type] || 'A UI element for your script.';
+        }
+
+        // Preview computed data
+        const previewWindow = computed(() => components.value.find(c => c.type === 'Window'));
+        const previewTabs = computed(() => components.value.filter(c => c.type === 'Tab'));
+        const previewSections = computed(() => components.value.filter(c => c.type === 'Section'));
+
+        function getElementsForSection(sectionId) {
+          return components.value.filter(c => 
+            ['Button','Toggle','Slider','Label','Textbox','Dropdown','ColorPicker','Keybind'].includes(c.type) &&
+            c.parentId === sectionId
+          );
+        }
+        const orphantElements = computed(() => components.value.filter(c => 
+          ['Button','Toggle','Slider','Label','Textbox','Dropdown','ColorPicker','Keybind'].includes(c.type) &&
+          !c.parentId
+        ));
+
+        // Refresh preview (just reactive)
+        function refreshPreview() {}
+
+        // Drag reorder
+        function onDragEnd() { /* handled by v-model */ }
+
+        // Generate Lua code
         function generateCode() {
-          if (components.value.length === 0) {
-            generatedCode.value = '-- No components added yet.';
+          const win = previewWindow.value;
+          if (!win) {
+            generatedCode.value = '-- Error: Add a Window first.';
             return;
           }
+          let code = `-- Orion UI Library Script (Generated)\nlocal OrionLib = loadstring(game:HttpGet("https://raw.githubusercontent.com/shlexware/Orion/main/source"))()\n\n`;
+          code += `local Window = OrionLib:MakeWindow({\n    Name = "${win.title || 'Window'}",\n    HidePremium = false,\n    SaveConfig = ${win.saveConfig !== false},\n    ConfigFolder = "OrionConfig"\n})\n\n`;
 
-          // Find the first window to use as main
-          const windows = components.value.filter(c => c.type === 'Window');
-          if (windows.length === 0) {
-            generatedCode.value = '-- Error: At least one Window component is required.';
-            return;
-          }
-
-          const mainWindow = windows[0];
-          let code = `-- Orion UI Library Script\n`;
-          code += `local OrionLib = loadstring(game:HttpGet("https://raw.githubusercontent.com/shlexware/Orion/main/source"))()\n\n`;
-          code += `local Window = OrionLib:MakeWindow({\n`;
-          code += `    Name = "${mainWindow.title || 'My Window'}",\n`;
-          code += `    HidePremium = false,\n`;
-          code += `    SaveConfig = ${mainWindow.saveConfig !== false},\n`;
-          code += `    ConfigFolder = "OrionConfig"\n`;
-          code += `})\n\n`;
-
-          // Tabs: find all Tab components
-          const tabs = components.value.filter(c => c.type === 'Tab');
-          // If no tabs, create a default one? But we'll just skip.
-          const tabMap = new Map(); // tabId -> variable name
-          let tabCounter = 0;
-          
-          // Generate tab variables
-          tabs.forEach(tab => {
-            const varName = `Tab${tabCounter++}`;
-            tabMap.set(tab.id, varName);
-            code += `local ${varName} = Window:MakeTab({\n`;
-            code += `    Name = "${tab.tabName || 'Tab'}",\n`;
-            code += `    Icon = "rbxassetid://4483345998",\n`;
-            code += `    PremiumOnly = false\n`;
-            code += `})\n\n`;
+          const tabs = previewTabs.value;
+          const tabVars = {};
+          tabs.forEach((tab, i) => {
+            const varName = `Tab${i}`;
+            tabVars[tab.id] = varName;
+            code += `local ${varName} = Window:MakeTab({\n    Name = "${tab.tabName || 'Tab'}",\n    Icon = "${tab.icon || 'rbxassetid://4483345998'}",\n    PremiumOnly = false\n})\n\n`;
           });
 
-          // If there are sections, we need to map them to their parent tab? Our simple model doesn't enforce hierarchy.
-          // For simplicity, we'll just add sections to the first tab or any tab? Better: user must arrange logically.
-          // We'll group components by a heuristic: Window -> Tabs -> Sections -> Elements.
-          // Since we don't have explicit parent-child, we'll follow order: Window first, then Tabs, then Sections, then elements.
-          // We'll assign sections to the last declared tab (or first if none).
-          let currentTabVar = tabMap.size > 0 ? Array.from(tabMap.values())[0] : null;
-          if (!currentTabVar) {
-            // Create a default tab if none exists but we have elements
-            currentTabVar = 'DefaultTab';
-            code += `local ${currentTabVar} = Window:MakeTab({\n    Name = "Main",\n    Icon = "rbxassetid://4483345998"\n})\n\n`;
-          }
-
-          const sections = components.value.filter(c => c.type === 'Section');
-          const sectionMap = new Map(); // sectionId -> variable name
-          let sectionCounter = 0;
-          
-          sections.forEach(section => {
-            const varName = `Section${sectionCounter++}`;
-            sectionMap.set(section.id, varName);
-            code += `local ${varName} = ${currentTabVar}:AddSection({\n`;
-            code += `    Name = "${section.sectionName || 'Section'}"\n`;
-            code += `})\n\n`;
+          const sections = previewSections.value;
+          const sectionVars = {};
+          sections.forEach((sec, i) => {
+            const parentTabId = sec.parentId;
+            const tabVar = parentTabId && tabVars[parentTabId] ? tabVars[parentTabId] : Object.values(tabVars)[0] || 'Tab0';
+            const varName = `Section${i}`;
+            sectionVars[sec.id] = varName;
+            code += `local ${varName} = ${tabVar}:AddSection({ Name = "${sec.sectionName || 'Section'}" })\n`;
           });
 
-          // Now add elements (Button, Toggle, Slider) to the last section or directly to tab?
-          // We'll add to the last section if any, else to tab.
-          const elements = components.value.filter(c => ['Button','Toggle','Slider'].includes(c.type));
-          
+          const elements = components.value.filter(c => 
+            ['Button','Toggle','Slider','Label','Textbox','Dropdown','ColorPicker','Keybind'].includes(c.type)
+          );
+
           elements.forEach(el => {
             let target;
-            if (sectionMap.size > 0) {
-              target = Array.from(sectionMap.values()).pop();
+            if (el.parentId) {
+              if (sectionVars[el.parentId]) target = sectionVars[el.parentId];
+              else if (tabVars[el.parentId]) target = tabVars[el.parentId];
+              else target = Object.values(tabVars)[0] || 'Window';
             } else {
-              target = currentTabVar;
+              target = Object.values(sectionVars)[0] || Object.values(tabVars)[0] || 'Window';
             }
-            
+
+            const name = el.text || el.name;
             if (el.type === 'Button') {
-              code += `${target}:AddButton({\n`;
-              code += `    Name = "${el.text || 'Button'}",\n`;
-              code += `    Callback = function()\n`;
-              code += `        ${el.callback || 'print("Button clicked!")'}\n`;
-              code += `    end\n`;
-              code += `})\n\n`;
+              code += `${target}:AddButton({ Name = "${name}", Callback = function() ${el.callback || 'print("clicked")'} end })\n`;
             } else if (el.type === 'Toggle') {
-              code += `${target}:AddToggle({\n`;
-              code += `    Name = "${el.text || 'Toggle'}",\n`;
-              code += `    Default = ${el.default || false},\n`;
-              code += `    Callback = function(Value)\n`;
-              code += `        ${el.callback ? el.callback.replace(/function\s*\([^)]*\)\s*/, '') : 'print("Toggle:", Value)'}\n`;
-              code += `    end\n`;
-              code += `})\n\n`;
+              code += `${target}:AddToggle({ Name = "${name}", Default = ${el.default || false}, Callback = function(v) ${el.callback ? el.callback.replace(/function\s*\([^)]*\)\s*/, '') : 'print(v)'} end })\n`;
             } else if (el.type === 'Slider') {
-              code += `${target}:AddSlider({\n`;
-              code += `    Name = "${el.text || 'Slider'}",\n`;
-              code += `    Min = ${el.min || 0},\n`;
-              code += `    Max = ${el.max || 100},\n`;
-              code += `    Default = ${el.default || 50},\n`;
-              code += `    Color = Color3.fromRGB(255,255,255),\n`;
-              code += `    Increment = 1,\n`;
-              code += `    ValueName = "Value",\n`;
-              code += `    Callback = function(Value)\n`;
-              code += `        ${el.callback ? el.callback.replace(/function\s*\([^)]*\)\s*/, '') : 'print("Slider:", Value)'}\n`;
-              code += `    end\n`;
-              code += `})\n\n`;
+              code += `${target}:AddSlider({ Name = "${name}", Min = ${el.min}, Max = ${el.max}, Default = ${el.default}, Color = Color3.fromRGB(255,255,255), Increment = 1, ValueName = "", Callback = function(v) ${el.callback ? el.callback.replace(/function\s*\([^)]*\)\s*/, '') : 'print(v)'} end })\n`;
+            } else if (el.type === 'Label') {
+              code += `${target}:AddLabel("${name}")\n`;
+            } else if (el.type === 'Textbox') {
+              code += `${target}:AddTextbox({ Name = "${name}", Default = "", TextDisappear = true, Callback = function(v) print(v) end })\n`;
+            } else if (el.type === 'Dropdown') {
+              const opts = el.options ? el.options.split(',').map(s=>`"${s.trim()}"`).join(',') : '"Option1","Option2"';
+              code += `${target}:AddDropdown({ Name = "${name}", Default = "${el.defaultOption || 'Option1'}", Options = {${opts}}, Callback = function(v) print(v) end })\n`;
+            } else if (el.type === 'ColorPicker') {
+              code += `${target}:AddColorpicker({ Name = "${name}", Default = Color3.fromRGB(${el.defaultColor || '255,255,255'}), Callback = function(v) print(v) end })\n`;
+            } else if (el.type === 'Keybind') {
+              code += `${target}:AddBind({ Name = "${name}", Default = Enum.KeyCode.${el.default || 'E'}, Hold = false, Callback = function() print("key pressed") end })\n`;
             }
           });
 
-          code += `OrionLib:Init()\n`;
-          code += `-- Script generated by Roblox UI Builder`;
-          
+          code += `\nOrionLib:Init()\n-- End of generated script`;
           generatedCode.value = code;
         }
 
-        // Preview text
-        const previewText = computed(() => {
-          if (components.value.length === 0) return 'Empty UI';
-          let text = '';
-          components.value.forEach(c => {
-            text += `[${c.type}] ${c.name || ''}`;
-            if (c.type === 'Window') text += ` "${c.title || ''}"`;
-            if (c.type === 'Tab') text += ` "${c.tabName || ''}"`;
-            if (c.type === 'Section') text += ` "${c.sectionName || ''}"`;
-            if (c.type === 'Button') text += ` "${c.text || ''}"`;
-            if (c.type === 'Toggle') text += ` "${c.text || ''}"`;
-            if (c.type === 'Slider') text += ` "${c.text || ''}"`;
-            text += '\n';
-          });
-          return text;
-        });
-
         function copyCode() {
-          navigator.clipboard.writeText(generatedCode.value).then(() => {
-            alert('Code copied to clipboard!');
-          }).catch(() => {
-            alert('Failed to copy. Please manually copy.');
-          });
+          navigator.clipboard.writeText(generatedCode.value);
+          alert('Code copied!');
         }
 
-        // Auto-generate when components change? Not automatic to avoid constant updates; user clicks button.
+        // Auto-refresh preview when components change
+        watch(components, () => {}, { deep: true });
 
         return {
-          components,
-          selectedId,
-          selectedComponent,
-          generatedCode,
-          previewText,
-          dragStart,
-          handleDrop,
-          selectComponent,
-          deleteComponent,
-          moveUp,
-          moveDown,
-          clearAll,
-          generateCode,
-          copyCode,
-          getIcon,
+          components, selectedId, selectedComponent, generatedCode, activeTabIndex,
+          addComponent, deleteComponent, selectComponent, clearAll, generateCode, copyCode,
+          getIcon, getComponentDescription, parentOptions, getParentName,
+          previewWindow, previewTabs, previewSections, getElementsForSection, orphantElements,
+          refreshPreview, onDragEnd, duplicateComponent
         };
       }
-    }).mount('#app');
+    });
+
+    app.mount('#app');
   </script>
 </body>
 </html>
