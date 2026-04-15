@@ -1,760 +1,746 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>sairy's media:3</title>
-  <link rel="icon" href="furina.png" />
-  <link href="https://fonts.googleapis.com/css2?family=Finger+Paint&display=swap" rel="stylesheet" />
-  <script data-goatcounter="https://tuffnesssairy.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Roblox UI Builder - Orion Library</title>
+  <!-- Vue 3 CDN -->
+  <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+  <!-- Font Awesome for icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    :root {
-      --bg:     #1a1a1f; --sb:    #22222a; --card:   #2a2a35; --bdr:  #38383f;
-      --text:   #e8e8f0; --dim:   #6a6a90; --acc:    #ffd166;
-      --green:  #06d6a0; --pink:  #ff6b9d; --blue:   #74b9ff; --purple:#c77dff;
-      --font:   'Finger Paint', cursive;
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
-    html, body { height:100%; background:var(--bg); color:var(--text); font-family:var(--font); overflow:hidden; }
-
-    @keyframes wiggle  { 0%,100%{transform:rotate(-2deg)} 50%{transform:rotate(2deg)} }
-    @keyframes pop     { from{transform:scale(0.94);opacity:0} to{transform:scale(1);opacity:1} }
-    @keyframes blink   { 0%,100%{opacity:1} 50%{opacity:0.15} }
-    @keyframes fadein  { from{opacity:0} to{opacity:1} }
-    @keyframes float   { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-7px)} }
-    @keyframes twinkle { 0%,100%{opacity:0.3;transform:scale(0.8)} 50%{opacity:1;transform:scale(1.1)} }
-    @keyframes slideup { from{transform:translateY(18px);opacity:0} to{transform:translateY(0);opacity:1} }
-    @keyframes splashin { 0%{opacity:0;transform:scale(0.85)} 60%{opacity:1;transform:scale(1.04)} 100%{transform:scale(1)} }
-    @keyframes splashout{ from{opacity:1} to{opacity:0;pointer-events:none} }
-    @keyframes sparkle  { 0%{transform:scale(0) rotate(0deg);opacity:1} 100%{transform:scale(1.4) rotate(180deg);opacity:0} }
-    @keyframes pulse-border { 0%,100%{box-shadow:0 0 0 0 rgba(255,209,102,0)} 50%{box-shadow:0 0 0 4px rgba(255,209,102,0.15)} }
-    @keyframes shimmer { 0%{background-position:200% center} 100%{background-position:-200% center} }
-    @keyframes dots-move { 0%{background-position:0 0} 100%{background-position:40px 40px} }
-
-    #app { display:flex; height:100vh; }
-
-    /* sidebar */
-    #sidebar {
-      width:248px; min-width:248px; background:var(--sb);
-      border-right:3px dashed var(--bdr);
-      display:flex; flex-direction:column; overflow:hidden;
+    body {
+      background: #1e1e2e;
+      color: #cdd6f4;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
     }
-    #sb-hdr {
-      padding:10px 14px 12px; border-bottom:3px dashed var(--bdr);
-      text-align:center; position:relative;
+    #app {
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
     }
-    #sb-hdr::before { content:'✦'; position:absolute; top:8px; left:8px; font-size:11px; color:var(--pink); animation:twinkle 2.2s ease-in-out infinite; }
-    #sb-hdr::after  { content:'✦'; position:absolute; top:8px; right:8px; font-size:11px; color:var(--blue); animation:twinkle 2.2s ease-in-out infinite 0.9s; }
-    #hdr-img { display:block; width:66px; height:66px; object-fit:contain; margin:0 auto 4px; animation:float 3.5s ease-in-out infinite; filter:drop-shadow(0 3px 8px rgba(0,0,0,.5)); }
-    #sb-hdr h1  { font-size:17px; color:var(--acc); line-height:1.35; }
-    #sb-hdr .sub { font-size:10px; color:var(--dim); margin-top:3px; }
-
-    #search-wrap { padding:10px 10px 6px; }
-    #search {
-      width:100%; background:var(--card); border:2px solid var(--bdr); border-radius:999px;
-      padding:7px 13px; color:var(--text); font-family:var(--font); font-size:11px; outline:none;
-      transition:border-color .2s, transform .15s;
+    /* Header */
+    .header {
+      background: #181825;
+      padding: 12px 20px;
+      border-bottom: 1px solid #313244;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
     }
-    #search::placeholder { color:var(--dim); }
-    #search:focus { border-color:var(--acc); transform:scale(1.02); }
-
-    #filter-tabs { display:flex; gap:4px; padding:0 10px 8px; }
-    .ftab {
-      flex:1; background:none; border:2px solid var(--bdr); border-radius:999px;
-      color:var(--dim); font-family:var(--font); font-size:10px; padding:4px 0;
-      cursor:pointer; transition:all .15s;
+    .header h1 {
+      font-size: 1.5rem;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 8px;
     }
-    .ftab:hover { color:var(--text); border-color:#555; transform:translateY(-2px); }
-    .ftab.active { background:var(--acc); border-color:var(--acc); color:#111; }
-
-    #file-count { font-size:10px; color:var(--dim); padding:0 14px 5px; text-align:center; }
-
-    #media-list { flex:1; overflow-y:auto; padding:2px 6px 10px; }
-    #media-list::-webkit-scrollbar { width:3px; }
-    #media-list::-webkit-scrollbar-thumb { background:var(--bdr); border-radius:99px; }
-
-    .sec-lbl { font-size:10px; color:var(--dim); padding:8px 6px 3px; display:flex; align-items:center; gap:5px; }
-    .sec-lbl::after { content:''; flex:1; height:1px; background:var(--bdr); }
-
-    .mbtn {
-      display:flex; align-items:center; gap:9px; width:100%;
-      background:none; border:2px solid transparent; border-radius:12px;
-      padding:7px 8px; cursor:pointer; text-align:left; color:var(--text);
-      font-family:var(--font); transition:background .14s, border-color .14s, transform .12s;
+    .header h1 i {
+      color: #89b4fa;
     }
-    .mbtn:hover  { background:var(--card); border-color:var(--bdr); transform:translateX(3px); }
-    .mbtn.active { background:var(--card); border-color:var(--acc); }
-    .tdot { width:7px; height:7px; border-radius:50%; flex-shrink:0; }
-    .tdot.image { background:var(--green); }
-    .tdot.video { background:var(--blue); }
-    .binfo { flex:1; min-width:0; }
-    .bname { font-size:11px; color:var(--text); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; display:block; line-height:1.4; }
-    .mbtn.active .bname { color:var(--acc); }
-    .bpath { font-size:9px; color:var(--dim); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; display:block; margin-top:1px; }
-    .no-results { font-size:11px; color:var(--dim); padding:20px; text-align:center; }
-
-    /* main */
-    #main { flex:1; display:flex; flex-direction:column; overflow:hidden; }
-    #topbar {
-      height:46px; border-bottom:3px dashed var(--bdr);
-      display:flex; align-items:center; padding:0 12px 0 18px; gap:7px; flex-shrink:0;
+    .actions button {
+      background: #313244;
+      color: #cdd6f4;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: 500;
+      margin-left: 10px;
+      transition: background 0.2s;
+      border: 1px solid #45475a;
     }
-    #cur-name { font-size:13px; color:var(--text); flex:1; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
-    #cur-badge { font-size:10px; padding:3px 9px; border-radius:999px; border:2px solid transparent; display:none; flex-shrink:0; }
-    #cur-badge.image { display:block; background:rgba(6,214,160,.1); border-color:var(--green); color:var(--green); }
-    #cur-badge.video { display:block; background:rgba(116,185,255,.1); border-color:var(--blue); color:var(--blue); }
-
-    .tbbtn {
-      display:none; align-items:center; gap:5px;
-      background:var(--card); border:2px solid var(--bdr); border-radius:999px;
-      color:var(--text); font-family:var(--font); font-size:10px;
-      padding:4px 11px; cursor:pointer; text-decoration:none;
-      transition:all .15s; white-space:nowrap; flex-shrink:0;
+    .actions button:hover {
+      background: #45475a;
     }
-    .tbbtn.show          { display:flex; }
-    .tbbtn:hover         { transform:translateY(-1px); }
-    #copy-btn:hover      { border-color:var(--purple); color:var(--purple); }
-    #copy-btn.st-copied  { border-color:var(--green) !important; color:var(--green) !important; }
-    #copy-btn.st-warn    { border-color:var(--pink) !important; color:var(--pink) !important; }
-    #dl-btn:hover        { border-color:var(--acc); color:var(--acc); }
-    #dl-btn.st-loading   { border-color:var(--blue); color:var(--blue); pointer-events:none; }
-    #dl-btn.st-copied    { border-color:var(--green) !important; color:var(--green) !important; }
-    #dl-btn.st-warn      { border-color:var(--pink) !important; color:var(--pink) !important; }
-
-    /* display */
-    #display-area {
-      flex:1; display:flex; align-items:center; justify-content:center;
-      overflow:hidden; padding:24px; position:relative;
+    .actions button.primary {
+      background: #89b4fa;
+      color: #1e1e2e;
+      border-color: #89b4fa;
     }
-    .cdeco {
-      position:absolute; pointer-events:none; z-index:0;
-      opacity:.55; filter:drop-shadow(0 3px 10px rgba(0,0,0,.5)); transition:opacity .35s;
+    .actions button.primary:hover {
+      background: #b4befe;
     }
-    #cd-bl { bottom:6px; left:10px; width:78px; animation:float 4s ease-in-out infinite; }
-    #cd-br { bottom:6px; right:10px; width:68px; animation:float 4.6s ease-in-out infinite .7s; }
-    #display-area.has-media .cdeco { opacity:.07; }
-
-    #display-area img.media {
-      max-width:100%; max-height:100%; object-fit:contain;
-      border-radius:14px; border:3px solid var(--bdr);
-      display:block; animation:pop .2s ease; position:relative; z-index:1;
+    /* Main layout */
+    .main {
+      display: flex;
+      flex: 1;
+      overflow: hidden;
     }
-    #display-area video {
-      max-width:100%; max-height:100%;
-      border-radius:14px; border:3px solid var(--bdr);
-      display:block; background:#000; animation:pop .2s ease; position:relative; z-index:1;
+    /* Left panel - Component Library */
+    .library-panel {
+      width: 240px;
+      background: #181825;
+      border-right: 1px solid #313244;
+      padding: 16px 10px;
+      overflow-y: auto;
     }
-
-    #load-ov {
-      position:absolute; inset:0; display:none;
-      flex-direction:column; align-items:center; justify-content:center;
-      gap:12px; pointer-events:none; z-index:3;
+    .library-panel h3 {
+      font-size: 1rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 16px;
+      color: #a6adc8;
     }
-    #load-ov.on { display:flex; }
-    #load-img { width:64px; animation:float 1.1s ease-in-out infinite; filter:drop-shadow(0 3px 10px rgba(0,0,0,.5)); }
-    #load-msg { font-size:12px; color:var(--dim); animation:fadein .3s ease; }
-
-    .state-msg { display:flex; flex-direction:column; align-items:center; gap:12px; pointer-events:none; animation:pop .25s ease; position:relative; z-index:1; }
-    .s-img   { width:90px; filter:drop-shadow(0 3px 14px rgba(0,0,0,.5)); animation:wiggle 3s ease-in-out infinite; }
-    .s-title { font-size:16px; color:var(--text); }
-    .s-sub   { font-size:11px; color:var(--dim); max-width:250px; text-align:center; line-height:1.8; }
-    .err .s-title { color:var(--pink); }
-
-    #statusbar {
-      height:28px; border-top:3px dashed var(--bdr);
-      display:flex; align-items:center; padding:0 16px; gap:14px; flex-shrink:0;
+    .component-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
     }
-    .sdot { width:6px; height:6px; border-radius:50%; background:var(--dim); display:inline-block; margin-right:5px; vertical-align:middle; }
-    .sdot.ready   { background:var(--green); }
-    .sdot.error   { background:var(--pink); }
-    .sdot.loading { background:var(--acc); animation:blink .6s infinite; }
-    .sitem { font-size:10px; color:var(--dim); }
-
-    #rhandle { width:5px; flex-shrink:0; cursor:col-resize; border-right:3px dashed var(--bdr); transition:background .15s; }
-    #rhandle:hover { background:rgba(255,209,102,.07); }
-
-    /* ── splash screen ── */
-    #splash {
-      position:fixed; inset:0; z-index:999;
-      background:var(--bg); display:flex; flex-direction:column;
-      align-items:center; justify-content:center; gap:16px;
-      animation:splashout .4s ease .9s forwards;
-      pointer-events:none;
+    .component-item {
+      background: #313244;
+      padding: 10px 12px;
+      border-radius: 6px;
+      cursor: grab;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      border: 1px solid #45475a;
+      transition: all 0.1s;
+      user-select: none;
     }
-    #splash-img {
-      width:90px; animation:splashin .6s ease forwards;
-      filter:drop-shadow(0 0 20px rgba(255,209,102,.4));
+    .component-item:hover {
+      background: #45475a;
+      border-color: #89b4fa;
     }
-    #splash-title {
-      font-size:22px; color:var(--acc);
-      animation:slideup .5s ease .2s both;
+    .component-item i {
+      width: 20px;
+      color: #89b4fa;
     }
-    #splash-sub {
-      font-size:11px; color:var(--dim);
-      animation:slideup .5s ease .35s both;
+    /* Center panel - Canvas / Tree */
+    .canvas-panel {
+      flex: 1;
+      background: #1e1e2e;
+      padding: 20px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
     }
-    #splash-bar-wrap {
-      width:160px; height:3px; background:var(--bdr); border-radius:99px; overflow:hidden;
-      animation:slideup .5s ease .4s both;
+    .canvas-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
     }
-    #splash-bar {
-      height:100%; width:0%; background:var(--acc); border-radius:99px;
-      transition:width .6s ease;
+    .canvas-header h3 {
+      font-weight: 400;
+      color: #a6adc8;
     }
-
-    /* ── cursor sparkles ── */
-    .sparkle {
-      position:fixed; pointer-events:none; z-index:9999;
-      width:8px; height:8px; border-radius:50%;
-      animation:sparkle .5s ease forwards;
+    .tree-container {
+      background: #181825;
+      border-radius: 8px;
+      padding: 16px;
+      border: 1px solid #313244;
+      flex: 1;
+      overflow-y: auto;
     }
-
-    /* ── animated dot bg on display area ── */
-    #display-area::before {
-      content:''; position:absolute; inset:0; z-index:0;
-      background-image: radial-gradient(circle, rgba(255,209,102,.04) 1px, transparent 1px);
-      background-size:28px 28px;
-      animation:dots-move 8s linear infinite;
-      pointer-events:none;
+    .tree-item {
+      padding: 6px 10px;
+      margin: 4px 0;
+      background: #313244;
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-left: 3px solid #89b4fa;
+      cursor: pointer;
+      transition: background 0.1s;
     }
-
-    /* ── shimmer title ── */
-    #sb-hdr h1 {
-      font-size:17px; line-height:1.35;
-      background: linear-gradient(90deg, var(--acc), var(--pink), var(--blue), var(--acc));
-      background-size:300% auto;
-      -webkit-background-clip:text; -webkit-text-fill-color:transparent;
-      background-clip:text;
-      animation:shimmer 4s linear infinite;
+    .tree-item.selected {
+      background: #45475a;
+      border-left-color: #f9e2af;
     }
-
-    /* ── glowing active item ── */
-    .mbtn.active {
-      background:var(--card); border-color:var(--acc);
-      animation:pulse-border 2s ease-in-out infinite;
+    .tree-item-content {
+      display: flex;
+      align-items: center;
+      gap: 10px;
     }
-
-    /* ── staggered list items ── */
-    .mbtn { animation:slideup .25s ease both; }
-
-    /* ── topbar title shimmer on load ── */
-    #cur-name { transition:color .3s; }
-
-    /* ── media border glow on load ── */
-    #display-area img.media, #display-area video {
-      max-width:100%; max-height:100%; object-fit:contain;
-      border-radius:14px; border:3px solid var(--bdr);
-      display:block; animation:pop .25s ease; position:relative; z-index:1;
-      transition:border-color .4s, box-shadow .4s;
+    .tree-item i {
+      width: 18px;
+      color: #89b4fa;
     }
-    #display-area img.media:hover  { border-color:rgba(255,209,102,.4); box-shadow:0 0 24px rgba(255,209,102,.07); }
-    #display-area video:hover { border-color:rgba(116,185,255,.4); box-shadow:0 0 24px rgba(116,185,255,.07); }
-
-    /* ── page load slide-in for sidebar ── */
-    #sidebar { animation:slideup .45s ease both; }
-    #main    { animation:slideup .45s ease .1s both; }
-
-    /* info button at bottom of sidebar */
-    #info-btn {
-      margin:8px 10px 10px;
-      background:none; border:2px dashed var(--bdr); border-radius:12px;
-      color:var(--dim); font-family:var(--font); font-size:10px;
-      padding:7px; cursor:pointer; transition:all .15s; flex-shrink:0;
-      text-align:center;
+    .tree-item-actions i {
+      margin: 0 5px;
+      color: #a6adc8;
+      cursor: pointer;
     }
-    #info-btn:hover { border-color:var(--purple); color:var(--purple); }
-    #info-btn.active { border-color:var(--purple); color:var(--purple); background:rgba(199,125,255,.08); }
-
-    /* info panel */
-    #info-panel {
-      display:none; position:absolute; inset:0; z-index:10;
-      background:var(--bg); padding:36px 40px;
-      flex-direction:column; gap:20px; overflow-y:auto;
-      animation:pop .2s ease;
+    .tree-item-actions i:hover {
+      color: #f38ba8;
     }
-    #info-panel.show { display:flex; }
-    #info-close {
-      position:absolute; top:14px; right:16px;
-      background:none; border:2px solid var(--bdr); border-radius:999px;
-      color:var(--dim); font-family:var(--font); font-size:10px;
-      padding:3px 12px; cursor:pointer; transition:all .15s;
+    .empty-canvas {
+      text-align: center;
+      color: #6c7086;
+      padding: 40px;
+      font-style: italic;
     }
-    #info-close:hover { border-color:var(--pink); color:var(--pink); }
-    .info-title { font-size:22px; color:var(--acc); }
-    .info-sub   { font-size:11px; color:var(--dim); margin-top:-12px; }
-    .info-divider { height:2px; background:var(--bdr); border-radius:2px; }
-    .info-section { display:flex; flex-direction:column; gap:8px; }
-    .info-label { font-size:11px; color:var(--purple); }
-    .info-text  { font-size:12px; color:var(--text); line-height:1.9; }
-    .info-tag {
-      display:inline-block; font-size:10px; padding:3px 10px;
-      border:2px solid var(--bdr); border-radius:999px; color:var(--dim); margin:2px;
+    /* Right panel - Properties */
+    .properties-panel {
+      width: 280px;
+      background: #181825;
+      border-left: 1px solid #313244;
+      padding: 16px 14px;
+      overflow-y: auto;
     }
-    .info-stat { display:flex; gap:10px; flex-wrap:wrap; }
-    .stat-box {
-      background:var(--card); border:2px solid var(--bdr); border-radius:12px;
-      padding:10px 16px; text-align:center; flex:1; min-width:80px;
+    .properties-panel h3 {
+      font-size: 1rem;
+      margin-bottom: 20px;
+      color: #a6adc8;
     }
-    .stat-num  { font-size:20px; color:var(--acc); display:block; }
-    .stat-lbl  { font-size:9px; color:var(--dim); }
+    .prop-group {
+      margin-bottom: 18px;
+    }
+    .prop-group label {
+      display: block;
+      font-size: 0.8rem;
+      margin-bottom: 5px;
+      color: #bac2de;
+    }
+    .prop-group input, .prop-group textarea, .prop-group select {
+      width: 100%;
+      padding: 8px 10px;
+      background: #313244;
+      border: 1px solid #45475a;
+      border-radius: 4px;
+      color: #cdd6f4;
+      font-size: 0.9rem;
+    }
+    .prop-group textarea {
+      min-height: 80px;
+      resize: vertical;
+    }
+    .prop-group input:focus, .prop-group textarea:focus, .prop-group select:focus {
+      outline: none;
+      border-color: #89b4fa;
+    }
+    /* Bottom panel - Code Output */
+    .code-panel {
+      background: #181825;
+      border-top: 1px solid #313244;
+      padding: 12px 20px;
+      display: flex;
+      flex-direction: column;
+      max-height: 200px;
+    }
+    .code-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+    .code-header h4 {
+      font-weight: 400;
+      color: #a6adc8;
+    }
+    .code-header button {
+      background: #313244;
+      border: none;
+      color: #cdd6f4;
+      padding: 6px 12px;
+      border-radius: 4px;
+      cursor: pointer;
+      border: 1px solid #45475a;
+    }
+    .code-header button:hover {
+      background: #45475a;
+    }
+    #codeOutput {
+      background: #11111b;
+      color: #cdd6f4;
+      padding: 12px;
+      border-radius: 6px;
+      font-family: 'Consolas', 'Monaco', monospace;
+      font-size: 0.85rem;
+      overflow-x: auto;
+      white-space: pre-wrap;
+      word-break: break-all;
+      border: 1px solid #313244;
+      max-height: 120px;
+      overflow-y: auto;
+    }
+    /* Preview simple representation */
+    .preview-box {
+      background: #11111b;
+      border: 1px solid #313244;
+      border-radius: 6px;
+      padding: 10px;
+      margin-top: 20px;
+    }
+    .preview-box h4 {
+      font-size: 0.9rem;
+      color: #a6adc8;
+      margin-bottom: 8px;
+    }
+    .preview-structure {
+      font-family: monospace;
+      font-size: 0.8rem;
+      color: #89b4fa;
+    }
   </style>
 </head>
 <body>
-<div id="splash">
-  <img id="splash-img" src="furina.png" alt="" onerror="this.style.display='none'" />
-  <div id="splash-title">sairy's media:3</div>
-  <div id="splash-sub">loading the bag...</div>
-  <div id="splash-bar-wrap"><div id="splash-bar"></div></div>
-</div>
-
-<div id="app">
-
-  <div id="sidebar">
-    <div id="sb-hdr">
-      <!-- inline SVG icon — always shows, no external file needed -->
-      <img id="hdr-img" src="furina.png" alt="" onerror="this.style.display='none'" />
-      <h1>sairy's media:3</h1>
-      <div class="sub">ts tuff asf</div>
-    </div>
-    <div id="search-wrap">
-      <input id="search" type="text" placeholder="find stuff..." autocomplete="off" spellcheck="false" />
-    </div>
-    <div id="filter-tabs">
-      <button class="ftab active" data-filter="all">all</button>
-      <button class="ftab" data-filter="image">pictures</button>
-      <button class="ftab" data-filter="video">videos</button>
-    </div>
-    <div id="file-count"></div>
-    <div id="media-list"></div>
-    <button id="info-btn" onclick="toggleInfo()">ℹ about this site</button>
-  </div>
-
-  <div id="rhandle"></div>
-
-  <div id="main" style="position:relative;">
-
-    <!-- info panel overlays the main content area -->
-    <div id="info-panel">
-      <button id="info-close" onclick="toggleInfo()">✕ close</button>
-      <div class="info-title">sairy's media:3</div>
-      <div class="info-sub">a little corner of the internet</div>
-      <div class="info-divider"></div>
-      <div class="info-section">
-        <div class="info-label">what is this</div>
-        <div class="info-text">just my personal collection of images and videos. nothing special — stuff i saved, memes, clips, things i like. all mine.</div>
+  <div id="app">
+    <!-- Header -->
+    <div class="header">
+      <h1><i class="fas fa-cubes"></i> Roblox UI Builder (Orion)</h1>
+      <div class="actions">
+        <button @click="clearAll"><i class="fas fa-trash"></i> Clear All</button>
+        <button class="primary" @click="generateCode"><i class="fas fa-code"></i> Generate Script</button>
       </div>
-      <div class="info-divider"></div>
-      <div class="info-section">
-        <div class="info-label">stats</div>
-        <div class="info-stat">
-          <div class="stat-box"><span class="stat-num" id="gc-views">...</span><span class="stat-lbl">total views</span></div>
-          <div class="stat-box"><span class="stat-num" id="gc-visitors">...</span><span class="stat-lbl">unique visitors</span></div>
-          <div class="stat-box"><span class="stat-num" id="stat-files"></span><span class="stat-lbl">files</span></div>
+    </div>
+
+    <!-- Main area -->
+    <div class="main">
+      <!-- Left: Component Library -->
+      <div class="library-panel">
+        <h3><i class="fas fa-puzzle-piece"></i> Components</h3>
+        <div class="component-list">
+          <div class="component-item" draggable="true" @dragstart="dragStart($event, 'Window')">
+            <i class="fas fa-window-maximize"></i> Window
+          </div>
+          <div class="component-item" draggable="true" @dragstart="dragStart($event, 'Tab')">
+            <i class="fas fa-folder"></i> Tab
+          </div>
+          <div class="component-item" draggable="true" @dragstart="dragStart($event, 'Section')">
+            <i class="fas fa-layer-group"></i> Section
+          </div>
+          <div class="component-item" draggable="true" @dragstart="dragStart($event, 'Button')">
+            <i class="fas fa-mouse-pointer"></i> Button
+          </div>
+          <div class="component-item" draggable="true" @dragstart="dragStart($event, 'Toggle')">
+            <i class="fas fa-toggle-on"></i> Toggle
+          </div>
+          <div class="component-item" draggable="true" @dragstart="dragStart($event, 'Slider')">
+            <i class="fas fa-sliders-h"></i> Slider
+          </div>
         </div>
-        <a href="https://tuffnesssairy.goatcounter.com" target="_blank" style="display:inline-block;margin-top:10px;font-size:9px;color:var(--dim);text-decoration:none;border-bottom:1px dashed var(--dim);">view full analytics ↗</a>
+        <div style="margin-top: 20px; font-size:0.8rem; color:#6c7086;">
+          <i class="fas fa-info-circle"></i> Drag components onto canvas or click to add (click not implemented, use drag)
+        </div>
+      </div>
+
+      <!-- Center: Canvas / Tree View -->
+      <div class="canvas-panel"
+           @drop.prevent="handleDrop"
+           @dragover.prevent>
+        <div class="canvas-header">
+          <h3><i class="fas fa-sitemap"></i> UI Hierarchy</h3>
+          <span style="font-size:0.8rem; color:#6c7086;">Click item to edit</span>
+        </div>
+        <div class="tree-container">
+          <div v-if="components.length === 0" class="empty-canvas">
+            <i class="fas fa-arrow-left"></i> Drag components here to start building
+          </div>
+          <div v-for="(comp, index) in components" :key="comp.id">
+            <div class="tree-item" :class="{ selected: selectedId === comp.id }" @click="selectComponent(comp.id)">
+              <div class="tree-item-content">
+                <i :class="getIcon(comp.type)"></i>
+                <span>{{ comp.name || comp.type }} {{ comp.text ? `"${comp.text}"` : '' }}</span>
+                <span style="color:#6c7086; font-size:0.75rem;">({{ comp.type }})</span>
+              </div>
+              <div class="tree-item-actions">
+                <i class="fas fa-chevron-up" v-if="index > 0" @click.stop="moveUp(index)" title="Move Up"></i>
+                <i class="fas fa-chevron-down" v-if="index < components.length-1" @click.stop="moveDown(index)" title="Move Down"></i>
+                <i class="fas fa-trash-alt" @click.stop="deleteComponent(comp.id)" title="Delete"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Simple Preview -->
+        <div class="preview-box">
+          <h4><i class="fas fa-eye"></i> Structure Preview</h4>
+          <div class="preview-structure">
+            <pre>{{ previewText }}</pre>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right: Properties Panel -->
+      <div class="properties-panel">
+        <h3><i class="fas fa-sliders-h"></i> Properties</h3>
+        <div v-if="selectedComponent">
+          <div class="prop-group">
+            <label>Type: {{ selectedComponent.type }}</label>
+          </div>
+          <!-- Common: Name / ID -->
+          <div class="prop-group">
+            <label>Name (Identifier)</label>
+            <input v-model="selectedComponent.name" placeholder="e.g., MainWindow">
+          </div>
+          <!-- Window Props -->
+          <template v-if="selectedComponent.type === 'Window'">
+            <div class="prop-group">
+              <label>Title</label>
+              <input v-model="selectedComponent.title" placeholder="Window Title">
+            </div>
+            <div class="prop-group">
+              <label>Save Config (true/false)</label>
+              <select v-model="selectedComponent.saveConfig">
+                <option :value="true">true</option>
+                <option :value="false">false</option>
+              </select>
+            </div>
+          </template>
+          <!-- Tab Props -->
+          <template v-if="selectedComponent.type === 'Tab'">
+            <div class="prop-group">
+              <label>Tab Name</label>
+              <input v-model="selectedComponent.tabName" placeholder="Tab Name">
+            </div>
+          </template>
+          <!-- Section Props -->
+          <template v-if="selectedComponent.type === 'Section'">
+            <div class="prop-group">
+              <label>Section Name</label>
+              <input v-model="selectedComponent.sectionName" placeholder="Section Name">
+            </div>
+          </template>
+          <!-- Button Props -->
+          <template v-if="selectedComponent.type === 'Button'">
+            <div class="prop-group">
+              <label>Button Text</label>
+              <input v-model="selectedComponent.text" placeholder="Click Me">
+            </div>
+            <div class="prop-group">
+              <label>Callback (Lua code)</label>
+              <textarea v-model="selectedComponent.callback" placeholder="print('Button clicked!')"></textarea>
+            </div>
+          </template>
+          <!-- Toggle Props -->
+          <template v-if="selectedComponent.type === 'Toggle'">
+            <div class="prop-group">
+              <label>Toggle Text</label>
+              <input v-model="selectedComponent.text" placeholder="Enable Feature">
+            </div>
+            <div class="prop-group">
+              <label>Default (true/false)</label>
+              <select v-model="selectedComponent.default">
+                <option :value="true">true</option>
+                <option :value="false">false</option>
+              </select>
+            </div>
+            <div class="prop-group">
+              <label>Callback (Lua code)</label>
+              <textarea v-model="selectedComponent.callback" placeholder="function(val) print(val) end"></textarea>
+            </div>
+          </template>
+          <!-- Slider Props -->
+          <template v-if="selectedComponent.type === 'Slider'">
+            <div class="prop-group">
+              <label>Slider Text</label>
+              <input v-model="selectedComponent.text" placeholder="Speed">
+            </div>
+            <div class="prop-group">
+              <label>Min</label>
+              <input v-model.number="selectedComponent.min" type="number" placeholder="0">
+            </div>
+            <div class="prop-group">
+              <label>Max</label>
+              <input v-model.number="selectedComponent.max" type="number" placeholder="100">
+            </div>
+            <div class="prop-group">
+              <label>Default</label>
+              <input v-model.number="selectedComponent.default" type="number" placeholder="50">
+            </div>
+            <div class="prop-group">
+              <label>Callback (Lua code)</label>
+              <textarea v-model="selectedComponent.callback" placeholder="function(val) print(val) end"></textarea>
+            </div>
+          </template>
+          <!-- Common Callback hint -->
+          <div v-if="['Button','Toggle','Slider'].includes(selectedComponent.type)" style="font-size:0.75rem; color:#a6adc8; margin-top:5px;">
+            <i class="fas fa-info-circle"></i> Callback must be valid Lua function or code.
+          </div>
+        </div>
+        <div v-else style="color:#6c7086; text-align:center; padding:20px;">
+          <i class="fas fa-hand-pointer"></i> Select an element to edit properties
+        </div>
       </div>
     </div>
 
-    <div id="topbar">
-      <div id="cur-name">nothing selected</div>
-      <div id="cur-badge"></div>
-      <button id="copy-btn" class="tbbtn" onclick="copyLink()">🔗 copy link</button>
-      <button id="dl-btn"   class="tbbtn" onclick="doDownload()">⬇ download</button>
-    </div>
-
-    <div id="display-area">
-      <img class="cdeco" id="cd-bl" src="furina.png"  alt="" onerror="this.style.display='none'" />
-      <img class="cdeco" id="cd-br" src="furina2.png" alt="" onerror="this.style.display='none'" />
-      <div id="load-ov">
-        <img id="load-img" src="furina.png" alt="" onerror="this.style.display='none'" />
-        <div id="load-msg">loading...</div>
+    <!-- Bottom: Code Output -->
+    <div class="code-panel">
+      <div class="code-header">
+        <h4><i class="fas fa-file-code"></i> Generated Lua Script (Orion)</h4>
+        <button @click="copyCode"><i class="fas fa-copy"></i> Copy to Clipboard</button>
       </div>
-    </div>
-
-    <div id="statusbar">
-      <span class="sitem"><span class="sdot" id="sdot"></span><span id="stxt">idle</span></span>
-      <span class="sitem" id="sextra"></span>
+      <div id="codeOutput">{{ generatedCode }}</div>
     </div>
   </div>
 
-</div>
-<script>
-  const mediaFiles = [
-    // pictures
-    { name: "GODONLYKNOWWWWW",        path: "https://files.catbox.moe/chcfjy.jpg",  type: "image" },
-    { name: "I DO ft teto",           path: "https://files.catbox.moe/aw9cr2.png",  type: "image" },
-    { name: "Machine Love ft teto",   path: "https://files.catbox.moe/38s5es.jpg",  type: "image" },
-    { name: "bjorn",                  path: "https://files.catbox.moe/1vwjxl.png",  type: "image" },
-    { name: "damn joya",              path: "https://files.catbox.moe/eolbsr.webp", type: "image" },
-    { name: "femboy",                 path: "https://files.catbox.moe/bjbebn.jpg",  type: "image" },
-    { name: "guest",                  path: "https://files.catbox.moe/1crmrj.jpg",  type: "image" },
-    { name: "murder drone nsfw",      path: "https://files.catbox.moe/p0aruq.jpg",  type: "image" },
-    { name: "naoya nigga pfp",        path: "https://files.catbox.moe/oxe0zb.webp", type: "image" },
-    { name: "ok joya",                path: "https://files.catbox.moe/ucmkix.webp", type: "image" },
-    { name: "riko kill toji",         path: "https://files.catbox.moe/16glet.jpg",  type: "image" },
-    { name: "sample 130dea",          path: "https://files.catbox.moe/tpdpt0.jpg",  type: "image" },
-    { name: "sexual horse agnes",     path: "https://files.catbox.moe/ryha3p.jpeg", type: "image" },
-    { name: "sheep",                  path: "https://files.catbox.moe/f3ou2k.png",  type: "image" },
-    { name: "teto",                   path: "https://files.catbox.moe/3qj6fy.png",  type: "image" },
-    { name: "threaten",               path: "https://files.catbox.moe/jr4nne.jpg",  type: "image" },
-    { name: "unbindedfemboy",         path: "https://files.catbox.moe/ueukgc.png",  type: "image" },
-    { name: "wild horse nik",         path: "https://files.catbox.moe/unev9j.jpg",  type: "image" },
-    { name: "yuri",                   path: "https://files.catbox.moe/42ock9.jpg",  type: "image" },
-    { name: "bloxxer guest siblings", path: "https://files.catbox.moe/t130a3.jpg",  type: "image" },
-    // videos
-    { name: "GOD ONLY KNOW WHAT THE FUCK IS WRONG WITH ME", path: "Videos/GOD_ONLY_KNOW_WHAT_THE_FUCK_IS_WRONG_WITH_ME.mp4", type: "video" },
-    { name: "Hey Daddy - Usher (Speed Up)", path: "https://files.catbox.moe/37r8n5.mp4",  type: "video" },
-    { name: "Low Cortisol Me",              path: "https://files.catbox.moe/iqbkst.mp4",  type: "video" },
-    { name: "Low Cortisol Tachyon looped",  path: "https://files.catbox.moe/8qs1ps.mov",  type: "video" },
-    { name: "RPReplay Final",               path: "https://files.catbox.moe/yzb8u6.mov",  type: "video" },
-    { name: "Solid man",                    path: "https://files.catbox.moe/jksrnn.mov",  type: "video" },
-    { name: "abuse cat",                    path: "https://files.catbox.moe/pvbti2.mp4",  type: "video" },
-    { name: "chill low cortisol",           path: "https://files.catbox.moe/p509ig.mp4",  type: "video" },
-    { name: "discord women",                path: "https://files.catbox.moe/hsy020.mp4",  type: "video" },
-    { name: "einsteinvsyou",                path: "https://files.catbox.moe/hto9xb.mp4",  type: "video" },
-    { name: "excuse to goon",               path: "https://files.catbox.moe/hzd6ks.mov",  type: "video" },
-    { name: "how kid be acting jjs",        path: "https://files.catbox.moe/gu2c4c.mp4",  type: "video" },
-    { name: "let him cook",                 path: "https://files.catbox.moe/uy1mdt.mp4",  type: "video" },
-    { name: "low cortisol cat",             path: "https://files.catbox.moe/p8p9fs.mov",  type: "video" },
-    { name: "markiplier shocked reaction",  path: "https://files.catbox.moe/ze5f39.mov",  type: "video" },
-    { name: "mauwul 2026-01-27",            path: "https://files.catbox.moe/gwqra7.mov",  type: "video" },
-    { name: "mommy",                        path: "https://files.catbox.moe/iug6rt.mp4",  type: "video" },
-    { name: "naoya",                        path: "https://files.catbox.moe/jtilzt.mp4",  type: "video" },
-    { name: "operasigma",                   path: "https://files.catbox.moe/whokw9.mp4",  type: "video" },
-    { name: "services reddit 1qviyya",      path: "https://files.catbox.moe/mggjsk.mov",  type: "video" },
-    { name: "smurf",                        path: "https://files.catbox.moe/geggps.mov",  type: "video" },
-    { name: "tzeandhiguruma",               path: "https://files.catbox.moe/poxigs.mp4",  type: "video" },
-    { name: "weird jojo",                   path: "https://files.catbox.moe/7d20hp.mov",  type: "video" },
-    { name: "what the fuck..",              path: "https://files.catbox.moe/ucgvbt.mp4",  type: "video" },
-    { name: "wild horse",                   path: "Videos/wild horse.mp4",                type: "video" },
-  ];
+  <script>
+    const { createApp, ref, computed } = Vue;
 
-  const slowMsgs = [
-    "loading...", "still loading lol", "ok its being slow",
-    "bro what is it doing", "any day now...", "i promise its coming",
-    "maybe its a big file", "still here waiting with u",
-    "ok this is getting silly", "💀",
-  ];
+    createApp({
+      setup() {
+        // Reactive state
+        const components = ref([]);
+        const selectedId = ref(null);
+        const generatedCode = ref('-- Drag components and click "Generate Script" to see code.');
 
-  let activeIndex  = -1;
-  let activeFilter = "all";
-  let searchQuery  = "";
-  let slowTimer    = null;
-  let slowStep     = 0;
-  let curPath      = "";
-  let curName      = "";
+        // Helper to generate unique id
+        let idCounter = 0;
+        function generateId() {
+          return 'comp_' + Date.now() + '_' + (idCounter++);
+        }
 
-  const mediaList = document.getElementById("media-list");
-  const dispArea  = document.getElementById("display-area");
-  const curNameEl = document.getElementById("cur-name");
-  const curBadge  = document.getElementById("cur-badge");
-  const fileCount = document.getElementById("file-count");
-  const sdot      = document.getElementById("sdot");
-  const stxt      = document.getElementById("stxt");
-  const sextra    = document.getElementById("sextra");
-  const searchEl  = document.getElementById("search");
-  const loadOv    = document.getElementById("load-ov");
-  const loadMsg   = document.getElementById("load-msg");
-  const copyBtn   = document.getElementById("copy-btn");
-  const dlBtn     = document.getElementById("dl-btn");
+        // Default properties for each type
+        function getDefaultProps(type) {
+          const base = {
+            id: generateId(),
+            type: type,
+            name: type + '_' + (idCounter),
+          };
+          switch(type) {
+            case 'Window':
+              return { ...base, title: 'My Window', saveConfig: true };
+            case 'Tab':
+              return { ...base, tabName: 'Main Tab' };
+            case 'Section':
+              return { ...base, sectionName: 'General' };
+            case 'Button':
+              return { ...base, text: 'Click Me', callback: 'print("Button clicked!")' };
+            case 'Toggle':
+              return { ...base, text: 'Enable', default: false, callback: 'function(Value) print("Toggle:", Value) end' };
+            case 'Slider':
+              return { ...base, text: 'Value', min: 0, max: 100, default: 50, callback: 'function(Value) print("Slider:", Value) end' };
+            default:
+              return base;
+          }
+        }
 
-  function setStatus(cls, msg, extra = "") {
-    sdot.className = "sdot " + cls;
-    stxt.textContent = msg;
-    sextra.textContent = extra;
-  }
+        // Drag & Drop
+        function dragStart(event, type) {
+          event.dataTransfer.setData('text/plain', type);
+          event.dataTransfer.effectAllowed = 'copy';
+        }
 
-  function startLoad() {
-    loadOv.classList.add("on");
-    loadMsg.textContent = slowMsgs[0];
-    slowStep = 0; clearInterval(slowTimer);
-    slowTimer = setInterval(() => {
-      slowStep = Math.min(slowStep + 1, slowMsgs.length - 1);
-      loadMsg.textContent = slowMsgs[slowStep];
-      if (slowStep === slowMsgs.length - 1) clearInterval(slowTimer);
-    }, 1500);
-  }
+        function handleDrop(event) {
+          const type = event.dataTransfer.getData('text/plain');
+          if (type && ['Window','Tab','Section','Button','Toggle','Slider'].includes(type)) {
+            const newComp = getDefaultProps(type);
+            components.value.push(newComp);
+            // Auto-select the new component
+            selectedId.value = newComp.id;
+          }
+        }
 
-  function stopLoad() { clearInterval(slowTimer); loadOv.classList.remove("on"); }
+        // Selection
+        const selectedComponent = computed(() => {
+          return components.value.find(c => c.id === selectedId.value);
+        });
 
-  function showBtns(path, name) {
-    curPath = path; curName = name;
-    copyBtn.className = "tbbtn show"; copyBtn.textContent = "🔗 copy link";
-    dlBtn.className   = "tbbtn show"; dlBtn.textContent   = "⬇ download";
-  }
+        function selectComponent(id) {
+          selectedId.value = id;
+        }
 
-  function hideBtns() {
-    copyBtn.className = "tbbtn";
-    dlBtn.className   = "tbbtn";
-  }
+        function deleteComponent(id) {
+          components.value = components.value.filter(c => c.id !== id);
+          if (selectedId.value === id) selectedId.value = null;
+        }
 
-  // copy the direct catbox URL (or site URL for local files)
-  async function copyLink() {
-    const isMov = curPath.toLowerCase().endsWith(".mov");
-    const url = curPath.startsWith("http") ? curPath : window.location.origin + "/" + curPath;
-    try { await navigator.clipboard.writeText(url); }
-    catch {
-      const ta = Object.assign(document.createElement("textarea"), { value: url });
-      Object.assign(ta.style, { position:"fixed", top:"0", left:"0", opacity:"0" });
-      document.body.appendChild(ta); ta.focus(); ta.select();
-      document.execCommand("copy"); document.body.removeChild(ta);
-    }
-    if (isMov) {
-      copyBtn.textContent = "⚠ .mov won't embed"; copyBtn.className = "tbbtn show st-warn";
-      setTimeout(() => { copyBtn.textContent = "🔗 copy link"; copyBtn.className = "tbbtn show"; }, 3000);
-    } else {
-      copyBtn.textContent = "✓ copied!"; copyBtn.className = "tbbtn show st-copied";
-      setTimeout(() => { copyBtn.textContent = "🔗 copy link"; copyBtn.className = "tbbtn show"; }, 2000);
-    }
-  }
+        function moveUp(index) {
+          if (index > 0) {
+            const temp = components.value[index];
+            components.value[index] = components.value[index - 1];
+            components.value[index - 1] = temp;
+          }
+        }
 
-  // for catbox: fetch → blob → save. for local: direct link.
-  async function doDownload() {
-    if (!curPath) return;
-    if (!curPath.startsWith("http")) {
-      const a = Object.assign(document.createElement("a"), {
-        href: curPath.split("/").map(encodeURIComponent).join("/"),
-        download: curName
-      });
-      a.click(); return;
-    }
-    dlBtn.textContent = "⏳ fetching..."; dlBtn.className = "tbbtn show st-loading";
-    try {
-      const blob = await fetch(curPath).then(r => r.blob());
-      const url  = URL.createObjectURL(blob);
-      Object.assign(document.createElement("a"), { href: url, download: curName }).click();
-      setTimeout(() => URL.revokeObjectURL(url), 5000);
-      dlBtn.textContent = "✓ done!"; dlBtn.className = "tbbtn show st-copied";
-      setTimeout(() => { dlBtn.textContent = "⬇ download"; dlBtn.className = "tbbtn show"; }, 2500);
-    } catch {
-      dlBtn.textContent = "✗ failed — try copy link"; dlBtn.className = "tbbtn show st-warn";
-      setTimeout(() => { dlBtn.textContent = "⬇ download"; dlBtn.className = "tbbtn show"; }, 3000);
-    }
-  }
+        function moveDown(index) {
+          if (index < components.value.length - 1) {
+            const temp = components.value[index];
+            components.value[index] = components.value[index + 1];
+            components.value[index + 1] = temp;
+          }
+        }
 
-  function filteredList() {
-    return mediaFiles.filter(f => {
-      const okType   = activeFilter === "all" || f.type === activeFilter;
-      const okSearch = !searchQuery ||
-        f.name.toLowerCase().includes(searchQuery) ||
-        f.path.toLowerCase().includes(searchQuery);
-      return okType && okSearch;
-    });
-  }
+        function clearAll() {
+          components.value = [];
+          selectedId.value = null;
+          generatedCode.value = '-- Drag components and click "Generate Script" to see code.';
+        }
 
-  function renderList() {
-    mediaList.innerHTML = "";
-    const items = filteredList();
-    fileCount.textContent = items.length + " file" + (items.length !== 1 ? "s" : "");
-    if (!items.length) {
-      const d = document.createElement("div");
-      d.className = "no-results"; d.textContent = "nothing found";
-      mediaList.appendChild(d); return;
-    }
-    const groups = { image: [], video: [] };
-    items.forEach(f => groups[f.type].push(f));
-    ["image","video"].forEach(type => {
-      if (!groups[type].length) return;
-      if (activeFilter === "all") {
-        const l = document.createElement("div");
-        l.className = "sec-lbl";
-        l.textContent = type === "image" ? "pictures" : "videos";
-        mediaList.appendChild(l);
+        // Icon mapping
+        function getIcon(type) {
+          const map = {
+            'Window': 'fas fa-window-maximize',
+            'Tab': 'fas fa-folder',
+            'Section': 'fas fa-layer-group',
+            'Button': 'fas fa-mouse-pointer',
+            'Toggle': 'fas fa-toggle-on',
+            'Slider': 'fas fa-sliders-h'
+          };
+          return map[type] || 'fas fa-cube';
+        }
+
+        // Generate Lua Code (Orion library)
+        function generateCode() {
+          if (components.value.length === 0) {
+            generatedCode.value = '-- No components added yet.';
+            return;
+          }
+
+          // Find the first window to use as main
+          const windows = components.value.filter(c => c.type === 'Window');
+          if (windows.length === 0) {
+            generatedCode.value = '-- Error: At least one Window component is required.';
+            return;
+          }
+
+          const mainWindow = windows[0];
+          let code = `-- Orion UI Library Script\n`;
+          code += `local OrionLib = loadstring(game:HttpGet("https://raw.githubusercontent.com/shlexware/Orion/main/source"))()\n\n`;
+          code += `local Window = OrionLib:MakeWindow({\n`;
+          code += `    Name = "${mainWindow.title || 'My Window'}",\n`;
+          code += `    HidePremium = false,\n`;
+          code += `    SaveConfig = ${mainWindow.saveConfig !== false},\n`;
+          code += `    ConfigFolder = "OrionConfig"\n`;
+          code += `})\n\n`;
+
+          // Tabs: find all Tab components
+          const tabs = components.value.filter(c => c.type === 'Tab');
+          // If no tabs, create a default one? But we'll just skip.
+          const tabMap = new Map(); // tabId -> variable name
+          let tabCounter = 0;
+          
+          // Generate tab variables
+          tabs.forEach(tab => {
+            const varName = `Tab${tabCounter++}`;
+            tabMap.set(tab.id, varName);
+            code += `local ${varName} = Window:MakeTab({\n`;
+            code += `    Name = "${tab.tabName || 'Tab'}",\n`;
+            code += `    Icon = "rbxassetid://4483345998",\n`;
+            code += `    PremiumOnly = false\n`;
+            code += `})\n\n`;
+          });
+
+          // If there are sections, we need to map them to their parent tab? Our simple model doesn't enforce hierarchy.
+          // For simplicity, we'll just add sections to the first tab or any tab? Better: user must arrange logically.
+          // We'll group components by a heuristic: Window -> Tabs -> Sections -> Elements.
+          // Since we don't have explicit parent-child, we'll follow order: Window first, then Tabs, then Sections, then elements.
+          // We'll assign sections to the last declared tab (or first if none).
+          let currentTabVar = tabMap.size > 0 ? Array.from(tabMap.values())[0] : null;
+          if (!currentTabVar) {
+            // Create a default tab if none exists but we have elements
+            currentTabVar = 'DefaultTab';
+            code += `local ${currentTabVar} = Window:MakeTab({\n    Name = "Main",\n    Icon = "rbxassetid://4483345998"\n})\n\n`;
+          }
+
+          const sections = components.value.filter(c => c.type === 'Section');
+          const sectionMap = new Map(); // sectionId -> variable name
+          let sectionCounter = 0;
+          
+          sections.forEach(section => {
+            const varName = `Section${sectionCounter++}`;
+            sectionMap.set(section.id, varName);
+            code += `local ${varName} = ${currentTabVar}:AddSection({\n`;
+            code += `    Name = "${section.sectionName || 'Section'}"\n`;
+            code += `})\n\n`;
+          });
+
+          // Now add elements (Button, Toggle, Slider) to the last section or directly to tab?
+          // We'll add to the last section if any, else to tab.
+          const elements = components.value.filter(c => ['Button','Toggle','Slider'].includes(c.type));
+          
+          elements.forEach(el => {
+            let target;
+            if (sectionMap.size > 0) {
+              target = Array.from(sectionMap.values()).pop();
+            } else {
+              target = currentTabVar;
+            }
+            
+            if (el.type === 'Button') {
+              code += `${target}:AddButton({\n`;
+              code += `    Name = "${el.text || 'Button'}",\n`;
+              code += `    Callback = function()\n`;
+              code += `        ${el.callback || 'print("Button clicked!")'}\n`;
+              code += `    end\n`;
+              code += `})\n\n`;
+            } else if (el.type === 'Toggle') {
+              code += `${target}:AddToggle({\n`;
+              code += `    Name = "${el.text || 'Toggle'}",\n`;
+              code += `    Default = ${el.default || false},\n`;
+              code += `    Callback = function(Value)\n`;
+              code += `        ${el.callback ? el.callback.replace(/function\s*\([^)]*\)\s*/, '') : 'print("Toggle:", Value)'}\n`;
+              code += `    end\n`;
+              code += `})\n\n`;
+            } else if (el.type === 'Slider') {
+              code += `${target}:AddSlider({\n`;
+              code += `    Name = "${el.text || 'Slider'}",\n`;
+              code += `    Min = ${el.min || 0},\n`;
+              code += `    Max = ${el.max || 100},\n`;
+              code += `    Default = ${el.default || 50},\n`;
+              code += `    Color = Color3.fromRGB(255,255,255),\n`;
+              code += `    Increment = 1,\n`;
+              code += `    ValueName = "Value",\n`;
+              code += `    Callback = function(Value)\n`;
+              code += `        ${el.callback ? el.callback.replace(/function\s*\([^)]*\)\s*/, '') : 'print("Slider:", Value)'}\n`;
+              code += `    end\n`;
+              code += `})\n\n`;
+            }
+          });
+
+          code += `OrionLib:Init()\n`;
+          code += `-- Script generated by Roblox UI Builder`;
+          
+          generatedCode.value = code;
+        }
+
+        // Preview text
+        const previewText = computed(() => {
+          if (components.value.length === 0) return 'Empty UI';
+          let text = '';
+          components.value.forEach(c => {
+            text += `[${c.type}] ${c.name || ''}`;
+            if (c.type === 'Window') text += ` "${c.title || ''}"`;
+            if (c.type === 'Tab') text += ` "${c.tabName || ''}"`;
+            if (c.type === 'Section') text += ` "${c.sectionName || ''}"`;
+            if (c.type === 'Button') text += ` "${c.text || ''}"`;
+            if (c.type === 'Toggle') text += ` "${c.text || ''}"`;
+            if (c.type === 'Slider') text += ` "${c.text || ''}"`;
+            text += '\n';
+          });
+          return text;
+        });
+
+        function copyCode() {
+          navigator.clipboard.writeText(generatedCode.value).then(() => {
+            alert('Code copied to clipboard!');
+          }).catch(() => {
+            alert('Failed to copy. Please manually copy.');
+          });
+        }
+
+        // Auto-generate when components change? Not automatic to avoid constant updates; user clicks button.
+
+        return {
+          components,
+          selectedId,
+          selectedComponent,
+          generatedCode,
+          previewText,
+          dragStart,
+          handleDrop,
+          selectComponent,
+          deleteComponent,
+          moveUp,
+          moveDown,
+          clearAll,
+          generateCode,
+          copyCode,
+          getIcon,
+        };
       }
-      groups[type].forEach(file => {
-        const idx = mediaFiles.indexOf(file);
-        const btn = document.createElement("button");
-        btn.className   = "mbtn" + (idx === activeIndex ? " active" : "");
-        btn.dataset.idx = idx;
-        btn.innerHTML   = `
-          <span class="tdot ${type}"></span>
-          <div class="binfo">
-            <span class="bname">${esc(file.name)}</span>
-            <span class="bpath">${file.path.startsWith("http") ? "☁ " + file.path.split(".").pop().toUpperCase() + " · online" : esc(file.path)}</span>
-          </div>`;
-        btn.addEventListener("click", () => loadMedia(idx));
-        mediaList.appendChild(btn);
-      });
-    });
-  }
-
-  function loadMedia(idx) {
-    if (idx < 0 || idx >= mediaFiles.length) return;
-    const file = mediaFiles[idx];
-    activeIndex = idx;
-    curNameEl.textContent  = file.name;
-    curBadge.className     = file.type;
-    curBadge.textContent   = file.type;
-    hideBtns();
-    setStatus("loading", "loading...", file.name);
-    const old = dispArea.querySelector("img.media, video, .state-msg");
-    if (old) old.remove();
-    startLoad();
-    dispArea.classList.remove("has-media");
-    document.querySelectorAll(".mbtn").forEach(b =>
-      b.classList.toggle("active", parseInt(b.dataset.idx) === idx)
-    );
-
-    if (file.type === "image") {
-      const img = document.createElement("img");
-      img.className = "media"; img.alt = file.name; img.style.opacity = "0";
-      img.onload  = () => {
-        stopLoad(); img.style.opacity = "1"; dispArea.classList.add("has-media");
-        setStatus("ready", "ready", `${img.naturalWidth} × ${img.naturalHeight}px`);
-        showBtns(file.path, file.name);
-      };
-      img.onerror = () => { stopLoad(); showError(file); };
-      img.src = file.path;
-      dispArea.appendChild(img);
-
-    } else if (file.type === "video") {
-      const vid = document.createElement("video");
-      vid.controls = true; vid.preload = "metadata"; vid.style.opacity = "0";
-      vid.onloadedmetadata = () => {
-        stopLoad(); vid.style.opacity = "1"; dispArea.classList.add("has-media");
-        setStatus("ready", "ready", `${vid.videoWidth}×${vid.videoHeight}  ${fmt(vid.duration)}`);
-        showBtns(file.path, file.name);
-      };
-      vid.onerror = () => { stopLoad(); showError(file); };
-      const src = document.createElement("source");
-      src.src  = file.path;
-      src.type = file.path.endsWith(".mov") ? "video/quicktime" : "video/mp4";
-      vid.appendChild(src); dispArea.appendChild(vid); vid.load();
-
-    } else { stopLoad(); showError(file); }
-  }
-
-  function showError(file) {
-    dispArea.classList.remove("has-media");
-    const old = dispArea.querySelector("img.media, video, .state-msg");
-    if (old) old.remove();
-    const w = document.createElement("div");
-    w.className = "state-msg err";
-    w.innerHTML = `
-      <img class="s-img" src="furina2.png" alt="" onerror="this.style.display='none'" />
-      <div class="s-title">couldn't load that one</div>
-      <div class="s-sub">${esc(file.name)}</div>`;
-    dispArea.appendChild(w); setStatus("error", "oops", "failed to load"); hideBtns();
-  }
-
-  function showEmpty() {
-    const w = document.createElement("div");
-    w.className = "state-msg";
-    w.innerHTML = `
-      <img class="s-img" src="furina.png" alt="" onerror="this.style.display='none'" />
-      <div class="s-title">pick something</div>
-      <div class="s-sub">click a file on the left</div>`;
-    dispArea.appendChild(w);
-  }
-
-  function esc(s) {
-    return s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
-  }
-  function fmt(s) {
-    if (!isFinite(s)) return "";
-    return `${Math.floor(s/60)}:${Math.floor(s%60).toString().padStart(2,"0")}`;
-  }
-
-  document.querySelectorAll(".ftab").forEach(tab => {
-    tab.addEventListener("click", () => {
-      document.querySelectorAll(".ftab").forEach(t => t.classList.remove("active"));
-      tab.classList.add("active");
-      activeFilter = tab.dataset.filter; renderList();
-    });
-  });
-
-  searchEl.addEventListener("input", () => {
-    searchQuery = searchEl.value.trim().toLowerCase(); renderList();
-  });
-
-  document.addEventListener("keydown", e => {
-    if (e.target === searchEl) return;
-    const vis = filteredList(); if (!vis.length) return;
-    const pos = vis.findIndex(f => mediaFiles.indexOf(f) === activeIndex);
-    if (e.key === "ArrowDown") {
-      e.preventDefault();
-      loadMedia(mediaFiles.indexOf(vis[(pos + 1) % vis.length]));
-      setTimeout(() => mediaList.querySelector(".mbtn.active")?.scrollIntoView({block:"nearest",behavior:"smooth"}), 30);
-    } else if (e.key === "ArrowUp") {
-      e.preventDefault();
-      loadMedia(mediaFiles.indexOf(vis[(pos - 1 + vis.length) % vis.length]));
-      setTimeout(() => mediaList.querySelector(".mbtn.active")?.scrollIntoView({block:"nearest",behavior:"smooth"}), 30);
-    }
-  });
-
-  const rhandle = document.getElementById("rhandle");
-  const sidebar = document.getElementById("sidebar");
-  let dragging = false;
-  rhandle.addEventListener("mousedown", e => { dragging = true; document.body.style.cursor = "col-resize"; e.preventDefault(); });
-  document.addEventListener("mousemove", e => {
-    if (!dragging) return;
-    const w = Math.max(160, Math.min(420, e.clientX));
-    sidebar.style.width = sidebar.style.minWidth = w + "px";
-  });
-  document.addEventListener("mouseup", () => { dragging = false; document.body.style.cursor = ""; });
-
-  function toggleInfo() {
-    const panel  = document.getElementById("info-panel");
-    const btn    = document.getElementById("info-btn");
-    const isOpen = panel.classList.contains("show");
-    panel.classList.toggle("show");
-    btn.classList.toggle("active", !isOpen);
-
-    if (!isOpen) {
-      document.getElementById("stat-files").textContent = mediaFiles.length;
-
-      // GoatCounter API needs auth token which we can't expose client-side
-      // so just make both stat boxes clickable links to the dashboard
-      const viewsEl    = document.getElementById("gc-views");
-      const visitorsEl = document.getElementById("gc-visitors");
-
-      viewsEl.textContent    = "↗";
-      visitorsEl.textContent = "↗";
-
-      [viewsEl, visitorsEl].forEach(el => {
-        el.style.fontSize = "16px";
-        const box = el.closest(".stat-box");
-        box.style.cursor = "pointer";
-        box.style.transition = "border-color .15s";
-        box.onmouseenter = () => box.style.borderColor = "var(--purple)";
-        box.onmouseleave = () => box.style.borderColor = "";
-        box.onclick = () => window.open("https://tuffnesssairy.goatcounter.com", "_blank");
-        box.title = "open GoatCounter dashboard";
-      });
-    }
-  }
-
-  renderList();
-  const urlParam = new URLSearchParams(window.location.search).get("file");
-  if (urlParam) {
-    const idx = mediaFiles.findIndex(f => f.path === urlParam);
-    loadMedia(idx !== -1 ? idx : 0);
-    setTimeout(() => mediaList.querySelector(".mbtn.active")?.scrollIntoView({block:"nearest"}), 120);
-  } else if (mediaFiles.length > 0) {
-    loadMedia(0);
-  } else {
-    showEmpty(); setStatus("", "no files defined");
-  }
-
-  // ── splash bar fill ──
-  requestAnimationFrame(() => {
-    const bar = document.getElementById("splash-bar");
-    if (bar) setTimeout(() => { bar.style.width = "100%"; }, 50);
-  });
-
-  // ── cursor sparkles ──
-  const sparkleColors = ["#ffd166","#ff6b9d","#74b9ff","#c77dff","#06d6a0"];
-  let lastSparkle = 0;
-  document.addEventListener("mousemove", e => {
-    const now = Date.now();
-    if (now - lastSparkle < 55) return;
-    lastSparkle = now;
-    const s = document.createElement("div");
-    s.className = "sparkle";
-    s.style.cssText = `left:${e.clientX-4}px;top:${e.clientY-4}px;background:${sparkleColors[Math.floor(Math.random()*sparkleColors.length)]};transform:scale(${0.4+Math.random()*0.7})`;
-    document.body.appendChild(s);
-    setTimeout(() => s.remove(), 500);
-  });
-</script>
+    }).mount('#app');
+  </script>
 </body>
 </html>
