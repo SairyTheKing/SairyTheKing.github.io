@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Editor</title>
+    <style type="text/css" media="screen">
+        body {
+            overflow: hidden;
+            margin: 0;
+            background-color: #25282c;
+        }
+        #editor {
+            position: absolute;
+            top: 0; bottom: 0; left: 0; right: 0;
+        }
+    </style>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.12/ace.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.12/ext-language_tools.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.12/ext-searchbox.min.js"></script>
+
+    <script>
+        define("ace/theme/TransparentEditor", ["require", "exports", "module", "ace/lib/dom"], function (require, exports, module) {
+            exports.isDark = true;
+            exports.cssClass = "ace-transparent-editor";
+            exports.cssText = "body {\
+                background-color: transparent !important;\
+                margin: 0; padding: 0; height: 100vh; overflow: hidden;\
+            }\
+            .ace-transparent-editor {\
+                background-color: transparent !important;\
+                color: #CCCCCC;\
+            }\
+            /* --- MODERN SEARCH BOX STYLING --- */\
+            .ace_search {\
+                background-color:  #2D3136 !important;\
+		opacity: 0.7 !important;\
+                color: #fff !important;\
+                border: 1px solid #454a52 !important;\
+                border-radius: 8px !important;\
+                box-shadow: 0 4px 15px rgba(0,0,0,0.5) !important;\
+                padding: 10px !important;\
+                font-family: 'Segoe UI', Tahoma, sans-serif !important;\
+            }\
+            .ace_search_field {\
+                background: #1e1e1e !important;\
+                border: 1px solid #555 !important;\
+                border-radius: 4px !important;\
+                color: white !important;\
+                padding: 4px 8px !important;\
+            }\
+            .ace_searchbtn {\
+                background: #444 !important;\
+                border: none !important;\
+                color: #eee !important;\
+                border-radius: 4px !important;\
+                margin: 2px !important;\
+                cursor: pointer !important;\
+            }\
+	    .ace_button{\
+	    	background: #444 !important;\
+                border: none !important;\
+                color: #eee !important;\
+                border-radius: 4px !important;\
+                margin: 2px !important;\
+                cursor: pointer !important;\
+	    }\
+            .ace_searchbtn:hover {\
+                background: #666 !important;\
+            }\
+            .ace_searchbtn.active {\
+                background: #007acc !important;\
+            }\
+            /* --- END SEARCH BOX STYLING --- */\
+            .ace-transparent-editor .ace_marker-layer .ace_active-line {\
+                background: rgba(255, 255, 255, 0.2) !important;\
+            }\
+            .ace-transparent-editor .ace_keyword { color: #CC99CC; }\
+            .ace-transparent-editor .ace_comment { color: #999999; }\
+            .ace-transparent-editor .ace_string { color: #99CC99; }\
+            .ace-transparent-editor .ace_variable { color: #F99157; }\
+            .ace-transparent-editor .ace_constant { color: #F99157; }\
+            .ace-transparent-editor .ace_operator { color: #66CCCC; }\
+            .ace-transparent-editor .ace_entity.ace_name.ace_function { color: #6699CC; }\
+            ";
+
+            var dom = require("../lib/dom");
+            dom.importCssString(exports.cssText, exports.cssClass);
+        });
+    </script>
+</head>
+<body>
+    <div id="editor"></div>
+
+    <script>
+        ace.require("ace/ext/language_tools");
+        // We do not need to require searchbox, just including the script tag is enough
+        
+        var editor = ace.edit("editor");
+editor.setTheme("ace/theme/ambiance");
+        editor.session.setMode("ace/mode/lua");
+        editor.setOption("enableLiveAutocompletion", true);
+        editor.setOption("cursorStyle", "smooth");
+        editor.setShowPrintMargin(false);
+        editor.renderer.setOption('wrap', true);
+        editor.session.setOption("useSoftTabs", true);
+        editor.session.setOption("tabSize", 4);
+        document.getElementById('editor').style.fontSize = '13px';
+
+        // --- KEYBINDING FIX FOR WINDOWS ---
+        // This forces Ctrl+G to open the search box
+        editor.commands.addCommand({
+            name: "openSearchBox",
+            bindKey: {win: "Ctrl-G", mac: "Command-G"},
+            exec: function(editor) {
+                // 'find' is the internal command for the search box
+                editor.execCommand("find");
+            }
+        });
+
+        // Fix text
+        function normalizeText(text) {
+            return text
+                .replace(/\r\n/g, '\n')
+                .replace(/\r/g, '\n')
+                .replace(/\t/g, '    ')
+                .trim();
+        }
+
+        function unescapeText(text) {
+            return text
+                .replace(/\\n/g, '\n')
+                .replace(/\\"/g, '"')
+                .replace(/\\\\/g, '\\')
+                .replace(/\\t/g, '\t')
+                .replace(/\\r/g, '\n');
+        }
+
+        window.GetText = function () {
+            return normalizeText(editor.getValue());
+        };
+
+        window.SetText = function (x) {
+            editor.setValue(unescapeText(x), -1);
+        };
+
+        window.ClearText = function () {
+            editor.setValue("");
+        };
+
+        document.oncontextmenu = function () {
+            return false;
+        };
+    </script>
+</body>
+</html>
