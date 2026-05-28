@@ -34,13 +34,11 @@
     cursor: crosshair;
   }
   body::before {
-    content:'';
-    position:fixed; inset:0; z-index:1; pointer-events:none;
+    content:''; position:fixed; inset:0; z-index:1; pointer-events:none;
     background: repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(0,0,0,0.035) 3px, rgba(0,0,0,0.035) 4px);
   }
   body::after {
-    content:'';
-    position:fixed; inset:0; z-index:2; pointer-events:none;
+    content:''; position:fixed; inset:0; z-index:2; pointer-events:none;
     background: radial-gradient(ellipse at 50% 35%, transparent 45%, rgba(0,0,0,0.65) 100%);
   }
   #bg-canvas {
@@ -419,7 +417,7 @@
 </button>
 
 <audio id="bgm" loop preload="auto">
-  <source src="https://files.catbox.moe/0v4r2k.mp3" type="audio/mpeg">
+  <source src="https://files.catbox.moe/fx93bu.mp3" type="audio/mpeg">
 </audio>
 
 <script>
@@ -465,22 +463,21 @@
   const bgm = document.getElementById('bgm');
   const btn = document.getElementById('mbtn');
   const ico = document.getElementById('micon');
-  let playing = false;
-  bgm.volume = 0.6;
+  let playing = true;
+  bgm.volume = 0.55;
 
   const P_PATH = '<path d="M9 4h-2v16h2V4zm8 0h-2v16h2V4z"/>';
   const R_PATH = '<path d="M12 3v9.28a4 4 0 1 0 1 0V3h-1zm0 18a3 3 0 1 1 0-6 3 3 0 0 1 0 6z"/>';
 
+  btn.classList.add('playing');
+  ico.innerHTML = P_PATH;
+
   function tryPlay() {
-    bgm.play().then(() => {
-      playing = true;
-      btn.classList.add('playing');
-      ico.innerHTML = P_PATH;
-    }).catch(() => {});
+    bgm.play().catch(() => {});
   }
 
   tryPlay();
-  setTimeout(tryPlay, 600);
+  setTimeout(tryPlay, 700);
 
   document.addEventListener('click', () => {
     if (bgm.paused) {
