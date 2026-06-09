@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Prismix Docs</title>
-  <meta name="description" content="Prismix documentation for the beginner-friendly Roblox Luau helper library.">
+  <meta name="description" content="Prismix documentation for the simple Roblox Luau utility library.">
   <style>
     :root {
       color-scheme: light;
@@ -451,6 +451,17 @@
       border-bottom: 0;
     }
 
+    .api-search {
+      width: min(420px, 100%);
+      border: 1px solid var(--line);
+      border-radius: 7px;
+      background: #ffffff;
+      color: var(--ink);
+      margin-top: 18px;
+      min-height: 38px;
+      padding: 8px 11px;
+    }
+
     .note {
       border: 1px solid #b8eadc;
       border-radius: var(--radius);
@@ -601,7 +612,7 @@
         <img src="prismix-mark.png" alt="Prismix mark">
         <span>
           <strong>Prismix Docs</strong>
-          <span>Version 4.0.0</span>
+          <span>Version 4.1.0</span>
         </span>
       </a>
 
@@ -613,8 +624,10 @@
         <button class="tab" type="button" data-go="4">Character</button>
         <button class="tab" type="button" data-go="5">Events</button>
         <button class="tab" type="button" data-go="6">Effects</button>
-        <button class="tab" type="button" data-go="7">Interact</button>
-        <button class="tab" type="button" data-go="8">API</button>
+        <button class="tab" type="button" data-go="7">Data</button>
+        <button class="tab" type="button" data-go="8">Interact</button>
+        <button class="tab" type="button" data-go="9">Optional</button>
+        <button class="tab" type="button" data-go="10">API</button>
       </nav>
 
       <div class="header-actions">
@@ -626,7 +639,7 @@
 
   <main class="shell">
     <div class="status-row" aria-live="polite">
-      <div class="crumbs"><strong id="slideTitle">Install</strong> <span id="slideCount">1 / 9</span></div>
+      <div class="crumbs"><strong id="slideTitle">Install</strong> <span id="slideCount">1 / 11</span></div>
       <div class="mini">Use the arrows, tabs, or keyboard left/right.</div>
     </div>
     <div class="progress" aria-hidden="true"><span id="progressBar"></span></div>
@@ -638,7 +651,7 @@
             <div>
               <p class="eyebrow">Start here</p>
               <h1>Install Prismix first.</h1>
-              <p class="lead">Prismix is a small Roblox Luau helper library. It keeps common script tasks short: services, Instances, character parts, child paths, events, tweens, notifications, cleanup, and simple executor checks.</p>
+              <p class="lead">Prismix is a small Roblox Luau utility library. It keeps common script tasks short: services, Instances, paths, attributes, character parts, events, cleanup, tweens, HTTP, remotes, notifications, and optional executor checks.</p>
               <div class="note">Most helpers return a useful value when they work. If they cannot run, they return <code>nil, reason</code> or <code>false, reason</code> so your script can show a clear warning.</div>
               <div class="stat-list">
                 <div class="stat accent-blue">
@@ -647,7 +660,7 @@
                 </div>
                 <div class="stat accent-teal">
                   <strong>Beginner-friendly names</strong>
-                  <p>Use short names like <code>service</code>, <code>create</code>, <code>waitForPath</code>, <code>root</code>, <code>on</code>, and <code>cleaner</code>.</p>
+                  <p>Use short names like <code>service</code>, <code>create</code>, <code>get</code>, <code>root</code>, <code>on</code>, <code>retry</code>, and <code>cleaner</code>.</p>
                 </div>
               </div>
             </div>
@@ -669,8 +682,8 @@ print(Prismix.Info.Version)</code></pre>
           <div class="slide-grid">
             <div>
               <p class="eyebrow">What it is for</p>
-              <h2>Prismix removes boring repeat code.</h2>
-              <p class="lead">It is not a replacement for learning Luau. It is a helper layer for small scripts where you want cleaner calls and better error messages.</p>
+              <h2>Prismix removes repeat code.</h2>
+              <p class="lead">It is not a replacement for learning Luau. It is a helper layer for small scripts where you want readable calls, fuller tools, and better error messages.</p>
               <div class="callout-list">
                 <div class="callout accent-blue">
                   <strong>Cleaner Roblox calls</strong>
@@ -678,11 +691,11 @@ print(Prismix.Info.Version)</code></pre>
                 </div>
                 <div class="callout accent-teal">
                   <strong>Safer script flow</strong>
-                  <p><code>t.try</code>, <code>t.after</code>, <code>t.wait</code>, <code>t.debounce</code>, and <code>t.cleaner</code> help keep small scripts stable.</p>
+                  <p><code>t.try</code>, <code>t.retry</code>, <code>t.waitUntil</code>, <code>t.debounce</code>, and <code>t.cleaner</code> help keep small scripts stable.</p>
                 </div>
                 <div class="callout accent-amber">
                   <strong>Optional environment helpers</strong>
-                  <p>File, clipboard, executor, and interaction helpers register only when the current environment supports them.</p>
+                  <p>Clipboard, file, executor, HTTP, remote, and interaction helpers fail with clear reasons when unsupported.</p>
                 </div>
               </div>
             </div>
@@ -761,8 +774,8 @@ t.tween(part, {
           <div class="slide-grid">
             <div>
               <p class="eyebrow">Objects and paths</p>
-              <h2>Find children with short, readable helpers.</h2>
-              <p class="lead">Use <code>find</code> when the object may already exist. Use <code>waitFor</code> or <code>waitForPath</code> when Roblox may need a moment to replicate it.</p>
+              <h2>Find children, paths, classes, tags, and attributes.</h2>
+              <p class="lead">Use <code>find</code> when the object may already exist. Use <code>waitFor</code> or <code>waitForPath</code> when Roblox may need a moment to replicate it. Use class, tag, and attribute helpers when scripts need cleaner object lookup.</p>
               <table class="api-table">
                 <thead>
                   <tr>
@@ -775,9 +788,14 @@ t.tween(part, {
                   <tr><td><code>t.waitFor(parent, name, timeout)</code></td><td>Safe <code>WaitForChild</code>.</td></tr>
                   <tr><td><code>t.get(parent, "A.B.C")</code></td><td>Find a dot-separated path now.</td></tr>
                   <tr><td><code>t.waitForPath(parent, "A.B.C", timeout)</code></td><td>Wait through each part of a path.</td></tr>
+                  <tr><td><code>t.children(root)</code></td><td>Safe <code>GetChildren</code>.</td></tr>
+                  <tr><td><code>t.descendants(root)</code></td><td>Safe <code>GetDescendants</code>.</td></tr>
+                  <tr><td><code>t.ofClass(root, className, recursive)</code></td><td>Collect matching classes.</td></tr>
+                  <tr><td><code>t.tagged(tagName)</code></td><td>Get CollectionService tagged Instances.</td></tr>
+                  <tr><td><code>t.getAttribute(instance, name)</code></td><td>Read an Instance attribute safely.</td></tr>
                 </tbody>
               </table>
-              <div class="note warn-note">The old alias <code>t.path</code> still works, but new scripts should use <code>t.get</code>.</div>
+              <div class="note warn-note">The aliases <code>t.path</code> and <code>t.findPath</code> still work, but new scripts should use <code>t.get</code>.</div>
             </div>
 
             <div class="code-panel">
@@ -796,7 +814,9 @@ local remote, reason = t.waitForPath(
 if not remote then
   warn(reason)
   return
-end</code></pre>
+end
+
+local interactables = t.tagged("Interactable")</code></pre>
             </div>
           </div>
         </article>
@@ -805,8 +825,8 @@ end</code></pre>
           <div class="slide-grid">
             <div>
               <p class="eyebrow">Player helpers</p>
-              <h2>Get the local player, character, humanoid, and root part.</h2>
-              <p class="lead">These helpers accept simple sources. You can pass nothing for the local player, a <code>Player</code>, a character <code>Model</code>, or sometimes a <code>BasePart</code>.</p>
+              <h2>Get the local player, character, humanoid, root part, and positions.</h2>
+              <p class="lead">These helpers accept simple sources. You can pass nothing for the local player, a <code>Player</code>, a character <code>Model</code>, a <code>BasePart</code>, a <code>Vector3</code>, or a <code>CFrame</code>.</p>
               <div class="tool-list">
                 <div class="tool accent-blue">
                   <strong><code>t.player()</code></strong>
@@ -823,6 +843,14 @@ end</code></pre>
                 <div class="tool accent-rose">
                   <strong><code>t.humanoid(source)</code></strong>
                   <p>Returns the character's <code>Humanoid</code>.</p>
+                </div>
+                <div class="tool accent-blue">
+                  <strong><code>t.position(value)</code></strong>
+                  <p>Resolves a part, character source, <code>Vector3</code>, or <code>CFrame</code> to a position.</p>
+                </div>
+                <div class="tool accent-teal">
+                  <strong><code>t.distance(a, b)</code></strong>
+                  <p>Measures distance between two position-like values.</p>
                 </div>
               </div>
             </div>
@@ -841,6 +869,8 @@ end
 
 local target = workspace:FindFirstChild("SpawnLocation")
 if target then
+  t.lookAt(target)
+
   local ok, moveReason = t.teleport(target)
 
   if not ok then
@@ -855,20 +885,24 @@ end</code></pre>
           <div class="slide-grid">
             <div>
               <p class="eyebrow">Events and cleanup</p>
-              <h2>Connect events, run once, and clean everything later.</h2>
-              <p class="lead">Use <code>t.cleaner()</code> when your script creates connections, Instances, or callbacks that need cleanup. This keeps repeated testing and respawns cleaner.</p>
+              <h2>Connect events, retry work, and clean everything later.</h2>
+              <p class="lead">Use <code>t.cleaner()</code> when your script creates connections, Instances, or callbacks that need cleanup. Use retry, waitUntil, debounce, and throttle to keep repeated work controlled.</p>
               <div class="tool-list">
                 <div class="tool accent-blue">
                   <strong><code>t.on(signal, callback)</code></strong>
                   <p>Safe wrapper around <code>signal:Connect</code>. Alias: <code>connect</code>.</p>
                 </div>
                 <div class="tool accent-teal">
-                  <strong><code>t.once(signal, callback)</code></strong>
-                  <p>Runs one time, then disconnects.</p>
+                  <strong><code>t.disconnect(connection)</code> and <code>t.once(signal, callback)</code></strong>
+                  <p>Disconnect safely, or run a callback one time.</p>
                 </div>
                 <div class="tool accent-amber">
                   <strong><code>t.debounce(seconds, callback)</code></strong>
                   <p>Returns a function that ignores repeat calls until the timer ends.</p>
+                </div>
+                <div class="tool accent-rose">
+                  <strong><code>t.retry</code>, <code>t.waitUntil</code>, and <code>t.throttle</code></strong>
+                  <p>Handle repeated attempts, wait for a condition, or limit how often code can run.</p>
                 </div>
               </div>
             </div>
@@ -884,6 +918,10 @@ bin:Add(t.on(workspace.ChildAdded, function(child)
   print("Added:", child.Name)
 end))
 
+local clicked = t.throttle(1, function()
+  print("Only once per second")
+end)
+
 bin:Add(function()
   print("cleaned")
 end)
@@ -898,7 +936,7 @@ bin:Clean()</code></pre>
           <div class="slide-grid">
             <div>
               <p class="eyebrow">Small actions</p>
-              <h2>Tween, notify, copy text, and schedule work.</h2>
+              <h2>Tween, notify, copy text, fetch HTTP, and schedule work.</h2>
               <p class="lead">These helpers depend on the Roblox client or executor environment. Check the return value if your script needs to keep going after a failure.</p>
               <table class="api-table">
                 <thead>
@@ -911,7 +949,9 @@ bin:Clean()</code></pre>
                   <tr><td><code>t.tween(instance, props, info, play)</code></td><td>Creates a Tween and plays it unless <code>play</code> is <code>false</code>.</td></tr>
                   <tr><td><code>t.notify(title, text, seconds)</code></td><td>Sends a Roblox core notification when supported.</td></tr>
                   <tr><td><code>t.copy(text)</code></td><td>Copies text if the clipboard API exists.</td></tr>
+                  <tr><td><code>t.httpGet(url)</code></td><td>Safe <code>game:HttpGet</code>.</td></tr>
                   <tr><td><code>t.after(seconds, callback, ...)</code></td><td>Runs a callback later using <code>task.delay</code> or <code>delay</code>.</td></tr>
+                  <tr><td><code>t.defer(callback, ...)</code></td><td>Runs a callback soon/asynchronously when supported.</td></tr>
                   <tr><td><code>t.wait(seconds)</code></td><td>Uses <code>task.wait</code> or <code>wait</code>.</td></tr>
                 </tbody>
               </table>
@@ -934,7 +974,51 @@ if part then
   })
 end
 
-t.notify("Prismix", "Script loaded", 3)</code></pre>
+t.notify("Prismix", "Script loaded", 3)
+
+local source = t.httpGet("https://example.com")</code></pre>
+            </div>
+          </div>
+        </article>
+
+        <article class="slide" data-title="Data">
+          <div class="slide-grid">
+            <div>
+              <p class="eyebrow">Tables and numbers</p>
+              <h2>Use small data helpers without adding another library.</h2>
+              <p class="lead">Prismix includes a few simple helpers for tables and numbers. They are intentionally small so newer Luau users can still understand what is happening.</p>
+              <table class="api-table">
+                <thead>
+                  <tr>
+                    <th>Helper</th>
+                    <th>What it does</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr><td><code>t.clone(value, deep)</code></td><td>Clone a table. Non-table values are returned as-is.</td></tr>
+                  <tr><td><code>t.merge(base, extra, deep)</code></td><td>Merge two tables into a new table.</td></tr>
+                  <tr><td><code>t.clamp(value, min, max)</code></td><td>Keep a number inside a range.</td></tr>
+                  <tr><td><code>t.round(value, decimals)</code></td><td>Round a number.</td></tr>
+                  <tr><td><code>t.contains(table, value)</code></td><td>Check if a table contains a value.</td></tr>
+                </tbody>
+              </table>
+            </div>
+
+            <div class="code-panel">
+              <div class="code-head">
+                <span>Data helpers</span>
+                <button class="copy-button" type="button">Copy</button>
+              </div>
+              <pre><code>local settings = t.merge({
+  speed = 16,
+  jump = 50
+}, {
+  speed = 24
+})
+
+local speed = t.clamp(settings.speed, 0, 100)
+local rounded = t.round(1.234, 2)
+local hasSpeed = t.contains({ "speed", "jump" }, "speed")</code></pre>
             </div>
           </div>
         </article>
@@ -942,10 +1026,14 @@ t.notify("Prismix", "Script loaded", 3)</code></pre>
         <article class="slide" data-title="Interact">
           <div class="slide-grid">
             <div>
-              <p class="eyebrow">Interaction helpers</p>
-              <h2>Use supported executor actions without hard crashes.</h2>
-              <p class="lead">Click, prompt, and touch helpers return <code>false, reason</code> when the function or target object is not supported.</p>
+              <p class="eyebrow">Remotes and interactions</p>
+              <h2>Use remotes and supported interaction actions with cleaner checks.</h2>
+              <p class="lead">Remote, click, prompt, and touch helpers return a value or <code>false, reason</code> / <code>nil, reason</code> when the target object or function is not supported.</p>
               <div class="tool-list">
+                <div class="tool accent-rose">
+                  <strong><code>t.fireRemote(remote, ...)</code> and <code>t.invokeRemote(remote, ...)</code></strong>
+                  <p>Fire or invoke Roblox remote and bindable objects with checks.</p>
+                </div>
                 <div class="tool accent-blue">
                   <strong><code>t.fireClick(detector)</code></strong>
                   <p>Fires a <code>ClickDetector</code> when <code>fireclickdetector</code> exists. Alias: <code>fireClickDetector</code>.</p>
@@ -959,15 +1047,22 @@ t.notify("Prismix", "Script loaded", 3)</code></pre>
                   <p>Fires touch interest between your source root and a target <code>BasePart</code>.</p>
                 </div>
               </div>
-              <div class="note warn-note">Only use interaction helpers in places where you are allowed to run that kind of script.</div>
+              <div class="note warn-note">Only use remote and interaction helpers in places where you are allowed to run that kind of script.</div>
             </div>
 
             <div class="code-panel">
               <div class="code-head">
-                <span>ClickDetector example</span>
+                <span>Remote and click example</span>
                 <button class="copy-button" type="button">Copy</button>
               </div>
-              <pre><code>local button = workspace:FindFirstChild("Button")
+              <pre><code>local ReplicatedStorage = t.service("ReplicatedStorage")
+local remote = t.get(ReplicatedStorage, "Remotes.Quest")
+
+if remote then
+  t.fireRemote(remote, "Start")
+end
+
+local button = workspace:FindFirstChild("Button")
 local detector = button and button:FindFirstChildOfClass("ClickDetector")
 
 local ok, reason = t.fireClick(detector)
@@ -979,12 +1074,56 @@ end</code></pre>
           </div>
         </article>
 
+        <article class="slide" data-title="Optional">
+          <div class="slide-grid">
+            <div>
+              <p class="eyebrow">Environment tools</p>
+              <h2>Use optional helpers only when available.</h2>
+              <p class="lead">Some functions depend on the current Roblox or executor environment. Prismix keeps the helper names in one place and lets you check before using them.</p>
+              <div class="tool-list">
+                <div class="tool accent-blue">
+                  <strong><code>t.available(name)</code></strong>
+                  <p>Check if a helper exists before calling it.</p>
+                </div>
+                <div class="tool accent-teal">
+                  <strong><code>t.executor()</code></strong>
+                  <p>Returns the detected executor name or <code>Unknown</code>.</p>
+                </div>
+                <div class="tool accent-amber">
+                  <strong>File helpers</strong>
+                  <p><code>writefile</code>, <code>readfile</code>, <code>isfile</code>, <code>makefolder</code>, and <code>isfolder</code> register only when supported.</p>
+                </div>
+                <div class="tool accent-rose">
+                  <strong>Runtime helpers</strong>
+                  <p><code>getgenv</code>, <code>getgc</code>, and <code>clipboard</code> are available only when the environment provides them.</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="code-panel">
+              <div class="code-head">
+                <span>Check before use</span>
+                <button class="copy-button" type="button">Copy</button>
+              </div>
+              <pre><code>if t.available("writefile") then
+  t.writefile("prismix-log.txt", "ready")
+end
+
+local copied, reason = t.copy("Prismix")
+if not copied then
+  warn(reason)
+end</code></pre>
+            </div>
+          </div>
+        </article>
+
         <article class="slide" data-title="API">
           <div class="slide-wide">
             <p class="eyebrow">Cheat sheet</p>
             <h2>All main Prismix helpers.</h2>
             <p class="lead">New scripts should use the short names. Compatibility aliases are kept so older scripts do not break.</p>
-            <table class="api-table">
+            <input class="api-search" id="apiSearch" type="search" placeholder="Search helpers">
+            <table class="api-table" id="apiTable">
               <thead>
                 <tr>
                   <th>Group</th>
@@ -993,14 +1132,16 @@ end</code></pre>
                 </tr>
               </thead>
               <tbody>
-                <tr><td>Core</td><td><code>say</code>, <code>warn</code>, <code>error</code>, <code>try</code>, <code>version</code>, <code>available</code>, <code>list</code></td><td>Aliases: <code>warnmsg</code>, <code>err</code>.</td></tr>
-                <tr><td>Roblox</td><td><code>service</code>, <code>create</code>, <code>set</code>, <code>destroy</code></td><td><code>create</code> sets <code>Parent</code> last.</td></tr>
-                <tr><td>Lookup</td><td><code>find</code>, <code>waitFor</code>, <code>get</code>, <code>waitForPath</code></td><td>Alias: <code>path</code> for <code>get</code>.</td></tr>
-                <tr><td>Character</td><td><code>player</code>, <code>character</code>, <code>root</code>, <code>humanoid</code>, <code>distance</code>, <code>teleport</code></td><td>Aliases: <code>rootPart</code>, <code>teleportTo</code>.</td></tr>
-                <tr><td>Events</td><td><code>on</code>, <code>once</code>, <code>cleaner</code>, <code>debounce</code>, <code>after</code>, <code>wait</code></td><td>Aliases: <code>connect</code>, <code>maid</code>, <code>janitor</code>.</td></tr>
-                <tr><td>Effects</td><td><code>tween</code>, <code>notify</code>, <code>copy</code></td><td>Return clean failure reasons when unavailable.</td></tr>
+                <tr><td>Core</td><td><code>say</code>, <code>warn</code>, <code>error</code>, <code>try</code>, <code>retry</code>, <code>waitUntil</code>, <code>version</code>, <code>available</code>, <code>list</code></td><td>Aliases: <code>warnmsg</code>, <code>err</code>.</td></tr>
+                <tr><td>Roblox</td><td><code>service</code>, <code>create</code>, <code>set</code>, <code>destroy</code></td><td><code>create</code> sets <code>Parent</code> last. Alias: <code>getService</code>.</td></tr>
+                <tr><td>Lookup</td><td><code>find</code>, <code>waitFor</code>, <code>get</code>, <code>waitForPath</code>, <code>children</code>, <code>descendants</code>, <code>ofClass</code>, <code>firstOfClass</code>, <code>tagged</code></td><td>Aliases: <code>path</code>, <code>findPath</code>.</td></tr>
+                <tr><td>Attributes</td><td><code>getAttribute</code>, <code>setAttribute</code>, <code>setAttributes</code></td><td>Safe wrappers for Roblox Instance attributes.</td></tr>
+                <tr><td>Character</td><td><code>player</code>, <code>character</code>, <code>root</code>, <code>humanoid</code>, <code>position</code>, <code>distance</code>, <code>lookAt</code>, <code>teleport</code></td><td>Aliases: <code>rootPart</code>, <code>positionOf</code>, <code>teleportTo</code>.</td></tr>
+                <tr><td>Events</td><td><code>on</code>, <code>disconnect</code>, <code>once</code>, <code>cleaner</code>, <code>debounce</code>, <code>throttle</code>, <code>after</code>, <code>defer</code>, <code>wait</code></td><td>Aliases: <code>connect</code>, <code>maid</code>, <code>janitor</code>.</td></tr>
+                <tr><td>Effects</td><td><code>tween</code>, <code>notify</code>, <code>copy</code>, <code>httpGet</code></td><td>Return clean failure reasons when unavailable. Alias: <code>clipboard</code>.</td></tr>
+                <tr><td>Remotes</td><td><code>fireRemote</code>, <code>invokeRemote</code></td><td>Aliases: <code>fire</code>, <code>invoke</code>.</td></tr>
                 <tr><td>Interactions</td><td><code>fireClick</code>, <code>firePrompt</code>, <code>fireTouch</code></td><td>Old long aliases still work.</td></tr>
-                <tr><td>Data</td><td><code>clone</code>, <code>clamp</code></td><td>Small helpers for common table and number work.</td></tr>
+                <tr><td>Data</td><td><code>clone</code>, <code>merge</code>, <code>clamp</code>, <code>round</code>, <code>contains</code></td><td>Small helpers for table and number work.</td></tr>
                 <tr><td>Optional</td><td><code>getgenv</code>, <code>executor</code>, <code>writefile</code>, <code>readfile</code>, <code>isfile</code>, <code>makefolder</code>, <code>isfolder</code>, <code>getgc</code></td><td>Registered only when supported, except <code>executor</code> returns <code>Unknown</code> if not detected.</td></tr>
               </tbody>
             </table>
@@ -1157,6 +1298,19 @@ end</code></pre>
         }, 1200);
       });
     });
+
+    const apiSearch = document.getElementById("apiSearch");
+    const apiRows = Array.from(document.querySelectorAll("#apiTable tbody tr"));
+
+    if (apiSearch) {
+      apiSearch.addEventListener("input", () => {
+        const query = apiSearch.value.toLowerCase().trim();
+
+        apiRows.forEach((row) => {
+          row.style.display = row.innerText.toLowerCase().includes(query) ? "" : "none";
+        });
+      });
+    }
 
     setSlide(readStartSlide());
   </script>
