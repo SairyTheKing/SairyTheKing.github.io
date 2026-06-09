@@ -601,6 +601,250 @@
         white-space: nowrap;
       }
     }
+
+    /* Dark documentation theme inspired by Astro Starlight-style docs. */
+    :root {
+      color-scheme: dark;
+      --page: #030712;
+      --paper: #030712;
+      --ink: #f3f4f6;
+      --text: #d1d5db;
+      --muted: #9ca3af;
+      --line: #1f2937;
+      --line-strong: #374151;
+      --blue: #93c5fd;
+      --blue-soft: rgba(147, 197, 253, 0.12);
+      --teal: #5eead4;
+      --teal-soft: rgba(45, 212, 191, 0.1);
+      --amber: #fbbf24;
+      --amber-soft: rgba(251, 191, 36, 0.11);
+      --rose: #fb7185;
+      --rose-soft: rgba(251, 113, 133, 0.1);
+      --code: #0b1120;
+      --code-head: #111827;
+      --code-line: #26334a;
+      --code-text: #e5e7eb;
+      --shadow: none;
+    }
+
+    body {
+      background:
+        radial-gradient(circle at 48% -10%, rgba(75, 85, 99, 0.34), transparent 34rem),
+        radial-gradient(circle at 6% 10%, rgba(37, 99, 235, 0.13), transparent 20rem),
+        var(--page);
+      color: var(--text);
+    }
+
+    a {
+      color: #bfdbfe;
+    }
+
+    code {
+      border: 1px solid #374151;
+      background: #111827;
+      color: #f9fafb;
+    }
+
+    .topbar {
+      border-bottom-color: #111827;
+      background: rgba(3, 7, 18, 0.82);
+    }
+
+    .brand strong,
+    .brand,
+    h1,
+    h2,
+    h3 {
+      color: #f9fafb;
+    }
+
+    .brand span,
+    .side-head span,
+    .toc-nav a,
+    .doc-footer,
+    .nav-title,
+    .toc-title {
+      color: #9ca3af;
+    }
+
+    .search input,
+    .api-search {
+      border-color: #1f2937;
+      background: #060b16;
+      color: #f9fafb;
+    }
+
+    .search input::placeholder,
+    .api-search::placeholder {
+      color: #6b7280;
+    }
+
+    .button,
+    .menu-button {
+      border-color: #1f2937;
+      background: #0b1120;
+      color: #e5e7eb;
+    }
+
+    .button.primary {
+      border-color: #4b5563;
+      background: #f3f4f6;
+      color: #030712;
+      font-weight: 700;
+    }
+
+    .layout {
+      grid-template-columns: 272px minmax(0, 820px) 240px;
+      gap: 34px;
+      padding-top: 28px;
+    }
+
+    .side-panel,
+    .toc-panel,
+    .doc {
+      border-color: transparent;
+      background: transparent;
+      box-shadow: none;
+    }
+
+    .side-panel,
+    .toc-panel {
+      border-radius: 0;
+    }
+
+    .side-head,
+    .nav-group {
+      border-bottom-color: #111827;
+    }
+
+    .side-head strong {
+      color: #f3f4f6;
+    }
+
+    .doc-nav a,
+    .toc-nav a {
+      color: #cbd5e1;
+    }
+
+    .doc-nav a:hover,
+    .doc-nav a.active,
+    .toc-nav a:hover {
+      background: rgba(75, 85, 99, 0.32);
+      color: #ffffff;
+    }
+
+    .doc {
+      padding: 8px 0 40px;
+    }
+
+    .doc-section {
+      border-top-color: #111827;
+      margin-top: 38px;
+      padding-top: 36px;
+    }
+
+    h1 {
+      font-size: 44px;
+      letter-spacing: 0;
+    }
+
+    h2 {
+      font-size: 30px;
+      letter-spacing: 0;
+    }
+
+    .lead {
+      color: #cbd5e1;
+      font-size: 18px;
+    }
+
+    p,
+    li {
+      color: #d1d5db;
+    }
+
+    .pill {
+      border-color: #1f2937;
+      background: #0b1120;
+      color: #e5e7eb;
+    }
+
+    .quick-item,
+    .recipe {
+      border-color: #1f2937;
+      background: rgba(15, 23, 42, 0.56);
+    }
+
+    .quick-item strong,
+    .recipe strong {
+      color: #f9fafb;
+    }
+
+    .notice {
+      border-color: rgba(94, 234, 212, 0.32);
+      background: rgba(20, 83, 75, 0.24);
+      color: #ccfbf1;
+    }
+
+    .notice.warn {
+      border-color: rgba(251, 191, 36, 0.28);
+      background: rgba(120, 53, 15, 0.22);
+      color: #fde68a;
+    }
+
+    .code-panel {
+      border-color: #1f2937;
+      background: #0b1120;
+      box-shadow: 0 18px 48px rgba(0, 0, 0, 0.18);
+    }
+
+    .code-head {
+      border-bottom-color: #1f2937;
+      background: #111827;
+      color: #9ca3af;
+    }
+
+    .copy-button {
+      border-color: #374151;
+      background: #030712;
+      color: #f9fafb;
+    }
+
+    .api-table {
+      border-color: #1f2937;
+      background: transparent;
+    }
+
+    .api-table th,
+    .api-table td {
+      border-bottom-color: #1f2937;
+    }
+
+    .api-table th {
+      background: #0b1120;
+      color: #e5e7eb;
+    }
+
+    .api-table td {
+      color: #d1d5db;
+    }
+
+    .api-table tr:hover td {
+      background: rgba(31, 41, 55, 0.32);
+    }
+
+    @media (max-width: 820px) {
+      .sidebar.open {
+        border: 1px solid #1f2937;
+        border-radius: var(--radius);
+        background: #030712;
+        box-shadow: 0 22px 60px rgba(0, 0, 0, 0.42);
+      }
+
+      .doc {
+        padding: 12px 2px 34px;
+      }
+    }
   </style>
 </head>
 <body>
