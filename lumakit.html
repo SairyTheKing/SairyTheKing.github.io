@@ -3,22 +3,23 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>AstraKit Docs</title>
+  <title>Prismix Docs</title>
   <style>
     :root {
       color-scheme: light;
-      --bg: #f5f7fb;
+      --bg: #f6f8fb;
       --panel: #ffffff;
-      --ink: #151a24;
-      --muted: #607084;
+      --ink: #141a24;
+      --muted: #5f6f84;
       --line: #dbe3ee;
       --blue: #2463eb;
       --green: #0e9f6e;
-      --amber: #c47a12;
       --violet: #6d5bd0;
+      --amber: #c47a12;
+      --rose: #cc3d66;
       --code: #101827;
       --codeText: #edf2ff;
-      --shadow: 0 18px 50px rgba(21, 26, 36, 0.08);
+      --shadow: 0 18px 50px rgba(20, 26, 36, 0.08);
     }
 
     * {
@@ -48,7 +49,7 @@
 
     .shell {
       display: grid;
-      grid-template-columns: 272px minmax(0, 1fr);
+      grid-template-columns: 282px minmax(0, 1fr);
       min-height: 100vh;
     }
 
@@ -57,7 +58,7 @@
       top: 0;
       height: 100vh;
       border-right: 1px solid var(--line);
-      background: rgba(255, 255, 255, 0.88);
+      background: rgba(255, 255, 255, 0.92);
       backdrop-filter: blur(12px);
       padding: 24px;
     }
@@ -66,23 +67,19 @@
       display: flex;
       align-items: center;
       gap: 12px;
-      margin-bottom: 26px;
+      margin-bottom: 24px;
     }
 
-    .mark {
-      display: grid;
-      width: 44px;
-      height: 44px;
-      place-items: center;
+    .brand img {
+      width: 46px;
+      height: 46px;
       border-radius: 8px;
-      background: linear-gradient(135deg, var(--blue), var(--green));
-      color: #fff;
-      font-weight: 800;
+      box-shadow: 0 8px 20px rgba(36, 99, 235, 0.18);
     }
 
     .brand strong {
       display: block;
-      font-size: 18px;
+      font-size: 19px;
     }
 
     .brand span {
@@ -119,25 +116,44 @@
     }
 
     main {
-      width: min(980px, 100%);
+      width: min(1060px, 100%);
       padding: 48px 32px 76px;
     }
 
     .hero {
-      margin-bottom: 34px;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 220px;
+      gap: 28px;
+      align-items: center;
+      margin-bottom: 28px;
+    }
+
+    .hero-art {
+      display: grid;
+      place-items: center;
+      min-height: 220px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--panel);
+      box-shadow: var(--shadow);
+    }
+
+    .hero-art img {
+      width: 148px;
+      height: 148px;
+      border-radius: 8px;
     }
 
     .eyebrow {
       color: var(--green);
       font-size: 13px;
       font-weight: 700;
-      letter-spacing: 0;
       margin-bottom: 10px;
     }
 
     h1 {
-      font-size: 46px;
-      line-height: 1.08;
+      font-size: 48px;
+      line-height: 1.06;
       margin: 0 0 12px;
     }
 
@@ -179,13 +195,17 @@
       padding: 7px 11px;
     }
 
-    .start-tabs {
-      margin-top: 22px;
+    .start-tabs,
+    .panel {
       border: 1px solid var(--line);
       border-radius: 8px;
       background: var(--panel);
       box-shadow: var(--shadow);
       overflow: hidden;
+    }
+
+    .start-tabs {
+      margin: 22px 0 34px;
     }
 
     .tab-list {
@@ -211,7 +231,7 @@
     .tab-button[aria-selected="true"] {
       background: var(--panel);
       color: var(--ink);
-      box-shadow: 0 1px 6px rgba(21, 26, 36, 0.08);
+      box-shadow: 0 1px 6px rgba(20, 26, 36, 0.08);
     }
 
     .tab-panel {
@@ -236,28 +256,45 @@
       }
     }
 
-    .grid {
+    .cards {
       display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
+      grid-template-columns: repeat(4, minmax(0, 1fr));
       gap: 14px;
       margin: 18px 0;
     }
 
-    .metric {
+    .card {
       border: 1px solid var(--line);
       border-radius: 8px;
       background: var(--panel);
       padding: 14px;
     }
 
-    .metric strong {
+    .card b {
       display: block;
       margin-bottom: 4px;
     }
 
-    .metric span {
+    .card span {
       color: var(--muted);
       font-size: 14px;
+    }
+
+    .toolbar {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      margin: 18px 0 12px;
+    }
+
+    input[type="search"] {
+      width: min(420px, 100%);
+      border: 1px solid var(--line);
+      border-radius: 7px;
+      background: var(--panel);
+      color: var(--ink);
+      font: inherit;
+      padding: 9px 11px;
     }
 
     table {
@@ -352,7 +389,7 @@
       padding-top: 20px;
     }
 
-    @media (max-width: 820px) {
+    @media (max-width: 920px) {
       .shell {
         display: block;
       }
@@ -372,11 +409,19 @@
         padding: 32px 18px 56px;
       }
 
+      .hero {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-art {
+        min-height: 160px;
+      }
+
       h1 {
         font-size: 36px;
       }
 
-      .grid {
+      .cards {
         grid-template-columns: 1fr;
       }
 
@@ -394,208 +439,221 @@
   <div class="shell">
     <aside>
       <div class="brand">
-        <div class="mark">AK</div>
+        <img src="prismix-mark.png" alt="Prismix mark">
         <div>
-          <strong>AstraKit</strong>
-          <span>Roblox helpers</span>
+          <strong>Prismix</strong>
+          <span>Roblox helper tools</span>
         </div>
       </div>
       <nav aria-label="Docs navigation">
         <a href="#start" class="active">Start</a>
         <a href="#install">Install</a>
-        <a href="#settings">Settings</a>
-        <a href="#helpers">Helpers</a>
-        <a href="#interactions">Interactions</a>
-        <a href="#extend">Extend</a>
+        <a href="#toolbox">Toolbox</a>
+        <a href="#api">API</a>
+        <a href="#examples">Examples</a>
+        <a href="#compat">Compatibility</a>
         <a href="#validate">Validate</a>
       </nav>
-      <div class="side-note">Public source: <a href="https://github.com/SairyTheKing/astrakit">SairyTheKing/astrakit</a></div>
+      <div class="side-note">Public source: <a href="https://github.com/SairyTheKing/prismix">SairyTheKing/prismix</a></div>
     </aside>
 
     <main>
       <section class="hero" id="start">
-        <div class="eyebrow">Version 2.0.0</div>
-        <h1>AstraKit Docs</h1>
-        <p>A small Roblox helper library for common utility calls, safer instance creation, and executor-specific helpers when the environment supports them.</p>
-        <div class="quick">
-          <span class="pill">Single Source.lua</span>
-          <span class="pill">Clean nil/false reasons</span>
-          <span class="pill">Extensible helpers</span>
+        <div>
+          <div class="eyebrow">Version 3.0.0</div>
+          <h1>Prismix Docs</h1>
+          <p>A compact Roblox utility library for service lookup, safer Instances, path helpers, tweens, notifications, timing wrappers, and executor-specific features when they exist.</p>
+          <div class="quick">
+            <span class="pill">Single Source.lua</span>
+            <span class="pill">Tools table</span>
+            <span class="pill">Clean failure reasons</span>
+            <span class="pill">GitHub Pages docs</span>
+          </div>
         </div>
-
-        <div class="start-tabs" aria-label="Quick start tabs">
-          <div class="tab-list" role="tablist">
-            <button class="tab-button" type="button" role="tab" aria-selected="true" data-tab="load">Load</button>
-            <button class="tab-button" type="button" role="tab" aria-selected="false" data-tab="create">Create</button>
-            <button class="tab-button" type="button" role="tab" aria-selected="false" data-tab="interact">Interact</button>
-          </div>
-          <div class="tab-panel active" role="tabpanel" data-panel="load">
-            <p>Load the current public build and keep the helper table short.</p>
-            <div class="code-block">
-              <button class="copy" type="button">Copy</button>
-              <pre><code>local AstraKit = loadstring(game:HttpGet("https://raw.githubusercontent.com/SairyTheKing/astrakit/main/Source.lua"))()
-local f = AstraKit.Functs</code></pre>
-            </div>
-          </div>
-          <div class="tab-panel" role="tabpanel" data-panel="create">
-            <p>Create instances with properties. Parent is applied last.</p>
-            <div class="code-block">
-              <button class="copy" type="button">Copy</button>
-              <pre><code>local part = f.create("Part", {
-  Name = "AstraPart",
-  Anchored = true,
-  Parent = workspace
-})</code></pre>
-            </div>
-          </div>
-          <div class="tab-panel" role="tabpanel" data-panel="interact">
-            <p>Interaction helpers return a boolean and a reason when blocked.</p>
-            <div class="code-block">
-              <button class="copy" type="button">Copy</button>
-              <pre><code>local ok, reason = f.fireProximityPrompt(workspace.Door.ProximityPrompt)
-if not ok then
-  warn(reason)
-end</code></pre>
-            </div>
-          </div>
+        <div class="hero-art">
+          <img src="prismix-mark.png" alt="Prismix logo">
         </div>
       </section>
+
+      <div class="start-tabs" aria-label="Quick start tabs">
+        <div class="tab-list" role="tablist">
+          <button class="tab-button" type="button" role="tab" aria-selected="true" data-tab="load">Load</button>
+          <button class="tab-button" type="button" role="tab" aria-selected="false" data-tab="build">Build</button>
+          <button class="tab-button" type="button" role="tab" aria-selected="false" data-tab="motion">Motion</button>
+          <button class="tab-button" type="button" role="tab" aria-selected="false" data-tab="control">Control</button>
+        </div>
+        <div class="tab-panel active" role="tabpanel" data-panel="load">
+          <p>Load the current public build and keep the helper table short.</p>
+          <div class="code-block">
+            <button class="copy" type="button">Copy</button>
+            <pre><code>local Prismix = loadstring(game:HttpGet("https://raw.githubusercontent.com/SairyTheKing/prismix/main/Source.lua"))()
+local t = Prismix.Tools</code></pre>
+          </div>
+        </div>
+        <div class="tab-panel" role="tabpanel" data-panel="build">
+          <p>Create instances safely. Parent is assigned after all other properties.</p>
+          <div class="code-block">
+            <button class="copy" type="button">Copy</button>
+            <pre><code>local part, reason = t.create("Part", {
+  Name = "PrismixPart",
+  Anchored = true,
+  Parent = workspace
+})
+
+if not part then
+  warn(reason)
+end</code></pre>
+          </div>
+        </div>
+        <div class="tab-panel" role="tabpanel" data-panel="motion">
+          <p>Tween a property with readable settings.</p>
+          <div class="code-block">
+            <button class="copy" type="button">Copy</button>
+            <pre><code>t.tween(part, {
+  Transparency = 0.45
+}, {
+  time = 0.35,
+  easingStyle = "Quad",
+  easingDirection = "Out"
+})</code></pre>
+          </div>
+        </div>
+        <div class="tab-panel" role="tabpanel" data-panel="control">
+          <p>Wrap noisy callbacks with debounce or throttle.</p>
+          <div class="code-block">
+            <button class="copy" type="button">Copy</button>
+            <pre><code>local clickOnce = t.debounce(0.5, function()
+  print("clicked")
+end)</code></pre>
+          </div>
+        </div>
+      </div>
 
       <section id="install">
         <h2>Install</h2>
         <p>Use the raw GitHub URL for the current published source.</p>
         <div class="code-block">
           <button class="copy" type="button">Copy</button>
-          <pre><code>local AstraKit = loadstring(game:HttpGet("https://raw.githubusercontent.com/SairyTheKing/astrakit/main/Source.lua"))()
-local f = AstraKit.Functs</code></pre>
+          <pre><code>local Prismix = loadstring(game:HttpGet("https://raw.githubusercontent.com/SairyTheKing/prismix/main/Source.lua"))()
+local t = Prismix.Tools</code></pre>
         </div>
-        <div class="note">The returned table is named by your variable. `AstraKit.Functs`, `AstraKit.Helpers`, and `AstraKit.Functions` point to the same helper table.</div>
+        <div class="note">`Tools`, `Helpers`, `Functs`, and `Functions` point to the same table. Use `Tools` for new scripts.</div>
       </section>
 
-      <section id="settings">
-        <h2>Settings</h2>
-        <p>Set options before loading the library.</p>
-        <div class="code-block">
-          <button class="copy" type="button">Copy</button>
-          <pre><code>getgenv().AstraKitDebug = true
-getgenv().AstraKitBanner = true</code></pre>
+      <section id="toolbox">
+        <h2>Toolbox</h2>
+        <div class="cards">
+          <div class="card">
+            <b>Core</b>
+            <span>print, warn, error, try, list, available</span>
+          </div>
+          <div class="card">
+            <b>Roblox</b>
+            <span>service, create, set, destroy, path, waitForPath</span>
+          </div>
+          <div class="card">
+            <b>Character</b>
+            <span>player, character, humanoid, rootPart, teleportTo</span>
+          </div>
+          <div class="card">
+            <b>Workflow</b>
+            <span>tween, notify, copy, httpGet, once, debounce, throttle</span>
+          </div>
         </div>
-        <div class="note warning">Older `LumaKitDebug` and `LumaKitBanner` names still work as compatibility fallbacks.</div>
       </section>
 
-      <section id="helpers">
-        <h2>Helpers</h2>
-        <div class="grid">
-          <div class="metric">
-            <strong>Core</strong>
-            <span>Print, warn, error, try, service, create.</span>
-          </div>
-          <div class="metric">
-            <strong>Character</strong>
-            <span>player, character, rootPart, waitFor.</span>
-          </div>
-          <div class="metric">
-            <strong>Optional</strong>
-            <span>Executor/file helpers register only when available.</span>
-          </div>
+      <section id="api">
+        <h2>API</h2>
+        <p>Search helpers by name, category, or purpose.</p>
+        <div class="toolbar">
+          <input id="apiSearch" type="search" placeholder="Search tools">
         </div>
-        <table>
+        <table id="apiTable">
           <thead>
             <tr>
-              <th>Helper</th>
-              <th>Use</th>
+              <th>Tool</th>
+              <th>Category</th>
+              <th>Purpose</th>
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td><code>say(...)</code></td>
-              <td>Print values.</td>
-            </tr>
-            <tr>
-              <td><code>warnmsg(...)</code></td>
-              <td>Warn values.</td>
-            </tr>
-            <tr>
-              <td><code>err(message, level)</code></td>
-              <td>Throw an error.</td>
-            </tr>
-            <tr>
-              <td><code>try(callback, ...)</code></td>
-              <td>Run a function through <code>pcall</code>.</td>
-            </tr>
-            <tr>
-              <td><code>service(name)</code></td>
-              <td>Return and cache a Roblox service, or <code>nil, reason</code>.</td>
-            </tr>
-            <tr>
-              <td><code>create(className, properties)</code></td>
-              <td>Create an Instance. <code>Parent</code> is assigned last.</td>
-            </tr>
-            <tr>
-              <td><code>rootPart(source)</code></td>
-              <td>Resolve a Player, character Model, BasePart, or local player to a BasePart.</td>
-            </tr>
-            <tr>
-              <td><code>waitFor(parent, name, timeout)</code></td>
-              <td>Safe wrapper around <code>WaitForChild</code>.</td>
-            </tr>
+            <tr><td><code>say(...)</code></td><td>core</td><td>Print values.</td></tr>
+            <tr><td><code>warnmsg(...)</code></td><td>core</td><td>Warn values.</td></tr>
+            <tr><td><code>err(message, level)</code></td><td>core</td><td>Throw an error.</td></tr>
+            <tr><td><code>try(callback, ...)</code></td><td>core</td><td>Run a callback through pcall.</td></tr>
+            <tr><td><code>service(name)</code></td><td>roblox</td><td>Cached GetService wrapper.</td></tr>
+            <tr><td><code>player()</code></td><td>character</td><td>Return the local player.</td></tr>
+            <tr><td><code>character(source)</code></td><td>character</td><td>Resolve a Player, Model, or local player to a character.</td></tr>
+            <tr><td><code>humanoid(source)</code></td><td>character</td><td>Resolve a source to a Humanoid.</td></tr>
+            <tr><td><code>rootPart(source)</code></td><td>character</td><td>Resolve a source to HumanoidRootPart or BasePart.</td></tr>
+            <tr><td><code>create(className, properties)</code></td><td>instance</td><td>Create an Instance and assign Parent last.</td></tr>
+            <tr><td><code>set(instance, properties)</code></td><td>instance</td><td>Assign Instance properties safely.</td></tr>
+            <tr><td><code>destroy(instance)</code></td><td>instance</td><td>Destroy an Instance safely.</td></tr>
+            <tr><td><code>find(parent, name, recursive)</code></td><td>lookup</td><td>Safe FindFirstChild.</td></tr>
+            <tr><td><code>waitFor(parent, name, timeout)</code></td><td>lookup</td><td>Safe WaitForChild.</td></tr>
+            <tr><td><code>path(root, "A.B")</code></td><td>lookup</td><td>Find a dot-separated child path.</td></tr>
+            <tr><td><code>waitForPath(root, "A.B", timeout)</code></td><td>lookup</td><td>Wait through a dot-separated child path.</td></tr>
+            <tr><td><code>ofClass(root, className, recursive)</code></td><td>lookup</td><td>Collect children or descendants by class.</td></tr>
+            <tr><td><code>tagged(tagName)</code></td><td>lookup</td><td>Return CollectionService tagged instances.</td></tr>
+            <tr><td><code>tween(instance, goals, info, shouldPlay)</code></td><td>action</td><td>Create and optionally play a Tween.</td></tr>
+            <tr><td><code>notify(title, text, duration)</code></td><td>action</td><td>Send a Roblox core notification.</td></tr>
+            <tr><td><code>copy(text)</code></td><td>action</td><td>Copy text when clipboard API exists.</td></tr>
+            <tr><td><code>httpGet(url)</code></td><td>action</td><td>Safe game:HttpGet wrapper.</td></tr>
+            <tr><td><code>after(seconds, callback, ...)</code></td><td>flow</td><td>Run delayed work.</td></tr>
+            <tr><td><code>defer(callback, ...)</code></td><td>flow</td><td>Run async work.</td></tr>
+            <tr><td><code>once(signal, callback)</code></td><td>flow</td><td>Connect once to a signal.</td></tr>
+            <tr><td><code>debounce(seconds, callback)</code></td><td>flow</td><td>Create a debounced callback.</td></tr>
+            <tr><td><code>throttle(seconds, callback)</code></td><td>flow</td><td>Create a throttled callback.</td></tr>
+            <tr><td><code>clone(table, deep)</code></td><td>data</td><td>Clone a table.</td></tr>
+            <tr><td><code>merge(base, extra)</code></td><td>data</td><td>Clone base and apply extra fields.</td></tr>
+            <tr><td><code>clamp(value, min, max)</code></td><td>math</td><td>Clamp a number.</td></tr>
+            <tr><td><code>round(value, decimals)</code></td><td>math</td><td>Round a number.</td></tr>
+            <tr><td><code>fireClickDetector(detector)</code></td><td>interaction</td><td>Fire a ClickDetector if supported.</td></tr>
+            <tr><td><code>fireTouchInterest(source, target)</code></td><td>interaction</td><td>Fire touch interest between source and target.</td></tr>
+            <tr><td><code>fireProximityPrompt(prompt)</code></td><td>interaction</td><td>Fire a ProximityPrompt if supported.</td></tr>
+            <tr><td><code>teleportTo(target, source)</code></td><td>character</td><td>Move source root part to target root part.</td></tr>
           </tbody>
         </table>
       </section>
 
-      <section id="interactions">
-        <h2>Interactions</h2>
-        <p>These helpers depend on executor support. They return <code>true</code> when they work, or <code>false, reason</code> when blocked.</p>
-        <table>
-          <thead>
-            <tr>
-              <th>Helper</th>
-              <th>Expected input</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td><code>fireClickDetector(detector)</code></td>
-              <td><code>ClickDetector</code></td>
-            </tr>
-            <tr>
-              <td><code>fireTouchInterest(source, target)</code></td>
-              <td>Player, character Model, BasePart, or nil local player plus target BasePart.</td>
-            </tr>
-            <tr>
-              <td><code>fireProximityPrompt(prompt)</code></td>
-              <td><code>ProximityPrompt</code></td>
-            </tr>
-          </tbody>
-        </table>
-      </section>
-
-      <section id="extend">
-        <h2>Extend</h2>
-        <p>Add project-specific helpers without editing <code>Source.lua</code>.</p>
+      <section id="examples">
+        <h2>Examples</h2>
+        <h3>Find A Remote</h3>
         <div class="code-block">
           <button class="copy" type="button">Copy</button>
-          <pre><code>AstraKit.Register("tp", function(part)
-  local root = f.rootPart()
-  if root and part then
-    root.CFrame = part.CFrame
-  end
+          <pre><code>local remote, reason = t.waitForPath(game.ReplicatedStorage, "Remotes.Quest", 10)
+if not remote then
+  warn(reason)
+end</code></pre>
+        </div>
+        <h3>Extend Prismix</h3>
+        <div class="code-block">
+          <button class="copy" type="button">Copy</button>
+          <pre><code>Prismix.Register("tpSpawn", function()
+  return t.teleportTo(workspace.SpawnLocation)
 end)
 
-f.tp(workspace.SpawnLocation)</code></pre>
+Prismix.Alias("spawn", "tpSpawn")
+t.spawn()</code></pre>
         </div>
+      </section>
+
+      <section id="compat">
+        <h2>Compatibility</h2>
+        <p>`AstraKitDebug`, `LumaKitDebug`, `AstraKitBanner`, and `LumaKitBanner` still work as fallback setting names. Legacy helper aliases such as `pfireclickd` and `pfireproximitypromt` are also kept.</p>
+        <div class="note warning">Use `Prismix.Tools` in new scripts. `Functs` exists only to avoid breaking older scripts.</div>
       </section>
 
       <section id="validate">
         <h2>Validate</h2>
-        <p>Run the local smoke test from the AstraKit folder.</p>
+        <p>Run the local smoke test from the Prismix folder.</p>
         <div class="code-block">
           <button class="copy" type="button">Copy</button>
           <pre><code>lua validate.lua</code></pre>
         </div>
       </section>
 
-      <div class="footer">AstraKit is published at <a href="https://github.com/SairyTheKing/astrakit">github.com/SairyTheKing/astrakit</a>.</div>
+      <div class="footer">Prismix is published at <a href="https://github.com/SairyTheKing/prismix">github.com/SairyTheKing/prismix</a>.</div>
     </main>
   </div>
 
@@ -628,6 +686,19 @@ f.tp(workspace.SpawnLocation)</code></pre>
         }, 1200);
       });
     });
+
+    const search = document.getElementById("apiSearch");
+    const rows = Array.from(document.querySelectorAll("#apiTable tbody tr"));
+
+    if (search) {
+      search.addEventListener("input", () => {
+        const query = search.value.toLowerCase().trim();
+
+        rows.forEach((row) => {
+          row.style.display = row.innerText.toLowerCase().includes(query) ? "" : "none";
+        });
+      });
+    }
 
     const navLinks = Array.from(document.querySelectorAll("nav a"));
     const sections = navLinks
