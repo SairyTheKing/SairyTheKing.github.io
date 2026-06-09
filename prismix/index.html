@@ -388,7 +388,7 @@
         <h1>Prismix Documentation</h1>
         <p>Install Prismix first. Prismix is a Roblox helper library for cleaner scripts, safer utility calls, Instance creation, character lookup, path lookup, timing wrappers, and supported executor features.</p>
         <div class="pill-row">
-          <span class="pill">Version 3.0.1</span>
+          <span class="pill">Version 3.1.0</span>
           <span class="pill">Single Source.lua</span>
           <span class="pill">Public docs only</span>
         </div>
@@ -439,19 +439,27 @@ local t = Prismix.Tools</code></pre>
         <tbody>
           <tr>
             <td>Core</td>
-            <td><code>say</code>, <code>warnmsg</code>, <code>err</code>, <code>try</code>, <code>list</code>, <code>available</code></td>
+            <td><code>say</code>, <code>warnmsg</code>, <code>err</code>, <code>try</code>, <code>retry</code>, <code>waitUntil</code>, <code>list</code>, <code>available</code></td>
           </tr>
           <tr>
             <td>Roblox</td>
-            <td><code>service</code>, <code>create</code>, <code>set</code>, <code>destroy</code>, <code>find</code>, <code>waitFor</code>, <code>path</code>, <code>waitForPath</code></td>
+            <td><code>service</code>, <code>create</code>, <code>set</code>, <code>destroy</code>, <code>children</code>, <code>descendants</code>, <code>find</code>, <code>waitFor</code>, <code>path</code>, <code>waitForPath</code></td>
           </tr>
           <tr>
             <td>Character</td>
-            <td><code>player</code>, <code>character</code>, <code>humanoid</code>, <code>rootPart</code>, <code>teleportTo</code></td>
+            <td><code>player</code>, <code>character</code>, <code>humanoid</code>, <code>rootPart</code>, <code>positionOf</code>, <code>distance</code>, <code>teleportTo</code>, <code>lookAt</code></td>
           </tr>
           <tr>
             <td>Workflow</td>
-            <td><code>tween</code>, <code>notify</code>, <code>copy</code>, <code>httpGet</code>, <code>after</code>, <code>defer</code>, <code>once</code>, <code>debounce</code>, <code>throttle</code></td>
+            <td><code>tween</code>, <code>notify</code>, <code>copy</code>, <code>httpGet</code>, <code>after</code>, <code>defer</code>, <code>wait</code>, <code>connect</code>, <code>disconnect</code>, <code>once</code>, <code>cleaner</code>, <code>debounce</code>, <code>throttle</code></td>
+          </tr>
+          <tr>
+            <td>Data</td>
+            <td><code>clone</code>, <code>merge</code>, <code>clamp</code>, <code>round</code>, <code>getAttribute</code>, <code>setAttribute</code>, <code>setAttributes</code></td>
+          </tr>
+          <tr>
+            <td>Network</td>
+            <td><code>fireRemote</code>, <code>invokeRemote</code>, <code>fireClickDetector</code>, <code>fireTouchInterest</code>, <code>fireProximityPrompt</code></td>
           </tr>
         </tbody>
       </table>
@@ -473,16 +481,31 @@ local t = Prismix.Tools</code></pre>
         </thead>
         <tbody>
           <tr><td><code>service(name)</code></td><td>Cached <code>game:GetService</code>.</td></tr>
+          <tr><td><code>retry(attempts, delay, callback, ...)</code></td><td>Retry a callback until it succeeds or attempts run out.</td></tr>
+          <tr><td><code>waitUntil(predicate, timeout, interval)</code></td><td>Wait for a predicate to return a truthy value.</td></tr>
           <tr><td><code>create(className, properties)</code></td><td>Create an Instance and assign <code>Parent</code> last.</td></tr>
           <tr><td><code>set(instance, properties)</code></td><td>Assign Instance properties safely.</td></tr>
+          <tr><td><code>children(root)</code></td><td>Safe <code>GetChildren</code>.</td></tr>
+          <tr><td><code>descendants(root)</code></td><td>Safe <code>GetDescendants</code>.</td></tr>
           <tr><td><code>path(root, "A.B.C")</code></td><td>Find a dot-separated child path.</td></tr>
           <tr><td><code>waitForPath(root, "A.B.C", timeout)</code></td><td>Wait through a dot-separated child path.</td></tr>
+          <tr><td><code>firstOfClass(root, className, recursive)</code></td><td>Return the first matching class.</td></tr>
           <tr><td><code>rootPart(source)</code></td><td>Resolve local player, Player, Model, or BasePart to a usable part.</td></tr>
+          <tr><td><code>positionOf(value)</code></td><td>Resolve Vector3, CFrame, character source, or BasePart to a position.</td></tr>
+          <tr><td><code>distance(a, b)</code></td><td>Distance between two position-like values.</td></tr>
           <tr><td><code>tween(instance, goals, info)</code></td><td>Create and play a Tween.</td></tr>
+          <tr><td><code>connect(signal, callback)</code></td><td>Safe signal connection.</td></tr>
+          <tr><td><code>disconnect(connection)</code></td><td>Safe signal disconnect.</td></tr>
+          <tr><td><code>cleaner()</code></td><td>Create a cleanup bag for connections, callbacks, and Instances.</td></tr>
           <tr><td><code>debounce(seconds, callback)</code></td><td>Return a debounced function wrapper.</td></tr>
           <tr><td><code>throttle(seconds, callback)</code></td><td>Return a throttled function wrapper.</td></tr>
+          <tr><td><code>getAttribute(instance, name)</code></td><td>Safe <code>GetAttribute</code>.</td></tr>
+          <tr><td><code>setAttribute(instance, name, value)</code></td><td>Safe <code>SetAttribute</code>.</td></tr>
+          <tr><td><code>setAttributes(instance, attributes)</code></td><td>Set multiple attributes.</td></tr>
           <tr><td><code>copy(text)</code></td><td>Copy text when the clipboard API exists.</td></tr>
           <tr><td><code>notify(title, text, duration)</code></td><td>Send a Roblox notification when supported.</td></tr>
+          <tr><td><code>fireRemote(remote, ...)</code></td><td>Fire a RemoteEvent or BindableEvent.</td></tr>
+          <tr><td><code>invokeRemote(remote, ...)</code></td><td>Invoke a RemoteFunction or BindableFunction.</td></tr>
           <tr><td><code>fireClickDetector(detector)</code></td><td>Fire a ClickDetector when supported.</td></tr>
           <tr><td><code>fireTouchInterest(source, target)</code></td><td>Fire touch interest when supported.</td></tr>
           <tr><td><code>fireProximityPrompt(prompt)</code></td><td>Fire a ProximityPrompt when supported.</td></tr>
@@ -515,6 +538,19 @@ end</code></pre>
 if not remote then
   warn(reason)
 end</code></pre>
+        </div>
+      </div>
+      <h3>Cleanup Connections</h3>
+      <div class="install-card">
+        <div class="code-block">
+          <button class="copy" type="button">Copy</button>
+          <pre><code>local bin = t.cleaner()
+
+bin:Add(t.connect(workspace.ChildAdded, function(child)
+  print(child.Name)
+end))
+
+bin:Clean()</code></pre>
         </div>
       </div>
     </section>
@@ -558,24 +594,12 @@ end</code></pre>
       });
     });
 
-    const navLinks = Array.from(document.querySelectorAll("nav a"));
-    const sections = navLinks.map((link) => document.querySelector(link.getAttribute("href"))).filter(Boolean);
-
-    if ("IntersectionObserver" in window) {
-      const observer = new IntersectionObserver((entries) => {
-        entries.forEach((entry) => {
-          if (!entry.isIntersecting) {
-            return;
-          }
-
-          navLinks.forEach((link) => {
-            link.classList.toggle("active", link.getAttribute("href") === "#" + entry.target.id);
-          });
-        });
-      }, { rootMargin: "-30% 0px -55% 0px" });
-
-      sections.forEach((section) => observer.observe(section));
-    }
+    document.querySelectorAll("nav a").forEach((link) => {
+      link.addEventListener("click", () => {
+        document.querySelectorAll("nav a").forEach((item) => item.classList.remove("active"));
+        link.classList.add("active");
+      });
+    });
   </script>
 </body>
 </html>
