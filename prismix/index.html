@@ -3,21 +3,31 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Prismix Documentation</title>
+  <title>Prismix Docs</title>
+  <meta name="description" content="Prismix documentation for the beginner-friendly Roblox Luau helper library.">
   <style>
     :root {
       color-scheme: light;
-      --bg: #f7f8fb;
-      --panel: #ffffff;
-      --ink: #141a24;
-      --muted: #5c6b7f;
+      --page: #f6f8fb;
+      --paper: #ffffff;
+      --ink: #101623;
+      --soft-ink: #475569;
+      --muted: #718096;
       --line: #dce4ef;
       --blue: #2563eb;
-      --green: #0f9f78;
+      --blue-soft: #e8f0ff;
+      --teal: #0f9f78;
+      --teal-soft: #e7f8f3;
+      --amber: #b7791f;
+      --amber-soft: #fff7df;
+      --rose: #c2415b;
+      --rose-soft: #fff0f3;
       --code: #101827;
-      --codeText: #edf3ff;
-      --soft: #eef4ff;
-      --shadow: 0 16px 40px rgba(20, 26, 36, 0.08);
+      --code-line: #253149;
+      --code-text: #eef5ff;
+      --shadow: 0 18px 42px rgba(16, 22, 35, 0.09);
+      --radius: 8px;
+      --header: 70px;
     }
 
     * {
@@ -30,7 +40,9 @@
 
     body {
       margin: 0;
-      background: var(--bg);
+      background:
+        linear-gradient(180deg, #ffffff 0, var(--page) 210px),
+        var(--page);
       color: var(--ink);
       font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
       line-height: 1.55;
@@ -45,23 +57,29 @@
       text-decoration: underline;
     }
 
+    button,
+    input {
+      font: inherit;
+    }
+
     .topbar {
       position: sticky;
       top: 0;
-      z-index: 10;
+      z-index: 20;
       border-bottom: 1px solid var(--line);
       background: rgba(255, 255, 255, 0.94);
-      backdrop-filter: blur(12px);
+      backdrop-filter: blur(14px);
     }
 
     .topbar-inner {
-      display: flex;
+      display: grid;
+      grid-template-columns: minmax(190px, 1fr) auto minmax(190px, 1fr);
       align-items: center;
-      justify-content: space-between;
-      gap: 18px;
-      width: min(1080px, 100%);
+      gap: 14px;
+      width: min(1180px, 100%);
+      min-height: var(--header);
       margin: 0 auto;
-      padding: 12px 20px;
+      padding: 10px 20px;
     }
 
     .brand {
@@ -72,173 +90,322 @@
     }
 
     .brand img {
-      width: 36px;
-      height: 36px;
-      border-radius: 8px;
+      width: 38px;
+      height: 38px;
+      border-radius: var(--radius);
+      flex: 0 0 auto;
     }
 
-    .brand strong {
-      display: block;
-      font-size: 17px;
-      line-height: 1.1;
-    }
-
+    .brand strong,
     .brand span {
       display: block;
-      color: var(--muted);
-      font-size: 12px;
       line-height: 1.2;
-    }
-
-    nav {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      overflow-x: auto;
       white-space: nowrap;
     }
 
-    nav a {
-      border-radius: 7px;
-      color: var(--muted);
-      font-size: 14px;
-      padding: 7px 10px;
+    .brand strong {
+      font-size: 16px;
     }
 
-    nav a:hover,
-    nav a.active {
-      background: var(--soft);
+    .brand span {
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .chapter-tabs {
+      display: flex;
+      justify-content: center;
+      gap: 6px;
+      overflow-x: auto;
+      max-width: 100%;
+      scrollbar-width: thin;
+    }
+
+    .tab {
+      border: 1px solid transparent;
+      border-radius: 999px;
+      background: transparent;
+      color: var(--soft-ink);
+      cursor: pointer;
+      min-height: 34px;
+      padding: 6px 11px;
+      white-space: nowrap;
+    }
+
+    .tab:hover,
+    .tab.active {
+      border-color: var(--line);
+      background: var(--blue-soft);
       color: var(--ink);
       text-decoration: none;
     }
 
-    main {
-      width: min(980px, 100%);
-      margin: 0 auto;
-      padding: 34px 20px 70px;
-    }
-
-    .hero {
-      display: grid;
-      grid-template-columns: minmax(0, 1fr) 150px;
-      gap: 24px;
+    .header-actions {
+      display: flex;
+      justify-content: flex-end;
       align-items: center;
-      margin-bottom: 18px;
+      gap: 8px;
     }
 
-    .hero h1 {
-      font-size: 42px;
-      line-height: 1.08;
-      margin: 0 0 10px;
-    }
-
-    .hero p {
-      color: var(--muted);
-      font-size: 17px;
-      margin: 0;
-      max-width: 760px;
-    }
-
-    .hero img {
-      width: 132px;
-      height: 132px;
-      border-radius: 8px;
-      box-shadow: var(--shadow);
-    }
-
-    .install-card {
+    .link-button,
+    .nav-button,
+    .copy-button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
       border: 1px solid var(--line);
-      border-radius: 8px;
-      background: var(--panel);
-      box-shadow: var(--shadow);
-      margin: 18px 0 28px;
+      border-radius: 7px;
+      background: var(--paper);
+      color: var(--ink);
+      cursor: pointer;
+      min-height: 36px;
+      padding: 7px 11px;
+      text-decoration: none;
+    }
+
+    .link-button.primary,
+    .nav-button.primary {
+      border-color: var(--blue);
+      background: var(--blue);
+      color: #ffffff;
+    }
+
+    .link-button:hover,
+    .nav-button:hover,
+    .copy-button:hover {
+      text-decoration: none;
+      filter: brightness(0.98);
+    }
+
+    .nav-button:disabled {
+      cursor: not-allowed;
+      opacity: 0.42;
+    }
+
+    .shell {
+      width: min(1180px, 100%);
+      margin: 0 auto;
+      padding: 24px 20px 38px;
+    }
+
+    .status-row {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 14px;
+    }
+
+    .crumbs {
+      color: var(--soft-ink);
+      font-size: 14px;
+      min-width: 0;
+    }
+
+    .crumbs strong {
+      color: var(--ink);
+    }
+
+    .progress {
+      height: 8px;
+      border-radius: 999px;
+      background: #e7edf6;
       overflow: hidden;
     }
 
-    .install-head {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      border-bottom: 1px solid var(--line);
-      background: #f0f4fa;
-      padding: 12px 14px;
+    .progress span {
+      display: block;
+      width: 0;
+      height: 100%;
+      border-radius: inherit;
+      background: linear-gradient(90deg, var(--blue), var(--teal));
+      transition: width 280ms ease;
     }
 
-    .install-head h2 {
-      border: 0;
+    .stage {
+      position: relative;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--paper);
+      box-shadow: var(--shadow);
+    }
+
+    .slides {
+      display: flex;
+      transition: transform 360ms cubic-bezier(.2, .75, .25, 1);
+      will-change: transform;
+    }
+
+    .slide {
+      flex: 0 0 100%;
+      width: 100%;
+      min-height: calc(100vh - var(--header) - 118px);
+      padding: 34px;
+    }
+
+    .slide-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.08fr) minmax(280px, 0.92fr);
+      gap: 24px;
+      align-items: start;
+    }
+
+    .slide-wide {
+      max-width: 940px;
+    }
+
+    .eyebrow {
+      color: var(--teal);
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0;
+      margin: 0 0 8px;
+      text-transform: uppercase;
+    }
+
+    h1,
+    h2,
+    h3 {
+      color: var(--ink);
+      line-height: 1.15;
       margin: 0;
-      padding: 0;
+    }
+
+    h1 {
+      font-size: 52px;
+      max-width: 760px;
     }
 
     h2 {
-      border-top: 1px solid var(--line);
-      font-size: 23px;
-      margin: 34px 0 12px;
-      padding-top: 28px;
+      font-size: 42px;
+      max-width: 760px;
     }
 
     h3 {
-      font-size: 17px;
-      margin: 20px 0 8px;
+      font-size: 18px;
+      margin-bottom: 8px;
     }
 
     p {
-      color: var(--muted);
-      margin: 0 0 14px;
-    }
-
-    .pill-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 9px;
-      margin-top: 16px;
-    }
-
-    .pill {
-      border: 1px solid var(--line);
-      border-radius: 999px;
-      background: var(--panel);
-      color: var(--ink);
-      font-size: 13px;
-      padding: 6px 10px;
-    }
-
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 14px;
-      margin: 16px 0;
-    }
-
-    .card {
-      border: 1px solid var(--line);
-      border-radius: 8px;
-      background: var(--panel);
-      padding: 14px;
-    }
-
-    .card strong {
-      display: block;
-      margin-bottom: 5px;
-    }
-
-    .card span {
-      color: var(--muted);
-      font-size: 14px;
-    }
-
-    .code-block {
-      position: relative;
+      color: var(--soft-ink);
       margin: 0;
+    }
+
+    .lead {
+      color: var(--soft-ink);
+      font-size: 18px;
+      margin-top: 14px;
+      max-width: 780px;
+    }
+
+    .mini {
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .mark-panel {
+      display: grid;
+      gap: 14px;
+      align-content: start;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: linear-gradient(180deg, #ffffff, #f7faff);
+      padding: 18px;
+    }
+
+    .mark-panel img {
+      width: 130px;
+      height: 130px;
+      border-radius: var(--radius);
+    }
+
+    .stat-list,
+    .tool-list,
+    .steps,
+    .callout-list {
+      display: grid;
+      gap: 10px;
+      margin-top: 18px;
+    }
+
+    .stat,
+    .tool,
+    .step,
+    .callout {
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: #ffffff;
+      padding: 13px 14px;
+    }
+
+    .stat strong,
+    .tool strong,
+    .step strong,
+    .callout strong {
+      display: block;
+      color: var(--ink);
+      margin-bottom: 4px;
+    }
+
+    .stat:nth-child(2n),
+    .tool:nth-child(2n),
+    .step:nth-child(2n) {
+      background: #fbfcff;
+    }
+
+    .accent-blue {
+      border-left: 4px solid var(--blue);
+    }
+
+    .accent-teal {
+      border-left: 4px solid var(--teal);
+    }
+
+    .accent-amber {
+      border-left: 4px solid var(--amber);
+    }
+
+    .accent-rose {
+      border-left: 4px solid var(--rose);
+    }
+
+    .code-panel {
+      overflow: hidden;
+      border: 1px solid #202b41;
+      border-radius: var(--radius);
+      background: var(--code);
+      color: var(--code-text);
+    }
+
+    .code-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      border-bottom: 1px solid var(--code-line);
+      background: #141e31;
+      color: #c7d4ea;
+      padding: 9px 10px;
+    }
+
+    .code-head span {
+      font-size: 13px;
+    }
+
+    .copy-button {
+      border-color: #35435c;
+      background: #1c2940;
+      color: #ffffff;
+      min-height: 30px;
+      padding: 4px 8px;
+      font-size: 12px;
     }
 
     pre {
       overflow-x: auto;
-      background: var(--code);
-      color: var(--codeText);
       margin: 0;
-      padding: 17px;
+      padding: 16px;
     }
 
     code {
@@ -246,7 +413,7 @@
       background: #e8eef7;
       color: #101827;
       font-family: "Cascadia Code", Consolas, Monaco, monospace;
-      font-size: 0.92em;
+      font-size: 0.93em;
       padding: 2px 5px;
     }
 
@@ -256,108 +423,173 @@
       padding: 0;
     }
 
-    .copy {
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      border-radius: 6px;
-      background: rgba(255, 255, 255, 0.1);
-      color: #fff;
-      cursor: pointer;
-      font: inherit;
-      font-size: 12px;
-      padding: 5px 8px;
-      position: absolute;
-      right: 8px;
-      top: 8px;
-    }
-
-    .toolbar {
-      display: flex;
-      gap: 10px;
-      align-items: center;
-      margin: 16px 0 12px;
-    }
-
-    input[type="search"] {
-      width: min(420px, 100%);
-      border: 1px solid var(--line);
-      border-radius: 7px;
-      background: var(--panel);
-      color: var(--ink);
-      font: inherit;
-      padding: 9px 11px;
-    }
-
-    table {
+    .api-table {
       width: 100%;
       border-collapse: collapse;
+      margin-top: 18px;
       overflow: hidden;
       border: 1px solid var(--line);
-      border-radius: 8px;
-      background: var(--panel);
+      border-radius: var(--radius);
+      background: var(--paper);
     }
 
-    th,
-    td {
+    .api-table th,
+    .api-table td {
       border-bottom: 1px solid var(--line);
       padding: 10px 12px;
       text-align: left;
       vertical-align: top;
     }
 
-    th {
-      background: #eef2f8;
-      color: #39445a;
+    .api-table th {
+      background: #eef3fa;
+      color: #334155;
       font-size: 13px;
     }
 
-    tr:last-child td {
+    .api-table tr:last-child td {
       border-bottom: 0;
     }
 
     .note {
-      border-left: 4px solid var(--green);
-      border-radius: 0 8px 8px 0;
-      background: #ecfdf5;
-      color: #164b38;
-      margin: 16px 0;
-      padding: 12px 14px;
+      border: 1px solid #b8eadc;
+      border-radius: var(--radius);
+      background: var(--teal-soft);
+      color: #124c3a;
+      margin-top: 18px;
+      padding: 13px 14px;
     }
 
-    .footer {
-      border-top: 1px solid var(--line);
+    .warn-note {
+      border-color: #f3d68a;
+      background: var(--amber-soft);
+      color: #66450a;
+    }
+
+    .footer-controls {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      align-items: center;
+      gap: 14px;
+      margin-top: 14px;
+    }
+
+    .dots {
+      display: flex;
+      justify-content: center;
+      gap: 7px;
+      overflow-x: auto;
+      padding: 2px;
+    }
+
+    .dot {
+      width: 10px;
+      height: 10px;
+      border: 0;
+      border-radius: 999px;
+      background: #c9d3e3;
+      cursor: pointer;
+      flex: 0 0 auto;
+      padding: 0;
+    }
+
+    .dot.active {
+      width: 28px;
+      background: var(--blue);
+    }
+
+    .footer-left {
+      display: flex;
+      justify-content: flex-start;
+    }
+
+    .footer-right {
+      display: flex;
+      justify-content: flex-end;
+    }
+
+    .mobile-hint {
+      display: none;
       color: var(--muted);
-      margin-top: 42px;
-      padding-top: 20px;
+      font-size: 13px;
+      margin-top: 8px;
+      text-align: center;
     }
 
-    @media (max-width: 760px) {
+    @media (prefers-reduced-motion: reduce) {
+      html {
+        scroll-behavior: auto;
+      }
+
+      .slides,
+      .progress span {
+        transition: none;
+      }
+    }
+
+    @media (max-width: 900px) {
       .topbar-inner {
-        display: block;
+        grid-template-columns: 1fr;
+        align-items: stretch;
       }
 
-      nav {
-        margin-top: 10px;
+      .chapter-tabs {
+        justify-content: flex-start;
       }
 
-      main {
-        padding: 26px 16px 56px;
+      .header-actions {
+        justify-content: flex-start;
       }
 
-      .hero {
+      .slide-grid {
         grid-template-columns: 1fr;
       }
 
-      .hero img {
-        width: 96px;
-        height: 96px;
+      .slide {
+        min-height: auto;
+      }
+    }
+
+    @media (max-width: 620px) {
+      :root {
+        --header: 132px;
       }
 
-      .hero h1 {
+      .shell {
+        padding: 16px 12px 28px;
+      }
+
+      .status-row {
+        grid-template-columns: 1fr;
+      }
+
+      .slide {
+        padding: 22px 16px;
+      }
+
+      h1 {
         font-size: 34px;
       }
 
-      .grid {
-        grid-template-columns: 1fr;
+      h2 {
+        font-size: 30px;
+      }
+
+      .lead {
+        font-size: 16px;
+      }
+
+      .footer-controls {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .dots {
+        grid-column: 1 / -1;
+        order: -1;
+      }
+
+      .mobile-hint {
+        display: block;
       }
     }
   </style>
@@ -365,216 +597,558 @@
 <body>
   <header class="topbar">
     <div class="topbar-inner">
-      <div class="brand">
+      <a class="brand" href="#1" aria-label="Prismix docs home">
         <img src="prismix-mark.png" alt="Prismix mark">
-        <div>
-          <strong>Prismix</strong>
-          <span>Documentation</span>
-        </div>
-      </div>
-      <nav aria-label="Documentation navigation">
-        <a href="#install" class="active">Install</a>
-        <a href="#purpose">Purpose</a>
-        <a href="#tools">Tools</a>
-        <a href="#api">API</a>
-        <a href="#examples">Examples</a>
+        <span>
+          <strong>Prismix Docs</strong>
+          <span>Version 4.0.0</span>
+        </span>
+      </a>
+
+      <nav class="chapter-tabs" aria-label="Docs slides">
+        <button class="tab active" type="button" data-go="0">Install</button>
+        <button class="tab" type="button" data-go="1">Purpose</button>
+        <button class="tab" type="button" data-go="2">First Script</button>
+        <button class="tab" type="button" data-go="3">Find Things</button>
+        <button class="tab" type="button" data-go="4">Character</button>
+        <button class="tab" type="button" data-go="5">Events</button>
+        <button class="tab" type="button" data-go="6">Effects</button>
+        <button class="tab" type="button" data-go="7">Interact</button>
+        <button class="tab" type="button" data-go="8">API</button>
       </nav>
+
+      <div class="header-actions">
+        <a class="link-button" href="https://github.com/SairyTheKing/prismix">GitHub</a>
+        <a class="link-button primary" href="https://raw.githubusercontent.com/SairyTheKing/prismix/main/Source.lua">Source.lua</a>
+      </div>
     </div>
   </header>
 
-  <main>
-    <section class="hero" id="install">
-      <div>
-        <h1>Prismix Documentation</h1>
-        <p>Install Prismix first. Prismix is a Roblox helper library for cleaner scripts, safer utility calls, Instance creation, character lookup, path lookup, timing wrappers, and supported executor features.</p>
-        <div class="pill-row">
-          <span class="pill">Version 3.1.0</span>
-          <span class="pill">Single Source.lua</span>
-          <span class="pill">Public docs only</span>
-        </div>
-      </div>
-      <img src="prismix-mark.png" alt="Prismix logo">
-    </section>
+  <main class="shell">
+    <div class="status-row" aria-live="polite">
+      <div class="crumbs"><strong id="slideTitle">Install</strong> <span id="slideCount">1 / 9</span></div>
+      <div class="mini">Use the arrows, tabs, or keyboard left/right.</div>
+    </div>
+    <div class="progress" aria-hidden="true"><span id="progressBar"></span></div>
 
-    <section class="install-card" aria-label="Installation">
-      <div class="install-head">
-        <h2>Installation</h2>
-        <a href="https://github.com/SairyTheKing/prismix">GitHub</a>
-      </div>
-      <div class="code-block">
-        <button class="copy" type="button">Copy</button>
-        <pre><code>local Prismix = loadstring(game:HttpGet("https://raw.githubusercontent.com/SairyTheKing/prismix/main/Source.lua"))()
-local t = Prismix.Tools</code></pre>
-      </div>
-    </section>
+    <section class="stage" aria-label="Prismix documentation slides">
+      <div class="slides" id="slides">
+        <article class="slide active" data-title="Install">
+          <div class="slide-grid">
+            <div>
+              <p class="eyebrow">Start here</p>
+              <h1>Install Prismix first.</h1>
+              <p class="lead">Prismix is a small Roblox Luau helper library. It keeps common script tasks short: services, Instances, character parts, child paths, events, tweens, notifications, cleanup, and simple executor checks.</p>
+              <div class="note">Most helpers return a useful value when they work. If they cannot run, they return <code>nil, reason</code> or <code>false, reason</code> so your script can show a clear warning.</div>
+              <div class="stat-list">
+                <div class="stat accent-blue">
+                  <strong>Use <code>Prismix.Tools</code></strong>
+                  <p>All helpers live in one table. <code>Helpers</code>, <code>Functs</code>, and <code>Functions</code> still point to the same table.</p>
+                </div>
+                <div class="stat accent-teal">
+                  <strong>Beginner-friendly names</strong>
+                  <p>Use short names like <code>service</code>, <code>create</code>, <code>waitForPath</code>, <code>root</code>, <code>on</code>, and <code>cleaner</code>.</p>
+                </div>
+              </div>
+            </div>
 
-    <section id="purpose">
-      <h2>What Prismix Is For</h2>
-      <p>Prismix is made to reduce repeated Roblox scripting boilerplate. It wraps common operations with predictable return values, so scripts can fail cleanly instead of crashing without context.</p>
-      <div class="grid">
-        <div class="card">
-          <strong>Build Faster</strong>
-          <span>Create Instances, assign properties, cache services, and find paths with less repeated code.</span>
-        </div>
-        <div class="card">
-          <strong>Fail Cleaner</strong>
-          <span>Most helpers return <code>nil, reason</code> or <code>false, reason</code> when something cannot run.</span>
-        </div>
-        <div class="card">
-          <strong>Stay Flexible</strong>
-          <span>Optional executor helpers register only when the current environment supports them.</span>
-        </div>
-      </div>
-    </section>
+            <div class="code-panel">
+              <div class="code-head">
+                <span>Load Prismix</span>
+                <button class="copy-button" type="button">Copy</button>
+              </div>
+              <pre><code>local Prismix = loadstring(game:HttpGet("https://raw.githubusercontent.com/SairyTheKing/prismix/main/Source.lua"))()
+local t = Prismix.Tools
 
-    <section id="tools">
-      <h2>Main Tools</h2>
-      <table>
-        <thead>
-          <tr>
-            <th>Group</th>
-            <th>Helpers</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>Core</td>
-            <td><code>say</code>, <code>warnmsg</code>, <code>err</code>, <code>try</code>, <code>retry</code>, <code>waitUntil</code>, <code>list</code>, <code>available</code></td>
-          </tr>
-          <tr>
-            <td>Roblox</td>
-            <td><code>service</code>, <code>create</code>, <code>set</code>, <code>destroy</code>, <code>children</code>, <code>descendants</code>, <code>find</code>, <code>waitFor</code>, <code>path</code>, <code>waitForPath</code></td>
-          </tr>
-          <tr>
-            <td>Character</td>
-            <td><code>player</code>, <code>character</code>, <code>humanoid</code>, <code>rootPart</code>, <code>positionOf</code>, <code>distance</code>, <code>teleportTo</code>, <code>lookAt</code></td>
-          </tr>
-          <tr>
-            <td>Workflow</td>
-            <td><code>tween</code>, <code>notify</code>, <code>copy</code>, <code>httpGet</code>, <code>after</code>, <code>defer</code>, <code>wait</code>, <code>connect</code>, <code>disconnect</code>, <code>once</code>, <code>cleaner</code>, <code>debounce</code>, <code>throttle</code></td>
-          </tr>
-          <tr>
-            <td>Data</td>
-            <td><code>clone</code>, <code>merge</code>, <code>clamp</code>, <code>round</code>, <code>getAttribute</code>, <code>setAttribute</code>, <code>setAttributes</code></td>
-          </tr>
-          <tr>
-            <td>Network</td>
-            <td><code>fireRemote</code>, <code>invokeRemote</code>, <code>fireClickDetector</code>, <code>fireTouchInterest</code>, <code>fireProximityPrompt</code></td>
-          </tr>
-        </tbody>
-      </table>
-      <div class="note">Use <code>Prismix.Tools</code> for new scripts. <code>Helpers</code>, <code>Functs</code>, and <code>Functions</code> are aliases for compatibility.</div>
-    </section>
+print(Prismix.Info.Version)</code></pre>
+            </div>
+          </div>
+        </article>
 
-    <section id="api">
-      <h2>API Reference</h2>
-      <p>Search helpers by name or purpose.</p>
-      <div class="toolbar">
-        <input id="apiSearch" type="search" placeholder="Search API">
-      </div>
-      <table id="apiTable">
-        <thead>
-          <tr>
-            <th>Helper</th>
-            <th>Purpose</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr><td><code>service(name)</code></td><td>Cached <code>game:GetService</code>.</td></tr>
-          <tr><td><code>retry(attempts, delay, callback, ...)</code></td><td>Retry a callback until it succeeds or attempts run out.</td></tr>
-          <tr><td><code>waitUntil(predicate, timeout, interval)</code></td><td>Wait for a predicate to return a truthy value.</td></tr>
-          <tr><td><code>create(className, properties)</code></td><td>Create an Instance and assign <code>Parent</code> last.</td></tr>
-          <tr><td><code>set(instance, properties)</code></td><td>Assign Instance properties safely.</td></tr>
-          <tr><td><code>children(root)</code></td><td>Safe <code>GetChildren</code>.</td></tr>
-          <tr><td><code>descendants(root)</code></td><td>Safe <code>GetDescendants</code>.</td></tr>
-          <tr><td><code>path(root, "A.B.C")</code></td><td>Find a dot-separated child path.</td></tr>
-          <tr><td><code>waitForPath(root, "A.B.C", timeout)</code></td><td>Wait through a dot-separated child path.</td></tr>
-          <tr><td><code>firstOfClass(root, className, recursive)</code></td><td>Return the first matching class.</td></tr>
-          <tr><td><code>rootPart(source)</code></td><td>Resolve local player, Player, Model, or BasePart to a usable part.</td></tr>
-          <tr><td><code>positionOf(value)</code></td><td>Resolve Vector3, CFrame, character source, or BasePart to a position.</td></tr>
-          <tr><td><code>distance(a, b)</code></td><td>Distance between two position-like values.</td></tr>
-          <tr><td><code>tween(instance, goals, info)</code></td><td>Create and play a Tween.</td></tr>
-          <tr><td><code>connect(signal, callback)</code></td><td>Safe signal connection.</td></tr>
-          <tr><td><code>disconnect(connection)</code></td><td>Safe signal disconnect.</td></tr>
-          <tr><td><code>cleaner()</code></td><td>Create a cleanup bag for connections, callbacks, and Instances.</td></tr>
-          <tr><td><code>debounce(seconds, callback)</code></td><td>Return a debounced function wrapper.</td></tr>
-          <tr><td><code>throttle(seconds, callback)</code></td><td>Return a throttled function wrapper.</td></tr>
-          <tr><td><code>getAttribute(instance, name)</code></td><td>Safe <code>GetAttribute</code>.</td></tr>
-          <tr><td><code>setAttribute(instance, name, value)</code></td><td>Safe <code>SetAttribute</code>.</td></tr>
-          <tr><td><code>setAttributes(instance, attributes)</code></td><td>Set multiple attributes.</td></tr>
-          <tr><td><code>copy(text)</code></td><td>Copy text when the clipboard API exists.</td></tr>
-          <tr><td><code>notify(title, text, duration)</code></td><td>Send a Roblox notification when supported.</td></tr>
-          <tr><td><code>fireRemote(remote, ...)</code></td><td>Fire a RemoteEvent or BindableEvent.</td></tr>
-          <tr><td><code>invokeRemote(remote, ...)</code></td><td>Invoke a RemoteFunction or BindableFunction.</td></tr>
-          <tr><td><code>fireClickDetector(detector)</code></td><td>Fire a ClickDetector when supported.</td></tr>
-          <tr><td><code>fireTouchInterest(source, target)</code></td><td>Fire touch interest when supported.</td></tr>
-          <tr><td><code>fireProximityPrompt(prompt)</code></td><td>Fire a ProximityPrompt when supported.</td></tr>
-        </tbody>
-      </table>
-    </section>
+        <article class="slide" data-title="Purpose">
+          <div class="slide-grid">
+            <div>
+              <p class="eyebrow">What it is for</p>
+              <h2>Prismix removes boring repeat code.</h2>
+              <p class="lead">It is not a replacement for learning Luau. It is a helper layer for small scripts where you want cleaner calls and better error messages.</p>
+              <div class="callout-list">
+                <div class="callout accent-blue">
+                  <strong>Cleaner Roblox calls</strong>
+                  <p><code>t.service("Players")</code> caches <code>game:GetService</code>. <code>t.create</code> creates Instances and sets <code>Parent</code> last.</p>
+                </div>
+                <div class="callout accent-teal">
+                  <strong>Safer script flow</strong>
+                  <p><code>t.try</code>, <code>t.after</code>, <code>t.wait</code>, <code>t.debounce</code>, and <code>t.cleaner</code> help keep small scripts stable.</p>
+                </div>
+                <div class="callout accent-amber">
+                  <strong>Optional environment helpers</strong>
+                  <p>File, clipboard, executor, and interaction helpers register only when the current environment supports them.</p>
+                </div>
+              </div>
+            </div>
 
-    <section id="examples">
-      <h2>Examples</h2>
-      <h3>Create A Part</h3>
-      <div class="install-card">
-        <div class="code-block">
-          <button class="copy" type="button">Copy</button>
-          <pre><code>local part, reason = t.create("Part", {
+            <div class="mark-panel">
+              <img src="prismix-mark.png" alt="Prismix logo">
+              <h3>Simple rule</h3>
+              <p>Call a helper, check the result, and warn the reason when it fails.</p>
+              <div class="code-panel">
+                <div class="code-head">
+                  <span>Return pattern</span>
+                  <button class="copy-button" type="button">Copy</button>
+                </div>
+                <pre><code>local value, reason = t.someHelper()
+
+if not value then
+  warn(reason)
+  return
+end</code></pre>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <article class="slide" data-title="First Script">
+          <div class="slide-grid">
+            <div>
+              <p class="eyebrow">Beginner example</p>
+              <h2>Create a part without repeating setup.</h2>
+              <p class="lead">Pass the class name and a properties table. Prismix applies normal properties first and sets <code>Parent</code> at the end.</p>
+              <div class="steps">
+                <div class="step accent-blue">
+                  <strong>1. Load the library</strong>
+                  <p>Keep <code>local t = Prismix.Tools</code> near the top so examples stay short.</p>
+                </div>
+                <div class="step accent-teal">
+                  <strong>2. Create the Instance</strong>
+                  <p>Use normal Roblox property names inside the table.</p>
+                </div>
+                <div class="step accent-amber">
+                  <strong>3. Check the result</strong>
+                  <p>If creation fails, show <code>reason</code> so the problem is easy to find.</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="code-panel">
+              <div class="code-head">
+                <span>Create a part</span>
+                <button class="copy-button" type="button">Copy</button>
+              </div>
+              <pre><code>local Prismix = loadstring(game:HttpGet("https://raw.githubusercontent.com/SairyTheKing/prismix/main/Source.lua"))()
+local t = Prismix.Tools
+
+local part, reason = t.create("Part", {
   Name = "PrismixPart",
   Anchored = true,
+  Size = Vector3.new(4, 1, 4),
+  Position = Vector3.new(0, 6, 0),
   Parent = workspace
 })
 
 if not part then
   warn(reason)
-end</code></pre>
-        </div>
-      </div>
-      <h3>Wait For A Remote Path</h3>
-      <div class="install-card">
-        <div class="code-block">
-          <button class="copy" type="button">Copy</button>
-          <pre><code>local remote, reason = t.waitForPath(game.ReplicatedStorage, "Remotes.Quest", 10)
+  return
+end
+
+t.tween(part, {
+  Color = Color3.fromRGB(64, 156, 255)
+}, 0.35)</code></pre>
+            </div>
+          </div>
+        </article>
+
+        <article class="slide" data-title="Find Things">
+          <div class="slide-grid">
+            <div>
+              <p class="eyebrow">Objects and paths</p>
+              <h2>Find children with short, readable helpers.</h2>
+              <p class="lead">Use <code>find</code> when the object may already exist. Use <code>waitFor</code> or <code>waitForPath</code> when Roblox may need a moment to replicate it.</p>
+              <table class="api-table">
+                <thead>
+                  <tr>
+                    <th>Helper</th>
+                    <th>Use it for</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr><td><code>t.find(parent, name, recursive)</code></td><td>Safe <code>FindFirstChild</code>.</td></tr>
+                  <tr><td><code>t.waitFor(parent, name, timeout)</code></td><td>Safe <code>WaitForChild</code>.</td></tr>
+                  <tr><td><code>t.get(parent, "A.B.C")</code></td><td>Find a dot-separated path now.</td></tr>
+                  <tr><td><code>t.waitForPath(parent, "A.B.C", timeout)</code></td><td>Wait through each part of a path.</td></tr>
+                </tbody>
+              </table>
+              <div class="note warn-note">The old alias <code>t.path</code> still works, but new scripts should use <code>t.get</code>.</div>
+            </div>
+
+            <div class="code-panel">
+              <div class="code-head">
+                <span>Wait for a remote path</span>
+                <button class="copy-button" type="button">Copy</button>
+              </div>
+              <pre><code>local ReplicatedStorage = t.service("ReplicatedStorage")
+
+local remote, reason = t.waitForPath(
+  ReplicatedStorage,
+  "Remotes.Quest",
+  10
+)
+
 if not remote then
   warn(reason)
+  return
 end</code></pre>
-        </div>
-      </div>
-      <h3>Cleanup Connections</h3>
-      <div class="install-card">
-        <div class="code-block">
-          <button class="copy" type="button">Copy</button>
-          <pre><code>local bin = t.cleaner()
+            </div>
+          </div>
+        </article>
 
-bin:Add(t.connect(workspace.ChildAdded, function(child)
-  print(child.Name)
+        <article class="slide" data-title="Character">
+          <div class="slide-grid">
+            <div>
+              <p class="eyebrow">Player helpers</p>
+              <h2>Get the local player, character, humanoid, and root part.</h2>
+              <p class="lead">These helpers accept simple sources. You can pass nothing for the local player, a <code>Player</code>, a character <code>Model</code>, or sometimes a <code>BasePart</code>.</p>
+              <div class="tool-list">
+                <div class="tool accent-blue">
+                  <strong><code>t.player()</code></strong>
+                  <p>Returns <code>Players.LocalPlayer</code>.</p>
+                </div>
+                <div class="tool accent-teal">
+                  <strong><code>t.character(source)</code></strong>
+                  <p>Returns a character model from a player, model, or the local player.</p>
+                </div>
+                <div class="tool accent-amber">
+                  <strong><code>t.root(source)</code></strong>
+                  <p>Returns <code>HumanoidRootPart</code> or another usable <code>BasePart</code>. Alias: <code>rootPart</code>.</p>
+                </div>
+                <div class="tool accent-rose">
+                  <strong><code>t.humanoid(source)</code></strong>
+                  <p>Returns the character's <code>Humanoid</code>.</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="code-panel">
+              <div class="code-head">
+                <span>Move near a target</span>
+                <button class="copy-button" type="button">Copy</button>
+              </div>
+              <pre><code>local root, reason = t.root()
+
+if not root then
+  warn("No root part")
+  return
+end
+
+local target = workspace:FindFirstChild("SpawnLocation")
+if target then
+  local ok, moveReason = t.teleport(target)
+
+  if not ok then
+    warn(moveReason)
+  end
+end</code></pre>
+            </div>
+          </div>
+        </article>
+
+        <article class="slide" data-title="Events">
+          <div class="slide-grid">
+            <div>
+              <p class="eyebrow">Events and cleanup</p>
+              <h2>Connect events, run once, and clean everything later.</h2>
+              <p class="lead">Use <code>t.cleaner()</code> when your script creates connections, Instances, or callbacks that need cleanup. This keeps repeated testing and respawns cleaner.</p>
+              <div class="tool-list">
+                <div class="tool accent-blue">
+                  <strong><code>t.on(signal, callback)</code></strong>
+                  <p>Safe wrapper around <code>signal:Connect</code>. Alias: <code>connect</code>.</p>
+                </div>
+                <div class="tool accent-teal">
+                  <strong><code>t.once(signal, callback)</code></strong>
+                  <p>Runs one time, then disconnects.</p>
+                </div>
+                <div class="tool accent-amber">
+                  <strong><code>t.debounce(seconds, callback)</code></strong>
+                  <p>Returns a function that ignores repeat calls until the timer ends.</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="code-panel">
+              <div class="code-head">
+                <span>Cleanup bag</span>
+                <button class="copy-button" type="button">Copy</button>
+              </div>
+              <pre><code>local bin = t.cleaner()
+
+bin:Add(t.on(workspace.ChildAdded, function(child)
+  print("Added:", child.Name)
 end))
 
+bin:Add(function()
+  print("cleaned")
+end)
+
+task.wait(10)
 bin:Clean()</code></pre>
-        </div>
+            </div>
+          </div>
+        </article>
+
+        <article class="slide" data-title="Effects">
+          <div class="slide-grid">
+            <div>
+              <p class="eyebrow">Small actions</p>
+              <h2>Tween, notify, copy text, and schedule work.</h2>
+              <p class="lead">These helpers depend on the Roblox client or executor environment. Check the return value if your script needs to keep going after a failure.</p>
+              <table class="api-table">
+                <thead>
+                  <tr>
+                    <th>Helper</th>
+                    <th>What it does</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr><td><code>t.tween(instance, props, info, play)</code></td><td>Creates a Tween and plays it unless <code>play</code> is <code>false</code>.</td></tr>
+                  <tr><td><code>t.notify(title, text, seconds)</code></td><td>Sends a Roblox core notification when supported.</td></tr>
+                  <tr><td><code>t.copy(text)</code></td><td>Copies text if the clipboard API exists.</td></tr>
+                  <tr><td><code>t.after(seconds, callback, ...)</code></td><td>Runs a callback later using <code>task.delay</code> or <code>delay</code>.</td></tr>
+                  <tr><td><code>t.wait(seconds)</code></td><td>Uses <code>task.wait</code> or <code>wait</code>.</td></tr>
+                </tbody>
+              </table>
+            </div>
+
+            <div class="code-panel">
+              <div class="code-head">
+                <span>Tween and notify</span>
+                <button class="copy-button" type="button">Copy</button>
+              </div>
+              <pre><code>local part = workspace:FindFirstChild("PrismixPart")
+
+if part then
+  t.tween(part, {
+    Transparency = 0.35
+  }, {
+    time = 0.4,
+    easingStyle = "Quad",
+    easingDirection = "Out"
+  })
+end
+
+t.notify("Prismix", "Script loaded", 3)</code></pre>
+            </div>
+          </div>
+        </article>
+
+        <article class="slide" data-title="Interact">
+          <div class="slide-grid">
+            <div>
+              <p class="eyebrow">Interaction helpers</p>
+              <h2>Use supported executor actions without hard crashes.</h2>
+              <p class="lead">Click, prompt, and touch helpers return <code>false, reason</code> when the function or target object is not supported.</p>
+              <div class="tool-list">
+                <div class="tool accent-blue">
+                  <strong><code>t.fireClick(detector)</code></strong>
+                  <p>Fires a <code>ClickDetector</code> when <code>fireclickdetector</code> exists. Alias: <code>fireClickDetector</code>.</p>
+                </div>
+                <div class="tool accent-teal">
+                  <strong><code>t.firePrompt(prompt)</code></strong>
+                  <p>Fires a <code>ProximityPrompt</code> when supported. Alias: <code>fireProximityPrompt</code>.</p>
+                </div>
+                <div class="tool accent-amber">
+                  <strong><code>t.fireTouch(source, target)</code></strong>
+                  <p>Fires touch interest between your source root and a target <code>BasePart</code>.</p>
+                </div>
+              </div>
+              <div class="note warn-note">Only use interaction helpers in places where you are allowed to run that kind of script.</div>
+            </div>
+
+            <div class="code-panel">
+              <div class="code-head">
+                <span>ClickDetector example</span>
+                <button class="copy-button" type="button">Copy</button>
+              </div>
+              <pre><code>local button = workspace:FindFirstChild("Button")
+local detector = button and button:FindFirstChildOfClass("ClickDetector")
+
+local ok, reason = t.fireClick(detector)
+
+if not ok then
+  warn(reason)
+end</code></pre>
+            </div>
+          </div>
+        </article>
+
+        <article class="slide" data-title="API">
+          <div class="slide-wide">
+            <p class="eyebrow">Cheat sheet</p>
+            <h2>All main Prismix helpers.</h2>
+            <p class="lead">New scripts should use the short names. Compatibility aliases are kept so older scripts do not break.</p>
+            <table class="api-table">
+              <thead>
+                <tr>
+                  <th>Group</th>
+                  <th>Helpers</th>
+                  <th>Notes</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td>Core</td><td><code>say</code>, <code>warn</code>, <code>error</code>, <code>try</code>, <code>version</code>, <code>available</code>, <code>list</code></td><td>Aliases: <code>warnmsg</code>, <code>err</code>.</td></tr>
+                <tr><td>Roblox</td><td><code>service</code>, <code>create</code>, <code>set</code>, <code>destroy</code></td><td><code>create</code> sets <code>Parent</code> last.</td></tr>
+                <tr><td>Lookup</td><td><code>find</code>, <code>waitFor</code>, <code>get</code>, <code>waitForPath</code></td><td>Alias: <code>path</code> for <code>get</code>.</td></tr>
+                <tr><td>Character</td><td><code>player</code>, <code>character</code>, <code>root</code>, <code>humanoid</code>, <code>distance</code>, <code>teleport</code></td><td>Aliases: <code>rootPart</code>, <code>teleportTo</code>.</td></tr>
+                <tr><td>Events</td><td><code>on</code>, <code>once</code>, <code>cleaner</code>, <code>debounce</code>, <code>after</code>, <code>wait</code></td><td>Aliases: <code>connect</code>, <code>maid</code>, <code>janitor</code>.</td></tr>
+                <tr><td>Effects</td><td><code>tween</code>, <code>notify</code>, <code>copy</code></td><td>Return clean failure reasons when unavailable.</td></tr>
+                <tr><td>Interactions</td><td><code>fireClick</code>, <code>firePrompt</code>, <code>fireTouch</code></td><td>Old long aliases still work.</td></tr>
+                <tr><td>Data</td><td><code>clone</code>, <code>clamp</code></td><td>Small helpers for common table and number work.</td></tr>
+                <tr><td>Optional</td><td><code>getgenv</code>, <code>executor</code>, <code>writefile</code>, <code>readfile</code>, <code>isfile</code>, <code>makefolder</code>, <code>isfolder</code>, <code>getgc</code></td><td>Registered only when supported, except <code>executor</code> returns <code>Unknown</code> if not detected.</td></tr>
+              </tbody>
+            </table>
+            <div class="note">Extend Prismix with <code>Prismix.Register("name", function() end)</code>. Add a second name with <code>Prismix.Alias("shortName", "name")</code>.</div>
+          </div>
+        </article>
       </div>
     </section>
 
-    <div class="footer">Prismix documentation is published at <a href="https://sairytheking.github.io/prismix/">sairytheking.github.io/prismix/</a>.</div>
+    <div class="footer-controls">
+      <div class="footer-left">
+        <button class="nav-button" id="prevButton" type="button">Previous</button>
+      </div>
+      <div class="dots" id="dots" aria-label="Slide position"></div>
+      <div class="footer-right">
+        <button class="nav-button primary" id="nextButton" type="button">Next</button>
+      </div>
+    </div>
+    <div class="mobile-hint">Swipe left or right, or use tabs and buttons.</div>
   </main>
 
   <script>
-    const buttons = document.querySelectorAll(".copy");
+    const slideTrack = document.getElementById("slides");
+    const stage = document.querySelector(".stage");
+    const slides = Array.from(document.querySelectorAll(".slide"));
+    const tabs = Array.from(document.querySelectorAll("[data-go]"));
+    const dotsRoot = document.getElementById("dots");
+    const progressBar = document.getElementById("progressBar");
+    const slideTitle = document.getElementById("slideTitle");
+    const slideCount = document.getElementById("slideCount");
+    const prevButton = document.getElementById("prevButton");
+    const nextButton = document.getElementById("nextButton");
 
-    buttons.forEach((button) => {
+    let current = 0;
+    let dragStartX = null;
+
+    function clampSlide(index) {
+      return Math.max(0, Math.min(slides.length - 1, index));
+    }
+
+    function readStartSlide() {
+      const hashNumber = Number(window.location.hash.replace("#", ""));
+      if (Number.isFinite(hashNumber) && hashNumber > 0) {
+        return clampSlide(hashNumber - 1);
+      }
+
+      return 0;
+    }
+
+    function setSlide(index) {
+      current = clampSlide(index);
+      slideTrack.style.transform = `translateX(-${current * 100}%)`;
+
+      slides.forEach((slide, slideIndex) => {
+        slide.classList.toggle("active", slideIndex === current);
+      });
+
+      tabs.forEach((tab) => {
+        tab.classList.toggle("active", Number(tab.dataset.go) === current);
+      });
+
+      Array.from(dotsRoot.children).forEach((dot, dotIndex) => {
+        dot.classList.toggle("active", dotIndex === current);
+        dot.setAttribute("aria-current", dotIndex === current ? "true" : "false");
+      });
+
+      const title = slides[current].dataset.title || "Docs";
+      slideTitle.textContent = title;
+      slideCount.textContent = `${current + 1} / ${slides.length}`;
+      progressBar.style.width = `${((current + 1) / slides.length) * 100}%`;
+      prevButton.disabled = current === 0;
+      nextButton.disabled = current === slides.length - 1;
+
+      if (window.location.hash !== `#${current + 1}`) {
+        history.replaceState(null, "", `#${current + 1}`);
+      }
+    }
+
+    slides.forEach((slide, index) => {
+      const dot = document.createElement("button");
+      dot.className = "dot";
+      dot.type = "button";
+      dot.setAttribute("aria-label", `Go to ${slide.dataset.title}`);
+      dot.addEventListener("click", () => setSlide(index));
+      dotsRoot.appendChild(dot);
+    });
+
+    tabs.forEach((tab) => {
+      tab.addEventListener("click", () => setSlide(Number(tab.dataset.go)));
+    });
+
+    prevButton.addEventListener("click", () => setSlide(current - 1));
+    nextButton.addEventListener("click", () => setSlide(current + 1));
+
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "ArrowLeft") {
+        setSlide(current - 1);
+      }
+
+      if (event.key === "ArrowRight") {
+        setSlide(current + 1);
+      }
+    });
+
+    window.addEventListener("hashchange", () => {
+      setSlide(readStartSlide());
+    });
+
+    stage.addEventListener("pointerdown", (event) => {
+      dragStartX = event.clientX;
+    });
+
+    stage.addEventListener("pointerup", (event) => {
+      if (dragStartX === null) {
+        return;
+      }
+
+      const distance = event.clientX - dragStartX;
+      dragStartX = null;
+
+      if (Math.abs(distance) < 60) {
+        return;
+      }
+
+      setSlide(distance < 0 ? current + 1 : current - 1);
+    });
+
+    stage.addEventListener("pointercancel", () => {
+      dragStartX = null;
+    });
+
+    document.querySelectorAll(".copy-button").forEach((button) => {
       button.addEventListener("click", async () => {
-        const code = button.closest(".code-block").querySelector("code").innerText;
+        const code = button.closest(".code-panel").querySelector("code").innerText;
 
         try {
           await navigator.clipboard.writeText(code);
           button.textContent = "Copied";
         } catch {
-          const textarea = document.createElement("textarea");
-          textarea.value = code;
-          document.body.appendChild(textarea);
-          textarea.select();
+          const area = document.createElement("textarea");
+          area.value = code;
+          area.setAttribute("readonly", "");
+          area.style.position = "fixed";
+          area.style.left = "-9999px";
+          document.body.appendChild(area);
+          area.select();
           document.execCommand("copy");
-          textarea.remove();
+          area.remove();
           button.textContent = "Copied";
         }
 
@@ -584,22 +1158,7 @@ bin:Clean()</code></pre>
       });
     });
 
-    const search = document.getElementById("apiSearch");
-    const rows = Array.from(document.querySelectorAll("#apiTable tbody tr"));
-
-    search.addEventListener("input", () => {
-      const query = search.value.toLowerCase().trim();
-      rows.forEach((row) => {
-        row.style.display = row.innerText.toLowerCase().includes(query) ? "" : "none";
-      });
-    });
-
-    document.querySelectorAll("nav a").forEach((link) => {
-      link.addEventListener("click", () => {
-        document.querySelectorAll("nav a").forEach((item) => item.classList.remove("active"));
-        link.classList.add("active");
-      });
-    });
+    setSlide(readStartSlide());
   </script>
 </body>
 </html>
