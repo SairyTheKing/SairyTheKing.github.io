@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head> 
+
+<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Kanit:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+	<style type="text/css">
+		html,
+		body {
+			width: 100%;
+			height: 100%;
+			margin: 0;
+			padding: 0;
+			overflow: hidden;
+			background-color: rgb(7, 5, 8);
+			
+		}
+		
+	</style>
+	<style>
+		#tabcon {
+			background-color: #09000e;
+			width: 100%;
+		}
+
+		.btn_tab {
+			border: .1px solid #161319;
+			background: linear-gradient(to right, #070509, #09000e);
+			border-radius: 4px;
+			color: white;
+			width: 100px;
+			text-align: start !important;
+			backdrop-filter: blur(1px);
+			transition: all 0.3s;
+		}
+		
+		.btn_tabusing {
+			border: .1px solid #2a232f;
+			background: linear-gradient(to right, #170f1c, #09000e);
+			border-radius: 4px;
+			color: white;
+			width: 100px;
+			text-align: start !important;
+			transition: all 0.3s;
+		}
+
+		#container {
+			background-color: black;
+			border: 0px solid #2a232f;
+			width:100%;
+			height:100%;
+			
+			transition: all 0.3s;
+		}
+
+
+		.btn_tabadd {
+			border: .1px solid #2a232f;
+			background: linear-gradient(to right, #170f1c, #09000e);
+			border-radius: 4px;
+			background-color: black;
+			color: white;
+			font-size: 13px;
+			text-align: center !important;
+		}
+
+		.btn_intab {
+			border: none;
+			background-color: transparent;
+			color: white;
+			font-family: 'Helvetica Neue', Arial, sans-serif;
+			-webkit-font-smoothing: antialiased;
+			-moz-osx-font-smoothing: grayscale;
+			text-rendering: optimizeLegibility;
+  			font-weight: 300;
+			font-size: 15px;
+			white-space: nowrap;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			transition: all 0.3s;
+		}
+
+		::-webkit-scrollbar {
+			width: 3px;
+			height: 4px;
+			background-color: black;
+		}
+
+		::-webkit-scrollbar-thumb {
+			background-color: transparent;
+			max-height: 6px;
+			border-radius: 10px;
+		}
+
+		.grid-tab {
+			display: grid;
+			grid-template-columns: auto 30px;
+    		gap: 0px;
+		}
+		.grid-tabcon {
+			overflow-x:auto;
+			display: grid;
+			grid-template-columns: auto 0px;
+		}
+		.bg-black {
+			background-color: black;
+		}
+		.bg-modal {
+			border: .1px solid #2a232f;
+			background: linear-gradient(to right, #170f1c, #09000e);
+			background-color: rgb(12, 12, 12) !important;
+			color: white !important;
+		}
+		.btnm {
+			border: .1px solid #2a232f;
+			background: linear-gradient(to right, #170f1c, #09000e);
+			background-color: rgb(12, 12, 12);
+			color:  white;
+			font-family: 'Helvetica Neue', Arial, sans-serif;
+			-webkit-font-smoothing: antialiased;
+			-moz-osx-font-smoothing: grayscale;
+			text-rendering: optimizeLegibility;
+  			font-weight: 300;
+			font-size: 15px;
+
+		}
+		.bg-glass{
+            backdrop-filter: blur(1px);
+        }
+
+		.form-control-custom {
+			display: block;
+			width: 100%;
+			padding: .375rem .75rem;
+			font-size: 1rem;
+			font-weight: 400;
+			line-height: 1.5;
+			color: #212529;
+			border: .1px solid #2a232f;
+			background: linear-gradient(to right, #170f1c, #09000e);
+			background-color: #fff;
+			background-clip: padding-box;
+			-webkit-appearance: none;
+			-moz-appearance: none;
+			appearance: none;
+			border-radius: .25rem;
+			transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+		}
+
+		.modal-body-custom {
+			border-radius: 4px;
+			border: .1px solid #2a232f;
+			background: linear-gradient(to right, #170f1c, #09000e);
+			position: relative;
+			flex: 1 1 auto;
+			padding: 1rem;
+		}
+
+		.modal-content-custom {
+			position: relative;
+			display: flex;
+			flex-direction: column;
+			pointer-events: auto;
+			background-color: #fff;
+
+			border: 1px solid rgba(0, 0, 0, .2);
+			border-radius: .3rem;
+			outline: 0;
+			
+		}
+
+
+
+		
+	</style>
+	<meta charset="utf-8" />
+	<title></title>
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+	<link href="https://kit-pro.fontawesome.com/releases/v6.2.0/css/pro.min.css" rel="stylesheet">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js" integrity="sha512-pumBsjNRGGqkPzKHndZMaAG+bir374sORyzM3uulLV14lN5LyykqNk8eEeUlUkB3U0M4FApyaHraT65ihJhDpQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+	
+</head>
+<div class="modal fade bg-glass" id="addtab" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content-custom bg-modal">
+				
+				<div class="modal-body-custom">
+					<center>
+						<div class="col-lg-10 m-cent ">
+							<div class="mb-2 mt-2">
+								<div class="mb-2">
+									<p class=" mb-1 text-white">Tab Name</p>
+									<input type="text" id="tabname" class=".form-control-custom bg-modal" value="">
+								</div>
+							</div>
+
+							<button type="button" class="btnm w-100 mt-2" onclick="addtab()" data-id="">Add Tab</button>
+							
+						</div>
+					</center>
+				</div>
+				
+			</div>
+		</div>
+	</div>
+<body>
+	
+	
+	<div id="container"></div>
+	
+	<script src="vs/loader.js"></script>
+	<script type="text/javascript">
+		require.config({
+			paths: {
+				'vs': 'vs'
+			}
+		});
+
+		var editor;
+		var Proposals = [];
+
+		var SetText;
+		var ShowMinimap;
+		var HideMinimap;
+		var EnableAutoComplete;
+		var DisableAutoComplete;
+		var GetText;
+		var AddIntellisense;
+		var Refresh;
+	
+
+
+		require(['vs/editor/editor.main'], function () {
+			function getDependencyProposals() {
+				return Proposals;
+			}
+
+			
+
+			monaco.languages.registerCompletionItemProvider('lua', {
+				provideCompletionItems: function (model, position) {
+					return getDependencyProposals();
+				},
+
+			});
+
+
+			monaco.editor.defineTheme('net-theme-dark', {
+				base: 'vs-dark',
+				inherit: true,
+				colors: {
+					"editor.background": '#040007',
+				},
+				rules: [{
+						token: 'global',
+						foreground: 'aa80ff', // //FFFFFF
+						fontStyle: "bold"
+					},
+					{
+						token: 'keyword',
+						foreground: 'cc99cc',
+						fontStyle: "bold"
+					},
+					{
+						token: 'comment',
+						foreground: '999999'
+					},
+					{
+						token: 'number',
+						foreground: 'f99157'
+					},
+					{
+						token: 'string',
+						foreground: 'ddccff'
+					},
+					{
+						token: 'Method',
+						foreground: 'ffa1dc'
+					},
+				]
+			});
+
+			editor = monaco.editor.create(document.getElementById('container'), {
+				language: 'lua',
+				theme: "net-theme-dark",
+				acceptSuggestionOnEnter: "smart",
+				suggestOnTriggerCharacters: true,
+				suggestSelection: "recentlyUsed",
+				folding: true,
+				wordBasedSuggestions : true,
+				scrollbar: {
+					verticalHasArrows: false,
+				},
+				dragAndDrop: true,
+				links: true,
+				minimap: {
+					enabled: false,
+				},
+				showFoldingControls: "always",
+				smoothScrolling: true,
+				
+				lineNumbersMinChars: 3,     // Narrows the space reserved for line numbers. Default is 5.
+    			lineDecorationsWidth: 4, 
+			});
+
+			
+
+			EnableAutoComplete = function(){
+				editor.updateOptions({
+					suggestOnTriggerCharacters: true,
+					acceptSuggestionOnEnter : "smart",
+					wordBasedSuggestions : true
+				});
+			}
+
+			DisableAutoComplete = function(){
+				editor.updateOptions({
+					suggestOnTriggerCharacters: false,
+					acceptSuggestionOnEnter : "off",
+					wordBasedSuggestions : false
+				});
+			}
+
+			window.onresize = function () {
+				editor.layout();
+			};
+
+			ShowMinimap = function () {
+				editor.updateOptions({
+					minimap: {
+						enabled: true,
+						color: '#040007'
+					}
+				});
+			}
+
+			HideMinimap = function () {
+				editor.updateOptions({
+					minimap: {
+						enabled: false,
+					}
+				});
+			}
+
+			editor.onDidChangeModelContent(function (e) {
+				window.chrome.webview.postMessage(editor.getValue())
+			});
+
+			GetText = function () {
+				var value = editor.getValue();
+				return value.startsWith('"') && value.endsWith('"') ? value.slice(1, -1) : value;
+			}
+
+			SetText = function (x) {
+				editor.setValue(x);
+			}
+
+			AddIntellisense = function (l, k, d, i) {
+				var t;
+				switch (k) {
+					case "Class":
+						t = monaco.languages.CompletionItemKind.Class;
+						break;
+					case "Color":
+						t = monaco.languages.CompletionItemKind.Color;
+						break;
+					case "Constructor":
+						t = monaco.languages.CompletionItemKind.Constructor;
+						break;
+					case "Enum":
+						t = monaco.languages.CompletionItemKind.Enum;
+						break;
+					case "Field":
+						t = monaco.languages.CompletionItemKind.Field;
+						break;
+					case "File":
+						t = monaco.languages.CompletionItemKind.File;
+						break;
+					case "Folder":
+						t = monaco.languages.CompletionItemKind.Folder;
+						break;
+					case "Function":
+						t = monaco.languages.CompletionItemKind.Function;
+						break;
+					case "Interface":
+						t = monaco.languages.CompletionItemKind.Interface;
+						break;
+					case "Keyword":
+						t = monaco.languages.CompletionItemKind.Keyword;
+						break;
+					case "Method":
+						t = monaco.languages.CompletionItemKind.Method;
+						break;
+					case "Module":
+						t = monaco.languages.CompletionItemKind.Module;
+						break;
+					case "Property":
+						t = monaco.languages.CompletionItemKind.Property;
+						break;
+					case "Reference":
+						t = monaco.languages.CompletionItemKind.Reference;
+						break;
+					case "Snippet":
+						t = monaco.languages.CompletionItemKind.Snippet;
+						break;
+					case "Text":
+						t = monaco.languages.CompletionItemKind.Text;
+						break;
+					case "Unit":
+						t = monaco.languages.CompletionItemKind.Unit;
+						break;
+					case "Value":
+						t = monaco.languages.CompletionItemKind.Value;
+						break;
+					case "Variable":
+						t = monaco.languages.CompletionItemKind.Variable;
+						break;
+				}
+
+				Proposals.push({
+					label: l,
+					kind: t,
+					detail: d,
+					insertText: i
+				});
+			}
+			async function load() {
+				 let docs;
+				try {
+					const response = await fetch('https://getsolara.dev/asset/docs.txt');
+					if (!response.ok) return; // early return on bad status
+					docs = await response.json();
+				} catch {
+					return; // early return on fetch/network error
+				}
+				
+				if (docs == null || docs === '') return;
+
+				for (var prop in docs) {
+  					  for(var item in docs[prop])
+					  {
+						    const document = docs[prop][item];
+							AddIntellisense(document.label, document.type, document.description, document.insert);
+					  }
+				}
+
+				for (const Key of ["_G", "_VERSION", "Enum", "game", "plugin", "shared", "script", "workspace", "DebuggerManager", "elapsedTime", "LoadLibrary", "PluginManager", "settings", "tick", "time", "typeof", "UserSettings", "HumanoidRootPart"])
+					AddIntellisense(Key, "Keyword", Key, Key);
+
+				for (const Key of ["and", "break", "do", "else", "elseif", "end", "false", "for", "function", "if", "in", "local", "nil", "not", "or", "repeat", "return", "then", "true", "until", "while"])
+					AddIntellisense(Key, "Variable", Key, Key);
+
+				for (const Key of ["math.abs", "math.acos", "math.asin", "math.atan", "math.atan2", "math.ceil", "math.cos", "math.cosh", "math.deg", "math.exp", "math.floor", "math.fmod", "math.frexp", "math.huge", "math.ldexp", "math.log", "math.max", "math.min", "math.modf", "math.pi", "math.pow", "math.rad", "math.random", "math.randomseed", "math.sin", "math.sinh", "math.sqrt", "math.tan", "math.tanh", "table.concat", "table.foreach", "table.foreachi", "table.sort", "table.insert", "table.remove", "Color3.new", "Instance.new", "BrickColor.new", "Vector3.new", "Vector2.new", "debug.getinfo", "string.byte", "string.char", "string.dump", "string.find", "string.format", "string.gmatch", "string.gsub", "string.len", "string.lower", "string.match", "string.rep", "string.reverse", "string.sub", "string.upper", "coroutine.create", "coroutine.resume", "coroutine.running", "coroutine.status", "coroutine.wrap", "coroutine.yield"])
+					AddIntellisense(Key, "Method", Key, Key);
+
+				for (const Key of ["Drawing", "debug", "Instance", "Color3", "Vector3", "Vector2", "BrickColor", "math", "table", "string", "coroutine", "Humanoid", "ClickDetector", "LocalScript", "Model", "ModuleScript", "Mouse", "Part", "Script", "Tool", "RunService", "UserInputService", "Workspace", "ReplicatedFirst", "SoundService", "Character", "CoreGui", "ReplicatedStorage", "Lighting", "Players", "PlayerGui", "PlayerScript", "LocalPlayer", "Parent"])
+					AddIntellisense(Key, "Class", Key, Key);
+
+				for (const Key of ["print", "warn", "wait", "info", "printidentity", "assert", "collectgarbage", "error", "getfenv", "getmetatable", "setmetatable", "ipairs", "loadfile", "loadstring", "newproxy", "next", "pairs", "pcall", "spawn", "rawequal","rawget", "rawset", "select", "tonumber", "tostring", "type", "unpack", "xpcall", "delay", "stats", ":Remove()", ":BreakJoints()", ":GetChildren()", ":FindFirstChild()", ":FireServer()", ":InvokeServer()", ":ClearAllChildren()", ":Clone()", ":Destroy()", ":FindFirstAncestor()", ":FindFirstAncestorOfClass()", ":FindFirstAncestorWhichIsA()", ":FindFirstChildOfClass()", ":FindFirstChildWhichIsA()", ":GetDebugId()", ":GetDescendants()", ":GetFullName()", ":IsA()", ":GetPropertyChangedSignal()", ":IsAncestorOf()", ":IsDescendantOf()", ":WaitForChild()", ":Connect()", ":AncestryChanged()", ":Changed()", ":ChildAdded()", ":ChildRemoved()", ":DescendantAdded()", ":DescendantRemoving()", ":GetService()", ":GetObjects()", ":HttpGet()", ":Wait()"])
+					AddIntellisense(Key, "Function", Key, Key.includes(":") ? Key.substring(1, Key.length) : Key);
+
+
+                for (const Key of ["Visible", "Color", "Transparency", "Thickness", "From", "To", "Text", "Size", "Center", "Outline", "OutlineColor", "Position", "TextBounds", "Font", "Data", "Rounding", "NumSides", "Radius", "Filled", "PointA", "PointB", "PointC", "PointD"])
+					AddIntellisense(Key, "Property", "Property for Drawing Library", Key);
+
+			}
+			load();
+			Refresh = function () {
+				var text = GetText();
+				SetText('');
+				editor.trigger('keyboard', 'type', {
+					text: text
+				});
+			}
+			
+			window.editorInstance = editor;
+
+			// Modify this method
+			editor.getEditorValue = function() {
+				var value = editor.getValue();
+				return JSON.stringify({ value: value });
+			};
+		});
+	</script>
+</body>
+
+</html>
